@@ -42,52 +42,131 @@
             <div class="menu-list icon-background-active">
                 <em class="menu-divider top-10">Navegacion</em>
                 <a class="menu-item active-menu" href="index.html"><i class="fa gradient-red-light fa-upload"></i>Carga de Puntos</a>
-                <a class="menu-item" href="homepages.html"><i class="fa gradient-green-light fa-list"></i>Listado de Cargas</a>
+                <a class="menu-item" href="cargas.html"><i class="fa gradient-green-light fa-list"></i>Listado de Cargas</a>
             </div>
-            <em class="menu-copyright">Copyright <span class="copyright-year"></span>, Enabled. All Rights Reserved</em>
         </div>
 	</div>
 
 	<div class="page-content header-clear-larger">
 
-		<a href="#" class="overlay-button shadow-large button button-s button-round button-red button-center-medium uppercase ultrabold">Purchase Today - $21</a>
+        <div class="content-box bg-white">
+            <div class="decoration opacity-50 bottom-0"></div>
+            <ul class="link-list link-list-large bottom-0">
+                <li><a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal"><i class="fa fa-angle-right"></i><span>Comenzar</span><em>¡Vamos a cargar puntos, paso a paso!</em></a></li>
+            </ul>
+            <div class="decoration opacity-50 bottom-0"></div>
+        </div>
 
-		<div class="content-box shadow-large bg-white">
-            <div class="top-25 bottom-15">
-                <h3 class="bottom-10">Welcome<i class="fa fa-star float-right top-0 color-yellow-light"></i></h3>
-                <p class="bottom-20">
-                    Kolor is a very powerful, very fast loading, simple to use Mobile Template designed using a modern color scheme to obtain a gorgeous user experience.
+
+        <!--Menu Walkthrough 1-->
+        <div id="menu-walk-1" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
+            <div class="menu-scroll">
+                <h1 class="center-text uppercase ultrabold">Rubro</h1>
+                <p class="boxed-text-large bottom-20">
+                    <div class="content-box shadow-large bg-white">
+                        <div class="top-25 bottom-30">
+                           <div class="select-box select-box-1">
+                              <strong>Campo requerido</strong>
+                              <em>Rubro</em>
+                              <select>
+                                 <option value="Carniceria">Carniceria</option>
+                                 <option value="Verduleria">Verduleria</option>
+                                 <option value="Libreria">Libreria</option>
+                                 <option value="Fiambreria">Fiambreria</option>
+                              </select>
+                           </div>
+                       </div>
+                   </div>
                 </p>
-                <div class="decoration opacity-50 bottom-10"></div>
-                <a href="#" class="center-text uppercase bold font-12">FIND OUT MORE <i class="left-10 font-11 fa fa-arrow-right"></i></a>
+                <a href="#" data-menu="menu-walk-2" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de DNI</a>
             </div>
         </div>
+
+        <div id="menu-walk-2" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
+            <div class="menu-scroll">
+                <h1 class="center-text uppercase ultrabold">DNI</h1>
+                <p class="boxed-text-large bottom-20">
+                    <div class="content-box shadow-large bg-white">
+                        <div class="top-25 bottom-30">
+                            <div class="input-simple-1 has-icon input-green bottom-30">
+                                <strong>Requerido</strong>
+                                <em>DNI</em>
+                                <i class="fa fa-user"></i>
+                                <input type="text" placeholder="DNI">
+                        </div>
+                       </div>
+                   </div>
+                </p>
+                <a href="#" data-menu="menu-walk-3" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de MONTO</a>
+            </div>
+        </div>
+
+        <div id="menu-walk-3" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
+            <div class="menu-scroll">
+                <h1 class="center-text uppercase ultrabold">MONTO</h1>
+                <p class="boxed-text-large bottom-20">
+                    <div class="content-box shadow-large bg-white">
+                        <div class="top-25 bottom-30">
+                            <div class="input-simple-1 has-icon input-green bottom-30">
+                                <strong>Requido</strong>
+                                <em>Monto</em>
+                                <i class="fa fa-user"></i>
+                                <input type="text" placeholder="Monto">
+                        </div>
+                       </div>
+                   </div>
+                </p>
+                <a href="#" data-menu="menu-walk-4" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Resumen de Carga</a>
+            </div>
+        </div>
+
+
+        <div id="menu-walk-4" data-menu-height="460" class="menu menu-box-modal bg-white shadow-large">
+            <div class="menu-scroll">
+                <h1 class="center-text uppercase ultrabold">Resumen</h1>
+                <p class="boxed-text-large bottom-20">
+                    <div class="content-box shadow-large bg-white">
+                        <div class="top-25 bottom-30">
+                            <ul class="link-list link-list-large bottom-0">
+                                <li><a href="#" data-menu="menu-bell" data-menu-type="menu-box-top"><i class="fa fa-angle-right"></i><i class="font-18 fa fa-sitemap color-red-dark"></i><span>Carniceria</span><em>Rubro</em></a></li>
+                                <li><a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal"><i class="fa fa-angle-right"></i><i class="font-18 fa fa-id-card color-brown-dark"></i><span>29.553.799</span><em>DNI</em></a></li>
+                                <li><a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal"><i class="fa fa-angle-right"></i><i class="font-18 fa fa-hand-holding-usd color-green-dark"></i><span>$357.45</span><em>MONTO</em></a></li>
+
+                            </ul>
+                       </div>
+                   </div>
+                </p>
+                <a href="#" data-menu="menu-walk-4" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Confirmar</a>
+            </div>
+        </div>
+
+
+
+
 
 
      
 	</div>
 
-    <div id="menu-contact" data-menu-height="460" class="menu menu-box-modal bg-white shadow-large">
+    <div id="menu-contact" data-menu-height="540" class="menu menu-box-modal bg-white shadow-large">
         <div class="menu-scroll">
-            <h3 class="uppercase ultrabold center-text top-0 color-black font-27">Estemos en contacto</h3>
+            <h3 class="uppercase ultrabold center-text top-0 color-black font-27">Contacto</h3>
             <p class="center-text left-30 right-30 bottom-20 color-black top-10 opacity-70">
-                Inquietudes o Soporte.
-            </p>
+             Contestaremos a la brevedad</p>
             <div class="deco-thin deco-2 bottom-20"></div>
 			<div class="contact-form">
 				<div class="formSuccessMessageWrap" id="formSuccessMessageWrap">
 					<p class="center-text"><i class="fa fa-2x fa-paper-plane-o"></i></p>
-					<h4 class="uppercase ultrabold center-text">Message Sent</h4>
+					<h4 class="uppercase ultrabold center-text">Mensaje Enviado</h4>
 					<p class="center-text boxed-text">
-						We usually reply in less than 24 hours. <br/> Thank you for getting in touch with us!
+						Normalmente contestamos en menos de 24hs <br/> Muchas gracias por ponerse en contacto con nosotros!
 					</p>
-					<a href="#" class="button button-round color-white button-blue button-xs button-center close-menu uppercase bold top-30">Return to Site</a>
 				</div>
 				<form action="php/contact.php" method="post" class="contactForm" id="contactForm">
 					<fieldset>
-						<div class="formValidationError" id="contactNameFieldError">Name is required!</div>
-						<div class="formValidationError" id="contactEmailFieldError">Mail address required!</div>
-						<div class="formValidationError" id="contactEmailFieldError2">Mail address must be valid!</div>
+						<div class="formValidationError" id="contactNameFieldError">Se requiere Nombre</div>
+						<div class="formValidationError" id="contactEmailFieldError">Se requiere Email</div>
+						<div class="formValidationError" id="contactEmailFieldError2">El email debe ser valido</div>
 						<div class="formValidationError" id="contactMessageTextareaError"></div>
 						<div class="formFieldWrap">
 							<label class="field-title contactNameField" for="contactNameField"></label>
@@ -119,23 +198,23 @@
         <div class="page-bg gradient-body-1">
             <div class="cover-content-center">
                 <div class="content">
-                    <h1 class="uppercase ultrabold center-text fa-4x bottom-25 color-white text-shadow-large">KOLOR</h1>
+                    <h1 class="uppercase ultrabold center-text fa-4x bottom-25 color-white text-shadow-large">TRANS-TI</h1>
                     <p class="center-text bottom-50 opacity-50 font-14 color-white text-shadow-large">
-                        Kolor includes 9  Gradients for you to enjoy.<br>It's easy to edit or create more.
+                        ¡Personalice su fondo!
                     </p>
                     <ul class="demo-colors">
-                        <li><a href="#" class="democ-1 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-1"></i>Default</a></li>
-                        <li><a href="#" class="democ-5 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-5"></i>Violet</a></li>
+                        <li><a href="#" class="democ-1 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-1"></i>Comun</a></li>
+                        <li><a href="#" class="democ-5 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-5"></i>Violeta</a></li>
                         <li><a href="#" class="democ-7 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-7"></i>Magenta</a></li>
-                        <li><a href="#" class="democ-6 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-6"></i>Red</a></li>
-                        <li><a href="#" class="democ-3 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-3"></i>Green</a></li>
-                        <li><a href="#" class="democ-4 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-4"></i>Blue</a></li>
-                        <li><a href="#" class="democ-2 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-2"></i>Orange</a></li>
-                        <li><a href="#" class="democ-8 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-8"></i>Dark</a></li>
-                        <li><a href="#" class="democ-9 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-9"></i>Yellow</a></li>
+                        <li><a href="#" class="democ-6 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-6"></i>Rojo</a></li>
+                        <li><a href="#" class="democ-3 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-3"></i>Verde</a></li>
+                        <li><a href="#" class="democ-4 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-4"></i>Azul</a></li>
+                        <li><a href="#" class="democ-2 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-2"></i>Naranja</a></li>
+                        <li><a href="#" class="democ-8 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-8"></i>Oscuro</a></li>
+                        <li><a href="#" class="democ-9 color-white bottom-10 no-border"><i class="shadow-icon-large gradient-body-9"></i>Amarillo</a></li>
                     </ul>
                     <div class="clear"></div>
-                    <a href="#" class="close-menu top-40 button button-round button-s button-white uppercase ultrabold button-center shadow-icon-small">AWESOME</a>
+                    <a href="#" class="close-menu top-40 button button-round button-s button-white uppercase ultrabold button-center shadow-icon-small">Cambiar</a>
                 </div>
             </div>
         </div>
@@ -174,7 +253,6 @@
             <div class="clear"></div>
         </div>
         <div class="decoration opacity-50 bottom-10"></div>
-        <p class="center-text font-10 small-line-height top-10">Monday - Friday | 09:00 AM to 10:00 PM</p>
     </div>
 
 	<a href="#" class="back-to-top-badge back-to-top-small shadow-large bg-blue-dark"><i class="fa fa-angle-up"></i>Back to Top</a>

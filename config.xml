@@ -14,4 +14,6 @@
   <author href="https://www.linkedin.com/in/tocado157" email="tocado157@gmail.com">
       ToCaDo157
   </author>
+  <icon src="images/logo.png" />
+  <preference name="exit-on-suspend"            value="true" />
 </widget>

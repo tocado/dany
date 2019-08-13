@@ -26,9 +26,7 @@
 	<div class="header shadow-large header-light header-logo-app">
 		<a href="index.html" class="header-logo"></a>
 		<a data-menu="menu-1" data-menu-type="menu-sidebar-left-push" href="#" class="header-icon header-icon-1"><i class="fas fa-bars"></i></a>
-		<a data-menu="menu-contact" data-menu-type="menu-box-modal" href="#" class="header-icon header-icon-2"><i class="fas fa-envelope"></i></a>
-		<a data-menu="menu-bell" data-menu-type="menu-box-top" href="#" class="header-icon header-icon-3"><i class="fas fa-bell"></i></a>
-		<a data-menu="menu-settings" data-menu-type="menu-box-full" href="#" class="header-icon header-icon-4"><i class="fas fa-cog fa-spin font-12"></i></a>
+		<a data-menu="menu-settings" data-menu-type="menu-box-full" href="#" class="header-icon header-icon-2"><i class="fas fa-cog fa-spin font-12"></i></a>
     </div>
 
 	<div id="menu-1" class="menu menu-sidebar-left menu-settings">
@@ -51,15 +49,48 @@
 
         <div class="content-box bg-white">
             <div class="decoration opacity-50 bottom-0"></div>
-            <ul class="link-list link-list-large bottom-0">
-                <li><a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal"><i class="fa fa-angle-right"></i><span>Comenzar</span><em>¡Vamos a cargar puntos, paso a paso!</em></a></li>
-            </ul>
+            <div>
+                <h1 class="center-text uppercase ultrabold">DNI</h1>
+                <p class="boxed-text-large bottom-20">
+                    <div class="content-box shadow-large bg-white">
+                        <div class="top-25 bottom-30">
+                            <div class="input-simple-1 has-icon input-green bottom-30">
+                                <strong>Requerido</strong>
+                                <em>DNI</em>
+                                <i class="fa fa-user"></i>
+                                <input id="i_dni" type="number" placeholder="DNI">
+                            </div>
+                            <div class="fac fac-checkbox fac-green"><span></span>
+                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
+                                <label for="box3-fac-checkbox">Success</label>
+                            </div>
+                            <div class="fac fac-checkbox fac-green"><span></span>
+                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
+                                <label for="box3-fac-checkbox">Success</label>
+                            </div>
+                            <div class="fac fac-checkbox fac-green"><span></span>
+                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
+                                <label for="box3-fac-checkbox">Success</label>
+                            </div>
+                            <div class="fac fac-checkbox fac-green"><span></span>
+                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
+                                <label for="box3-fac-checkbox">Success</label>
+                            </div>
+                            <div class="input-simple-1 has-icon input-green bottom-30">
+                                <strong>Requido</strong>
+                                <em>Monto</em>
+                                <i class="fa fa-user"></i>
+                                <input type="number" placeholder="Monto">
+                            </div>
+                       </div>
+                   </div>
+                </p>
+                <a href="#" data-menu="menu-walk-2" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de MONTO</a>
+            </div>
             <div class="decoration opacity-50 bottom-0"></div>
         </div>
-
-
         <!--Menu Walkthrough 1-->
-        <div id="menu-walk-1" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
+        <div id="menu-walk-2" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
             <div class="menu-scroll">
                 <h1 class="center-text uppercase ultrabold">Rubro</h1>
                 <p class="boxed-text-large bottom-20">
@@ -78,27 +109,12 @@
                        </div>
                    </div>
                 </p>
-                <a href="#" data-menu="menu-walk-2" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de DNI</a>
+                <a href="#" data-menu="menu-walk-3" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de DNI</a>
             </div>
         </div>
 
-        <div id="menu-walk-2" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
-            <div class="menu-scroll">
-                <h1 class="center-text uppercase ultrabold">DNI</h1>
-                <p class="boxed-text-large bottom-20">
-                    <div class="content-box shadow-large bg-white">
-                        <div class="top-25 bottom-30">
-                            <div class="input-simple-1 has-icon input-green bottom-30">
-                                <strong>Requerido</strong>
-                                <em>DNI</em>
-                                <i class="fa fa-user"></i>
-                                <input type="text" placeholder="DNI">
-                        </div>
-                       </div>
-                   </div>
-                </p>
-                <a href="#" data-menu="menu-walk-3" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de MONTO</a>
-            </div>
+        <div id="menu-walk-1" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
+
         </div>
 
         <div id="menu-walk-3" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
@@ -112,11 +128,11 @@
                                 <em>Monto</em>
                                 <i class="fa fa-user"></i>
                                 <input type="text" placeholder="Monto">
-                        </div>
+                            </div>
                        </div>
                    </div>
                 </p>
-                <a href="#" data-menu="menu-walk-4" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Resumen de Carga</a>
+                <a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Resumen de Carga</a>
             </div>
         </div>
 
@@ -269,5 +285,8 @@
         }
     }
     document.addEventListener('deviceready', deviceReady, false);
+    $(function () {
+        $("#i_dni").focus();
+    });
 </script>
 </body>

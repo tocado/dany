@@ -212,6 +212,7 @@
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
+        $("#i_dni").focus();
     }
     document.addEventListener('deviceready', deviceReady, false);
     $(function () {
@@ -249,7 +250,7 @@
         $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
             $(v).click();
         });
-
+        $(window).scrollTop(0);
 
         $("#i_dni").focus();
     };

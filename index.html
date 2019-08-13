@@ -50,7 +50,7 @@
         <div class="content-box bg-white">
             <div class="decoration opacity-50 bottom-0"></div>
             <div>
-                <h1 class="center-text uppercase ultrabold">DNI</h1>
+                <h1 class="center-text uppercase ultrabold">Carga de datos</h1>
                 <p class="boxed-text-large bottom-20">
                     <div class="content-box shadow-large bg-white">
                         <div class="top-25 bottom-30">
@@ -82,10 +82,11 @@
                                 <i class="fa fa-user"></i>
                                 <input id="i_monto" type="number" placeholder="Monto">
                             </div>
+                            <h1 id="resultado" class="center-text uppercase ultrabold"></h1>
                        </div>
                    </div>
                 </p>
-                <a href="#" data-menu="menu-walk-2" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de MONTO</a>
+                <a href="#" id="b_cargar" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de MONTO</a>
             </div>
             <div class="decoration opacity-50 bottom-0"></div>
         </div>
@@ -216,22 +217,41 @@
     $(function () {
         $("#i_dni").focus();
         $("#i_dni").keyup(function (e) {
-            if (e.which == 13) {
+            leng = $("#i_dni").val().length;
+            if (e.which == 13 || leng > 7) {
                 $("#i_monto").focus();
             }
         });
         $("#i_monto").keyup(function (e) {
             if (e.which == 13) {
-                var dni = $("#i_dni").val();
-                var monto = $("#i_monto").val();
-                var rubros = [];
-                $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
-                    rubros.push($(v).val());
-                });
-
-                alert("DNI: "+dni+"|| RUBROS: "+rubros+"|| MONTO: "+monto);
+                procesarForm();
             }
         });
+        $("#b_cargar").click(function () {
+            procesarForm();
+        });
     });
+    procesarForm = function () {
+        var dni = $("#i_dni").val();
+        var monto = $("#i_monto").val();
+        var rubros = [];
+        $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
+            rubros.push($(v).val());
+        });
+
+
+
+        $("#resultado").html("");
+        $("#resultado").append("<span>DNI: "+dni+"</span><br><span>RUBROS: "+rubros+"</span><br><span>MONTO: "+monto+"</span>");
+
+        $("#i_dni").val("");
+        $("#i_monto").val("");
+        $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
+            $(v).click();
+        });
+
+
+        $("#i_dni").focus();
+    };
 </script>
 </body>

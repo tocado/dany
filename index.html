@@ -61,20 +61,20 @@
                                 <input id="i_dni" type="number" placeholder="DNI">
                             </div>
                             <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
-                                <label for="box3-fac-checkbox">Success</label>
+                                <input id="box3-fac-checkbox" name="rubro[]" type="checkbox" value="Carniceria" checked="">
+                                <label for="box3-fac-checkbox">Carniceria</label>
                             </div>
                             <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
-                                <label for="box3-fac-checkbox">Success</label>
+                                <input id="box3-fac-checkbox2" name="rubro[]" type="checkbox" value="Verduleria" checked="">
+                                <label for="box3-fac-checkbox2">Verduleria</label>
                             </div>
                             <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
-                                <label for="box3-fac-checkbox">Success</label>
+                                <input id="box3-fac-checkbox3" name="rubro[]" type="checkbox" value="Fiambreria" checked="">
+                                <label for="box3-fac-checkbox3">Fiambreria</label>
                             </div>
                             <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox" type="checkbox" value="1" checked="">
-                                <label for="box3-fac-checkbox">Success</label>
+                                <input id="box3-fac-checkbox4" name="rubro[]" type="checkbox" value="Almacen" checked="">
+                                <label for="box3-fac-checkbox4">Almacen</label>
                             </div>
                             <div class="input-simple-1 has-icon input-green bottom-30">
                                 <strong>Requido</strong>
@@ -89,78 +89,6 @@
             </div>
             <div class="decoration opacity-50 bottom-0"></div>
         </div>
-        <!--Menu Walkthrough 1-->
-        <div id="menu-walk-2" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
-            <div class="menu-scroll">
-                <h1 class="center-text uppercase ultrabold">Rubro</h1>
-                <p class="boxed-text-large bottom-20">
-                    <div class="content-box shadow-large bg-white">
-                        <div class="top-25 bottom-30">
-                           <div class="select-box select-box-1">
-                              <strong>Campo requerido</strong>
-                              <em>Rubro</em>
-                              <select>
-                                 <option value="Carniceria">Carniceria</option>
-                                 <option value="Verduleria">Verduleria</option>
-                                 <option value="Libreria">Libreria</option>
-                                 <option value="Fiambreria">Fiambreria</option>
-                              </select>
-                           </div>
-                       </div>
-                   </div>
-                </p>
-                <a href="#" data-menu="menu-walk-3" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de DNI</a>
-            </div>
-        </div>
-
-        <div id="menu-walk-1" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
-
-        </div>
-
-        <div id="menu-walk-3" data-menu-height="350" class="menu menu-box-modal bg-white shadow-large">
-            <div class="menu-scroll">
-                <h1 class="center-text uppercase ultrabold">MONTO</h1>
-                <p class="boxed-text-large bottom-20">
-                    <div class="content-box shadow-large bg-white">
-                        <div class="top-25 bottom-30">
-                            <div class="input-simple-1 has-icon input-green bottom-30">
-                                <strong>Requido</strong>
-                                <em>Monto</em>
-                                <i class="fa fa-user"></i>
-                                <input type="text" placeholder="Monto">
-                            </div>
-                       </div>
-                   </div>
-                </p>
-                <a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Resumen de Carga</a>
-            </div>
-        </div>
-
-
-        <div id="menu-walk-4" data-menu-height="460" class="menu menu-box-modal bg-white shadow-large">
-            <div class="menu-scroll">
-                <h1 class="center-text uppercase ultrabold">Resumen</h1>
-                <p class="boxed-text-large bottom-20">
-                    <div class="content-box shadow-large bg-white">
-                        <div class="top-25 bottom-30">
-                            <ul class="link-list link-list-large bottom-0">
-                                <li><a href="#" data-menu="menu-bell" data-menu-type="menu-box-top"><i class="fa fa-angle-right"></i><i class="font-18 fa fa-sitemap color-red-dark"></i><span>Carniceria</span><em>Rubro</em></a></li>
-                                <li><a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal"><i class="fa fa-angle-right"></i><i class="font-18 fa fa-id-card color-brown-dark"></i><span>29.553.799</span><em>DNI</em></a></li>
-                                <li><a href="#" data-menu="menu-walk-1" data-menu-type="menu-box-modal"><i class="fa fa-angle-right"></i><i class="font-18 fa fa-hand-holding-usd color-green-dark"></i><span>$357.45</span><em>MONTO</em></a></li>
-
-                            </ul>
-                       </div>
-                   </div>
-                </p>
-                <a href="#" data-menu="menu-walk-4" data-menu-type="menu-box-modal" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Confirmar</a>
-            </div>
-        </div>
-
-
-
-
-
-
      
 	</div>
 
@@ -294,7 +222,14 @@
         });
         $("#i_monto").keyup(function (e) {
             if (e.which == 13) {
-                alert("cargado");
+                var dni = $("#i_dni").val();
+                var monto = $("#i_monto").val();
+                var rubros = [];
+                $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
+                    rubros.push($(v).val());
+                });
+
+                alert("DNI: "+dni+"|| RUBROS: "+rubros+"|| MONTO: "+monto);
             }
         });
     });

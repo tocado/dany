@@ -27,7 +27,7 @@
 		<a href="index.html" class="header-logo"></a>
         <a id="i_ok_login" href="#" class="header-icon header-icon-1" style="display:none"><i class="fas fa-check-circle"></i></a>
         <a id="i_no_login" href="#" class="header-icon header-icon-1"><i class="fas fa-times-circle"></i></a>
-		<a data-menu="menu-settings" data-menu-type="menu-box-full" href="#" class="header-icon header-icon-2"><i class="fas fa-cog fa-spin font-12"></i></a>
+		<a data-menu="menu-settings" data-menu-type="menu-box-full" id="b_abrirLogin" href="#" class="header-icon header-icon-2"><i class="fas fa-cog fa-spin font-12"></i></a>
     </div>
 
 	<div id="menu-1" class="menu menu-sidebar-left menu-settings">
@@ -102,17 +102,18 @@
                     <img class="preload-image login-image shadow-icon-large" src="images/pictures/0s.png" data-src="images/pictures/0s.png" alt="img">
                     <div class="content bottom-0">
                         <h3 class="uppercase ultrabold top-10 bottom-0">Ingreso</h3>
+                        <p class="smaller-text bottom-15 text-red" id="e_mensaje_login"></p>
                         <div class="page-login-field top-15">
                             <i class="fa fa-user"></i>
-                            <input type="text" placeholder="Usuario">
+                            <input type="text" id="u_usuario" placeholder="Usuario">
                             <em>(requerido)</em>
                         </div>
                         <div class="page-login-field bottom-20">
                             <i class="fa fa-lock"></i>
-                            <input type="password" placeholder="Contraseña">
+                            <input type="password" id="p_pass" placeholder="Contraseña">
                             <em>(requerido)</em>
                         </div>
-                        <a href="#" class="close-menu button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="b_login">LOGIN</a>
+                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="b_login">LOGIN</a>
                     </div>
                 </div>
             </div>
@@ -129,6 +130,7 @@
 <script type="text/javascript" src="scripts/plugins.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript">
+    var logueado = false;
     var deviceReady = function(){
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
@@ -146,32 +148,53 @@
         });
         $("#i_monto").keyup(function (e) {
             if (e.which == 13) {
-                procesarForm();
+                procesarCarga();
             }
         });
         $("#b_cargar").click(function () {
-            procesarForm();
+            procesarCarga();
         });
         $("#b_login").click(function () {
             procesarLogin();
         });
-    });
-    procesarLogin = function () {
-        $("#i_no_login").hide();
-        $("#i_ok_login").show();
-    };
-    procesarForm = function () {
-        var dni = $("#i_dni").val();
-        var monto = $("#i_monto").val();
-        var rubros = [];
-        $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
-            rubros.push($(v).val());
+        $("#b_abrirLogin").click(function () {
+            $("#u_usuario").focus();
         });
+        $("#p_pass,#u_usuario").keyup(function (e) {
+            if (e.which == 13) {
+                procesarLogin();
+            }
+        });
+    });
 
+    var procesarLogin = function () {
+        var c = {};
+        c.u = $("#u_usuario").val();
+        c.p = $("#p_pass").val();
 
-
+        if(c.u.length < 1 || c.p.length < 1) {
+            usuarioNo("Se requiere Usuario y Contraseña");
+            return false;
+        }
+        comprobarCredenciales(c);
+    };
+    var usuarioSi = function () {
+        $("#u_usuario").val("");
+        $("#p_pass").val("");
+        $("#i_ok_login").show();
+        $("#i_no_login").hide();
+        cerrarMenu();
+    }
+    var usuarioNo = function (mensaje) {
+        $("#i_ok_login").hide();
+        $("#i_no_login").show();
+        $("#e_mensaje_login").html("");
+        $("#e_mensaje_login").append("<div style='margin-top:5px;margin-bottom:5px;padding:5px;' class='demo-line gradient-red-dark'>"+mensaje+"</div>");
+        $("#u_usuario").focus();
+    }
+    var cargaSi = function (f) {
         $("#resultado").html("");
-        $("#resultado").append("<span>DNI: "+dni+"</span><br><span>RUBROS: "+rubros+"</span><br><span>MONTO: "+monto+"</span>");
+        $("#resultado").append("<div class='demo-line gradient-green-dark'>DNI: "+f.dni+"<br>RUBROS: "+f.rubros+"<br>MONTO: "+f.monto+"</div>");
 
         $("#i_dni").val("");
         $("#i_monto").val("");
@@ -179,8 +202,42 @@
             $(v).click();
         });
         $(window).scrollTop(0);
-
         $("#i_dni").focus();
+    };
+    var cargaNo = function (m) {
+        $("#resultado").html("");
+        $("#resultado").append("<div class='demo-line gradient-red-dark'>"+m+"</div>");
+    };
+    var procesarCarga = function () {
+        var f = {};
+        f.dni = $("#i_dni").val();
+        f.monto = $("#i_monto").val();
+        f.rubros = [];
+        $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
+            f.rubros.push($(v).val());
+        });
+        if (f.dni.length < 7) {
+            $("#i_dni").focus();
+            return false;
+        }
+        //f es el form
+        enviarCarga(f);
+    };
+
+    var enviarCarga = function (f) {
+        // f.dni
+        // f.monto
+        // f.rubros
+        
+        cargaSi(f);
+        //cargaNo("ERROR");
+    };
+    comprobarCredenciales = function (c) {
+        //c.u = usuario
+        //c.p = password
+        //usuarioNo("mensaje");
+        usuarioSi();
+        return false;
     };
 </script>
 </body>

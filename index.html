@@ -134,10 +134,18 @@
     /*
      * Store JWT
      */
+    store.setIDComercio = function (data) {
+        this.idComercio=data;
+    };
     store.setJWT = function(data) {
         this.JWT = data;
     };
+    store.clear = function(data) {
+        this.JWT = "";
+        logueado = false;
+    };
     var logueado = false;
+
     var deviceReady = function(){
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
@@ -186,13 +194,35 @@
         comprobarCredenciales(c);
     };
     var usuarioSi = function () {
-        $("#u_usuario").val("");
-        $("#p_pass").val("");
-        $("#i_ok_login").show();
-        $("#i_no_login").hide();
-        cerrarMenu();
+        var data = 'action=list&object=comercio';
+        $.ajax({
+            url: "http://exdec.trans-ti.com/exdec/api/?action=list&object=compra",
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
+                if (data.success) {
+                    store.setIDComercio(data.comercio[0].id);
+                    $("#u_usuario").val("");
+                    $("#p_pass").val("");
+                    $("#i_ok_login").show();
+                    $("#i_no_login").hide();
+                    cerrarMenu();
+                } else {
+                    usuarioNo(data.failureMessage);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                usuarioNo("error inesperado en encabezados");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            } 
+        });
+
     }
     var usuarioNo = function (mensaje) {
+        store.clear();
         $("#i_ok_login").hide();
         $("#i_no_login").show();
         $("#e_mensaje_login").html("");
@@ -236,80 +266,48 @@
         // f.monto
         // f.rubros
         
-        cargaSi(f);
-        //cargaNo("ERROR");
+        data = {};
+        data.action = "add";
+        data.object = "compra";
+        data.compra = {
+            "id":null,
+            "monto":f.monto,
+            "fecha_hora_compra":"2019-06-14 03:10:24",
+            "cliente_id":null,
+            "comercio_id":"2",
+            "rubro_id":f.rubros[0]?f.rubros[0]:null,
+            "dia":null
+        };
+        $.ajax({
+            url: "http://exdec.trans-ti.com/exdec/api/?action=add&object=compra",
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                cargaSi(f);
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                cargaNo("ERROR");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            } 
+        });
     };
     comprobarCredenciales = function (c) {
         //c.u = usuario
         //c.p = password
         //usuarioNo("mensaje");
-
-
-
-/*CODIGO EJEMPLO JWT*/
-
-$(function() {
-
-    /*
-     * Login
-     */
-    $("#frm-login").submit(function(e) {
-        e.preventDefault();
-        var data = $("#frm-login").serialize();
-        data += '&action=login';
-        //$.post("api/login", data, function(data) { // URL Rewrite
-        $.post("api/", data, function(data) {
-            $("button").removeAttr("disabled");
+        //usuarioSi();
+        
+        var data = 'username='+c.u+'&password='+c.p+'&action=login';
+        $.post("http://exdec.trans-ti.com/exdec/api/", data, function(data) {
             store.setJWT(data.JWT);
+            usuarioSi();
         }).fail(function(xhr, status, error) {
-            alert("login failed. status: " + status + ", error: " + error);
+            usuarioNo("Usuario o Contraseña no válidos");
         });
-    });
-    /*
-     * Get protected resource
-     */
-    var getProtectedResource = function(e) {
-        e.preventDefault();
-        $.ajax({
-            //url: "api/view/orders/10248", // URL Rewrite
-            url: "api/?action=view&object=orders&OrderID=10248",
-            type: "GET",
-            success: function(data, status, xhr) {
-                var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
-                alert(out);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                alert("status: " + xhr.status + ", error: " + thrownError);
-            }
-            beforeSend: function(request) { // Set JWT header
-                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
-            } 
-        });
-    }
-    $("#btn-with-token").click(getProtectedResource);
-});
-
-/*CODIGO EJEMPLO JWT*/
-
-
-
-
-
-
-
-
-
-        usuarioSi();
         return false;
     };
+
 </script>
 </body>
-
-<!--
-<form id="frm-login" method="post">
-User name: <input type="text" name="username" value="admin">
-Password: <input type="text" name="password" value="master">
-<input type="submit" value="Login">
-</form>
-<button id="btn-with-token" type="button" disabled>Get order record</button>
-    ->

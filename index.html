@@ -218,9 +218,22 @@
     }
     var limpiarRubros = function () {
         $("#rubros_list").html("");
+        store.rubros = [];
     };
     var agregarRubro = function (r,i) {
-        $("#rubros_list").append('<div class="fac fac-checkbox fac-green"><span></span><input id="box3-fac-checkbox'+i+'" name="rubro[]" type="checkbox" value="'+r.id+'" checked=""><label for="box3-fac-checkbox'+i+'">'+r.nombre+'</label></div>');
+        $("#rubros_list").append('<div class="fac fac-radio-full fac-default"><span></span><input id="box'+i+'-fac-radio-full" type="radio" name="rubro" value="'+r.id+'"><label for="box'+i+'-fac-radio-full">'+r.nombre+'</label>');
+        store.rubros.push(r);
+        /*if (r.id == 0) {
+            $('#box3-fac-checkbox'+i).click();
+        }*/
+    };
+    var traerNombreDeRubro_id = function (id) {
+        for (var i = 0; i < store.rubros.length; i +=1) {
+            if (parseInt(id) == parseInt(store.rubros[i].id)) {
+                return store.rubros[i].nombre;
+            }
+        }
+        return "no se encuentra rubro";
     };
     var cargarRubros = function () {
         limpiarRubros();
@@ -252,8 +265,9 @@
         $("#u_usuario").focus();
     }
     var cargaSi = function (f) {
+
         $("#resultado").html("");
-        $("#resultado").append("<div class='demo-line gradient-green-dark'>DNI: "+f.dni+"<br>RUBROS: "+f.rubros+"<br>MONTO: "+f.monto+"</div>");
+        $("#resultado").append("<div class='demo-line gradient-green-dark'>DNI: "+f.dni+"<br>RUBROS: "+traerNombreDeRubro_id(f.rubros?f.rubros:0)+"<br>MONTO: "+f.monto+"</div>");
 
         $("#i_dni").val("");
         $("#i_monto").val("");
@@ -271,10 +285,8 @@
         var f = {};
         f.dni = $("#i_dni").val();
         f.monto = $("#i_monto").val();
-        f.rubros = [];
-        $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
-            f.rubros.push($(v).val());
-        });
+        f.rubros = $("input[name*='rubro']:checked").val();
+
         if (f.dni.length < 7) {
             $("#i_dni").focus();
             return false;
@@ -295,8 +307,12 @@
             data: data,
             success: function(data, status, xhr) {
                 if (data.success && data.cliente.length > 0) {
-                    f.id_cliente = data.cliente[0].id;
-                    enviarCarga(f);
+                    if (f.dni == data.cliente[0].dni) {                    
+                        f.id_cliente = data.cliente[0].id;
+                        enviarCarga(f);
+                    } else {
+                        cargaNo("ERROR, No existe el cliente");                        
+                    }
                 } else {
                     cargaNo("ERROR, No existe el cliente");
                 }
@@ -325,7 +341,7 @@
             comercio_id: store.idComercio,
            /* fecha_hora_compra: dateString,*/
             monto: f.monto,
-            rubro_id: f.rubros.length?f.rubros[0]:0
+            rubro_id: f.rubros
         };
         $.ajax({
             url: serverAPI+"?action=add&object=compra",

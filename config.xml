@@ -8,13 +8,15 @@
   <name>TTCarga</name>
 
   <description>
-      Carga de puntos
+    Carga de puntos
   </description>
 
   <author href="https://www.linkedin.com/in/tocado157" email="tocado157@gmail.com">
-      ToCaDo157
+    ToCaDo157
   </author>
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
-  <access origin="*" />  
+  <feature name="http://api.phonegap.com/1.0/network"/>
+  <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />
+  <access origin="http://*" />     
 </widget>

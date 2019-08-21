@@ -298,21 +298,19 @@
         //f es el form
         conseguirId_dni(f);
     };
+
     var conseguirId_dni = function (f) {
         var data = {};
+        data.action="traerIDCliente";
         data.dni=f.dni;
         $.ajax({
-            url: serverAPI+"?action=list&object=cliente",
+            url: serverAPI,
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
-                if (data.success && data.cliente.length > 0) {
-                    if (f.dni == data.cliente[0].dni) {                    
-                        f.id_cliente = data.cliente[0].id;
-                        enviarCarga(f);
-                    } else {
-                        cargaNo("ERROR, No existe el cliente");                        
-                    }
+                if (parseInt(data.id) > 1) {
+                    f.id_cliente = data.id;
+                    enviarCarga(f);
                 } else {
                     cargaNo("ERROR, No existe el cliente");
                 }

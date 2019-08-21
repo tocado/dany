@@ -16,4 +16,5 @@
   </author>
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
+  <access origin="*" />  
 </widget>

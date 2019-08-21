@@ -17,6 +17,4 @@
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
   <feature name="http://api.phonegap.com/1.0/network"/>
-  <gap:plugin name="com.indigoway.cordova.whitelist.whitelistplugin" />
-  <access origin="http://*" />     
 </widget>

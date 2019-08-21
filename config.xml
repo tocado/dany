@@ -16,5 +16,8 @@
   </author>
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
+  <gap:plugin name="cordova-plugin-whitelist" source="npm" />
   <access origin="*" />
+  <allow-intent href="*" />
+  <allow-navigation href="*" />  
 </widget>

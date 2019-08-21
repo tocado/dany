@@ -373,7 +373,7 @@
             store.setJWT(data.JWT);
             usuarioSi();
         }).fail(function(xhr, status, error) {
-            usuarioNo("Usuario o Contraseña no válidos");
+            usuarioNo("Usuario o Contraseña no válidos"+error+"-"+status);
         });
         return false;
     };

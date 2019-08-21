@@ -2,6 +2,15 @@ $(window).on('load',function(){
 	setTimeout(function(){$('#page-build').css('display','block');},25)
 	setTimeout(function(){$("#preloader").addClass('hide-preloader');},450);// will fade out the white DIV that covers the website.
 });
+var preloader_on = function () {
+    setTimeout(function(){$('#page-build').css('display','none');},25)
+    setTimeout(function(){$("#preloader").removeClass('hide-preloader');},450);
+};
+
+var preloader_off = function () {
+    setTimeout(function(){$('#page-build').css('display','block');},25)
+    setTimeout(function(){$("#preloader").addClass('hide-preloader');},450);
+};
 var	cerrarMenu = function () {
 	$('.menu-hider').removeClass('active-menu-hider');
 	$('.menu').removeClass('active-menu-box-full active-menu-full-top active-menu-full-bottom active-menu-box-top active-menu-box-bottom active-menu-box-modal active-menu-full active-sidebar-left-over active-sidebar-left-push active-sidebar-right-push active-sidebar-left-parallax active-sidebar-right-parallax active-sidebar-right-over');

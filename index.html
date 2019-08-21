@@ -67,21 +67,9 @@
                                 <i class="fa fa-user"></i>
                                 <input id="i_monto" type="number" placeholder="Monto">
                             </div>
-                            <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox" name="rubro[]" type="checkbox" value="Carniceria" checked="">
-                                <label for="box3-fac-checkbox">Carniceria</label>
-                            </div>
-                            <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox2" name="rubro[]" type="checkbox" value="Verduleria" checked="">
-                                <label for="box3-fac-checkbox2">Verduleria</label>
-                            </div>
-                            <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox3" name="rubro[]" type="checkbox" value="Fiambreria" checked="">
-                                <label for="box3-fac-checkbox3">Fiambreria</label>
-                            </div>
-                            <div class="fac fac-checkbox fac-green"><span></span>
-                                <input id="box3-fac-checkbox4" name="rubro[]" type="checkbox" value="Almacen" checked="">
-                                <label for="box3-fac-checkbox4">Almacen</label>
+
+                            <div id="rubros_list">
+
                             </div>
                             <h1 id="resultado" class="center-text uppercase ultrabold"></h1>
                        </div>
@@ -130,6 +118,8 @@
 <script type="text/javascript" src="scripts/plugins.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript">
+    var serverAPI="http://exdec.trans-ti.com/exdec/api/";
+    var serverAPI="http://localhost/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -180,6 +170,7 @@
                 procesarLogin();
             }
         });
+
     });
 
     var procesarLogin = function () {
@@ -194,9 +185,11 @@
         comprobarCredenciales(c);
     };
     var usuarioSi = function () {
-        var data = 'action=list&object=comercio';
+        var data = {};
+        data.action="list";
+        data.object="comercio";
         $.ajax({
-            url: "http://exdec.trans-ti.com/exdec/api/?action=list&object=compra",
+            url: serverAPI/*+"?action=list&object=comercio"*/,
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
@@ -207,7 +200,9 @@
                     $("#p_pass").val("");
                     $("#i_ok_login").show();
                     $("#i_no_login").hide();
+                    cargarRubros();
                     cerrarMenu();
+                    $("#i_dni").focus();
                 } else {
                     usuarioNo(data.failureMessage);
                 }
@@ -221,6 +216,33 @@
         });
 
     }
+    var limpiarRubros = function () {
+        $("#rubros_list").html("");
+    };
+    var agregarRubro = function (r,i) {
+        $("#rubros_list").append('<div class="fac fac-checkbox fac-green"><span></span><input id="box3-fac-checkbox'+i+'" name="rubro[]" type="checkbox" value="'+r.id+'" checked=""><label for="box3-fac-checkbox'+i+'">'+r.nombre+'</label></div>');
+    };
+    var cargarRubros = function () {
+        limpiarRubros();
+        $.ajax({
+            url: serverAPI+"?action=list&object=rubro",
+            type: "POST",
+            data: {},
+            success: function(data, status, xhr) {
+                if (data.success && data.rubro.length > 0) {
+                    for (var i = 0;i < data.rubro.length; i += 1) {
+                        agregarRubro(data.rubro[i],i);
+                    }
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log("error en encabezados");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            }
+        });
+    };
     var usuarioNo = function (mensaje) {
         store.clear();
         $("#i_ok_login").hide();
@@ -257,33 +279,64 @@
             $("#i_dni").focus();
             return false;
         }
+        if (!store.JWT || store.JWT.length < 2) {
+            cargaNo("no se guardaran los cambios, falta ingresar");
+            return false;
+        }
         //f es el form
-        enviarCarga(f);
+        conseguirId_dni(f);
     };
-
+    var conseguirId_dni = function (f) {
+        var data = {};
+        data.dni=f.dni;
+        $.ajax({
+            url: serverAPI+"?action=list&object=cliente",
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                if (data.success && data.cliente.length > 0) {
+                    f.id_cliente = data.cliente[0].id;
+                    enviarCarga(f);
+                } else {
+                    cargaNo("ERROR, No existe el cliente");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                cargaNo("ERROR interno");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            }
+        });
+    };
     var enviarCarga = function (f) {
         // f.dni
         // f.monto
         // f.rubros
-        
-        data = {};
-        data.action = "add";
-        data.object = "compra";
-        data.compra = {
-            "id":null,
-            "monto":f.monto,
-            "fecha_hora_compra":"2019-06-14 03:10:24",
-            "cliente_id":null,
-            "comercio_id":"2",
-            "rubro_id":f.rubros[0]?f.rubros[0]:null,
-            "dia":null
+        // f.id_cliente
+        var date = new Date();
+        var formattedDate = ('0' + date.getDate()).slice(-2);
+        var formattedMonth = ('0' + (date.getMonth() + 1)).slice(-2);
+        var formattedYear = date.getFullYear().toString();
+        var dateString = formattedMonth + "/" + formattedDate + "/" + formattedYear + " " + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
+
+        var data = {
+            cliente_id: f.id_cliente,
+            comercio_id: store.idComercio,
+           /* fecha_hora_compra: dateString,*/
+            monto: f.monto,
+            rubro_id: f.rubros.length?f.rubros[0]:0
         };
         $.ajax({
-            url: "http://exdec.trans-ti.com/exdec/api/?action=add&object=compra",
+            url: serverAPI+"?action=add&object=compra",
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
-                cargaSi(f);
+                if (data.success) {
+                    cargaSi(f);
+                } else {
+                    cargaNo("ERROR");
+                }                
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 cargaNo("ERROR");
@@ -298,9 +351,9 @@
         //c.p = password
         //usuarioNo("mensaje");
         //usuarioSi();
-        
+
         var data = 'username='+c.u+'&password='+c.p+'&action=login';
-        $.post("http://exdec.trans-ti.com/exdec/api/", data, function(data) {
+        $.post(serverAPI, data, function(data) {
             store.setJWT(data.JWT);
             usuarioSi();
         }).fail(function(xhr, status, error) {

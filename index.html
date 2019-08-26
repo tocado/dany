@@ -119,6 +119,7 @@
 <script type="text/javascript" src="scripts/plugins.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript">
+    var logueado = false;
     //var Connection = navigator.connection;
     var serverAPI="http://exdec.trans-ti.com/exdec/api/";
     //var serverAPI="http://localhost/exdec/api/";
@@ -134,17 +135,17 @@
     };
     store.clear = function(data) {
         this.JWT = "";
+        this.idComercio = "";
         logueado = false;
     };
-    var logueado = false;
 
     var deviceReady = function(){
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
         $("#i_dni").focus();
-        document.addEventListener("online", onOnline, false);
-        document.addEventListener("offline", onOnline, false);
+        document.addEventListener("online", cambioDeConexion, false);
+        document.addEventListener("offline", cambioDeConexion, false);
     }
 
     document.addEventListener('deviceready', deviceReady, false);
@@ -163,7 +164,6 @@
             }
         });
         $("#b_cargar").click(function () {
-            checkConnection();
             procesarCarga();
         });
         $("#b_login").click(function () {
@@ -184,7 +184,8 @@
         var c = {};
         c.u = $("#u_usuario").val();
         c.p = $("#p_pass").val();
-
+        window.localStorage.u = c.u;
+        window.localStorage.p = c.p;
         if(c.u.length < 1 || c.p.length < 1) {
             usuarioNo("Se requiere Usuario y Contraseña");
             return false;
@@ -384,27 +385,51 @@
     };
 
 
-    function onOnline() {
-        alert("Cambio de Conexion");
-        checkConnection();
+    function cambioDeConexion() {
+        procesarLoginDeLocal();
     }
 
+    var procesarLoginDeLocal = function () {
+        var c = {};
+        c.p = window.localStorage.p;
+        c.u = window.localStorage.u;
+        var data = 'username='+c.u+'&password='+c.p+'&action=login';
+        $.post(serverAPI, data, function(data) {
+            store.clear();
+            store.setJWT(data.JWT);
+            var data = {};
+            data.action="list";
+            data.object="comercio";
+            $.ajax({
+                url: serverAPI/*+"?action=list&object=comercio"*/,
+                type: "POST",
+                data: data,
+                success: function(data, status, xhr) {
+                    var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
+                    if (data.success) {
+                        store.setIDComercio(data.comercio[0].id);
+                        $("#u_usuario").val("");
+                        $("#p_pass").val("");
+                        cargarRubros();
+                    } else {
+                        store.clear();
+                        alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+                    }
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    store.clear();
+                    alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+                },
+                beforeSend: function(request) { // Set JWT header
+                    request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+                } 
 
 
-    function checkConnection() {
-        var networkState = navigator.connection.type;
-
-        var states = {};
-        states[Connection.UNKNOWN]  = 'Unknown connection';
-        states[Connection.ETHERNET] = 'Ethernet connection';
-        states[Connection.WIFI]     = 'WiFi connection';
-        states[Connection.CELL_2G]  = 'Cell 2G connection';
-        states[Connection.CELL_3G]  = 'Cell 3G connection';
-        states[Connection.CELL_4G]  = 'Cell 4G connection';
-        states[Connection.CELL]     = 'Cell generic connection';
-        states[Connection.NONE]     = 'No network connection';
-
-        alert('Connection type: ' + states[networkState]);
+        }).fail(function(xhr, status, error) {
+            store.clear();
+            alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+        });
+        return false;        
     }
 </script>
 </body>

@@ -16,14 +16,14 @@
   </author>
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
-  <gap:plugin name="cordova-plugin-whitelist" source="npm" />
-  <plugin name="cordova-plugin-network-information" source="npm" />
+  <!--plugin name="cordova-plugin-whitelist" source="npm" />
+  <plugin name="cordova-plugin-network-information" source="npm" /-->
   <access origin="*" />
   <allow-intent href="*" />
   <allow-navigation href="*" /> 
-  <uses-permission name="android.permission.INTERNET" />
+  <!--uses-permission name="android.permission.INTERNET" />
   <uses-permission name="android.permission.ACCESS_NETWORK_STATE" />
-  <uses-permission name="android.permission.READ_PHONE_STATE" />
+  <uses-permission name="android.permission.READ_PHONE_STATE" /-->
 </widget>
 
 

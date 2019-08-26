@@ -6,7 +6,6 @@
     version     = "1.0.0" >
 
   <name>TTCarga</name>
-
   <description>
     Carga de puntos
   </description>
@@ -16,6 +15,7 @@
   </author>
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
+  <preference name="android-minSdkVersion" value="17" />
   <!--plugin name="cordova-plugin-whitelist" source="npm" />
   <plugin name="cordova-plugin-network-information" source="npm" /-->
   <access origin="*" />

@@ -20,5 +20,15 @@
   <plugin name="cordova-plugin-network-information" source="npm" />
   <access origin="*" />
   <allow-intent href="*" />
-  <allow-navigation href="*" />  
+  <allow-navigation href="*" /> 
+  <platform name="android">
+    <config-file parent="/*" target="AndroidManifest.xml">
+      <uses-permission android:name="android.permission.INTERNET" />
+      <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+      <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    </config-file>
+  </platform>
 </widget>
+
+
+

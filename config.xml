@@ -16,9 +16,8 @@
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
   <preference name="android-minSdkVersion" value="17" />
-  <!--plugin name="cordova-plugin-whitelist" source="npm" />
-  <plugin name="cordova-plugin-network-information" source="npm" /-->
-  <gap:plugin name="org.apache.cordova.network-information"  />
+  <plugin name="cordova-plugin-whitelist" source="npm" />
+  <plugin name="cordova-plugin-network-information" spec="~2.0.2" />
   <access origin="*" />
   <allow-intent href="*" />
   <allow-navigation href="*" /> 

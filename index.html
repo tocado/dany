@@ -396,8 +396,7 @@
         var c = {};
         c.p = window.localStorage.p;
         c.u = window.localStorage.u;
-        var data = 'username='+c.u+'&password='+c.p+'&action=login';
-        $.post(serverAPI, data, function(data) {
+        $.post(serverAPI, 'username='+c.u+'&password='+c.p+'&action=login', function(data) {
             store.clear();
             store.setJWT(data.JWT);
             var data = {};
@@ -426,8 +425,7 @@
                 beforeSend: function(request) { // Set JWT header
                     request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
                 } 
-
-
+            });
         }).fail(function(xhr, status, error) {
             store.clear();
             alert("Las credenciales almacenadas no son validas, se cerró la sesión");

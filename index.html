@@ -144,6 +144,9 @@
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
         $("#i_dni").focus();
+        if (window.localStorage.u.length > 0) {
+            procesarLoginDeLocal();
+        }
         document.addEventListener("online", cambioDeConexion, false);
         document.addEventListener("offline", cambioDeConexion, false);
     }

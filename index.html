@@ -144,7 +144,9 @@
         document.addEventListener("online", onOnline, false);
         document.addEventListener("offline", onOnline, false);
     }
+
     document.addEventListener('deviceready', deviceReady, false);
+
     $(function () {
         $("#i_dni").focus();
         $("#i_dni").keyup(function (e) {
@@ -159,6 +161,7 @@
             }
         });
         $("#b_cargar").click(function () {
+            checkConnection();
             procesarCarga();
         });
         $("#b_login").click(function () {

@@ -141,6 +141,8 @@
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
         $("#i_dni").focus();
+        document.addEventListener("online", onOnline, false);
+        document.addEventListener("offline", onOnline, false);
     }
     document.addEventListener('deviceready', deviceReady, false);
     $(function () {
@@ -381,7 +383,7 @@
         alert("Cambio de Conexion");
         checkConnection();
     }
-    document.addEventListener("online", onOnline, false);
+
 
 
     function checkConnection() {

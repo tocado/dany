@@ -319,7 +319,7 @@
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
-                if (parseInt(data.id) > 1) {
+                if (parseInt(data.id) > 0) {
                     f.id_cliente = data.id;
                     enviarCarga(f);
                 } else {

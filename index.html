@@ -412,6 +412,8 @@
                         store.setIDComercio(data.comercio[0].id);
                         $("#u_usuario").val("");
                         $("#p_pass").val("");
+                        $("#i_ok_login").show();
+                        $("#i_no_login").hide();
                         cargarRubros();
                     } else {
                         store.clear();

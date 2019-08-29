@@ -58,12 +58,12 @@
                         <div class="top-25 bottom-30">
                             <div class="input-simple-1 has-icon input-green bottom-30">
                                 <strong>Requerido</strong>
-                                <em>DNI</em>
+                                <em>Telefono</em>
                                 <i class="fa fa-user"></i>
-                                <input id="i_dni" type="number" placeholder="DNI">
+                                <input id="i_telefono" type="number" placeholder="Telefono con 54911">
                             </div>
                             <div class="input-simple-1 has-icon input-green bottom-30">
-                                <strong>Requido</strong>
+                                <strong>Requerido</strong>
                                 <em>Monto</em>
                                 <i class="fa fa-user"></i>
                                 <input id="i_monto" type="number" placeholder="Monto">
@@ -143,7 +143,7 @@
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
-        $("#i_dni").focus();
+        $("#i_telefono").focus();
         if (window.localStorage.u.length > 0) {
             procesarLoginDeLocal();
         }
@@ -154,10 +154,10 @@
     document.addEventListener('deviceready', deviceReady, false);
 
     $(function () {
-        $("#i_dni").focus();
-        $("#i_dni").keyup(function (e) {
-            leng = $("#i_dni").val().length;
-            if (e.which == 13 || leng > 7) {
+        $("#i_telefono").focus();
+        $("#i_telefono").keyup(function (e) {
+            leng = $("#i_telefono").val().length;
+            if (e.which == 13 || leng > 12) {
                 $("#i_monto").focus();
             }
         });
@@ -278,15 +278,15 @@
     var cargaSi = function (f) {
 
         $("#resultado").html("");
-        $("#resultado").append("<div class='demo-line gradient-green-dark'>DNI: "+f.dni+"<br>RUBROS: "+traerNombreDeRubro_id(f.rubros?f.rubros:0)+"<br>MONTO: "+f.monto+"</div>");
+        $("#resultado").append("<div class='demo-line gradient-green-dark'>Telefono: "+f.telefono+"<br>RUBROS: "+traerNombreDeRubro_id(f.rubros?f.rubros:0)+"<br>MONTO: "+f.monto+"</div>");
 
-        $("#i_dni").val("");
+        $("#i_telefono").val("");
         $("#i_monto").val("");
         $("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
             $(v).click();
         });
         $(window).scrollTop(0);
-        $("#i_dni").focus();
+        $("#i_telefono").focus();
     };
     var cargaNo = function (m) {
         $("#resultado").html("");
@@ -294,12 +294,12 @@
     };
     var procesarCarga = function () {
         var f = {};
-        f.dni = $("#i_dni").val();
+        f.telefono = $("#i_telefono").val();
         f.monto = $("#i_monto").val();
         f.rubros = $("input[name*='rubro']:checked").val();
 
         if (f.dni.length < 7) {
-            $("#i_dni").focus();
+            $("#i_telefono").focus();
             return false;
         }
         if (!store.JWT || store.JWT.length < 2) {
@@ -313,7 +313,7 @@
     var conseguirId_dni = function (f) {
         var data = {};
         data.action="traerIDCliente";
-        data.dni=f.dni;
+        data.telefono=f.telefono;
         $.ajax({
             url: serverAPI,
             type: "POST",
@@ -348,7 +348,6 @@
         var data = {
             cliente_id: f.id_cliente,
             comercio_id: store.idComercio,
-           /* fecha_hora_compra: dateString,*/
             monto: f.monto,
             rubro_id: f.rubros
         };
@@ -382,7 +381,7 @@
             store.setJWT(data.JWT);
             usuarioSi();
         }).fail(function(xhr, status, error) {
-            usuarioNo("Usuario o Contraseña no válidos"+error+"-"+status);
+            usuarioNo("Usuario o Contraseña no válidos "+error+"-"+status);
         });
         return false;
     };

@@ -121,8 +121,8 @@
 <script type="text/javascript">
     var logueado = false;
     //var Connection = navigator.connection;
-    var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    //var serverAPI="http://localhost/exdec/api/";
+    //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
+    var serverAPI="http://localhost/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -213,7 +213,7 @@
                     $("#i_no_login").hide();
                     cargarRubros();
                     cerrarMenu();
-                    $("#i_dni").focus();
+                    $("#i_telefono").focus();
                 } else {
                     usuarioNo(data.failureMessage);
                 }
@@ -232,8 +232,10 @@
         store.rubros = [];
     };
     var agregarRubro = function (r,i) {
-        $("#rubros_list").append('<div class="fac fac-radio-full fac-default"><span></span><input id="box'+i+'-fac-radio-full" type="radio" name="rubro" value="'+r.id+'"><label for="box'+i+'-fac-radio-full">'+r.nombre+'</label>');
+//        $("#rubros_list").append('<div class="fac fac-radio-full fac-default"><span></span><input id="box'+i+'-fac-radio-full" type="radio" name="rubro" value="'+r.id+'"><label for="box'+i+'-fac-radio-full">'+r.nombre+'</label>');
+        $("#rubros_list").append('<div class="fac fac-checkbox fac-green"><span></span><input id="box'+i+'-fac-checkbox" type="checkbox" value="'+r.id+'" checked=""><label for="box'+i+'-fac-checkbox">'+r.nombre+'</label></div>');
         store.rubros.push(r);
+
         /*if (r.id == 0) {
             $('#box3-fac-checkbox'+i).click();
         }*/
@@ -292,13 +294,20 @@
         $("#resultado").html("");
         $("#resultado").append("<div class='demo-line gradient-red-dark'>"+m+"</div>");
     };
+    var traerRubrosSeleccionados = function () {
+        var rubros = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
+        var respuesta = [];
+        for (var i = 0;i < rubros.length; i += 1) {
+            respuesta.push(rubros[i].value);
+        }
+        return respuesta;
+    };
     var procesarCarga = function () {
         var f = {};
         f.telefono = $("#i_telefono").val();
         f.monto = $("#i_monto").val();
-        f.rubros = $("input[name*='rubro']:checked").val();
-
-        if (f.dni.length < 7) {
+        f.rubros = traerRubrosSeleccionados();
+        if (f.telefono.length < 7) {
             $("#i_telefono").focus();
             return false;
         }
@@ -307,10 +316,10 @@
             return false;
         }
         //f es el form
-        conseguirId_dni(f);
+        conseguirId_telefono_y_enviar(f);
     };
 
-    var conseguirId_dni = function (f) {
+    var conseguirId_telefono_y_enviar = function (f) {
         var data = {};
         data.action="traerIDCliente";
         data.telefono=f.telefono;
@@ -335,7 +344,7 @@
         });
     };
     var enviarCarga = function (f) {
-        // f.dni
+        // f.telefono
         // f.monto
         // f.rubros
         // f.id_cliente
@@ -349,15 +358,18 @@
             cliente_id: f.id_cliente,
             comercio_id: store.idComercio,
             monto: f.monto,
-            rubro_id: f.rubros
+            rubros_id: f.rubros
         };
+
         $.ajax({
             url: serverAPI+"?action=add&object=compra",
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
                 if (data.success) {
-                    cargaSi(f);
+                    f.compra_id = data.compra.id;
+                    enviarRubros(f);
+                    //cargaSi(f); esto pasa despues de enviar los rubros
                 } else {
                     cargaNo("ERROR");
                 }                
@@ -369,6 +381,38 @@
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
             } 
         });
+    };
+    var enviarRubros = function (f) {
+        // f.telefono
+        // f.monto
+        // f.rubros
+        // f.id_cliente
+        // f.compra_id
+        for ( var i = 0;i < f.rubros.length; i += 1) {
+                var data = {
+                    compra_id: f.compra_id,
+                    rubro_id: f.rubros[i]
+                };
+
+                $.ajax({
+                    url: serverAPI+"?action=add&object=compra_rubros",
+                    type: "POST",
+                    data: data,
+                    success: function(data, status, xhr) {
+                        if (data.success) {
+                            cargaSi(f);
+                        } else {
+                            cargaNo("ERROR");
+                        }                
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        cargaNo("ERROR");
+                    },
+                    beforeSend: function(request) { // Set JWT header
+                        request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+                    } 
+                });
+        }
     };
     comprobarCredenciales = function (c) {
         //c.u = usuario

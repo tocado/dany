@@ -60,6 +60,7 @@
                                 <strong>Requerido</strong>
                                 <em>Telefono</em>
                                 <i class="fa fa-user"></i>
+                                <input id="i_area" type="number" value="54911" placeholder="54911 para Argentina">
                                 <input id="i_telefono" type="number" placeholder="Telefono con 54911">
                             </div>
                             <div class="input-simple-1 has-icon input-green bottom-30">
@@ -157,7 +158,7 @@
         $("#i_telefono").focus();
         $("#i_telefono").keyup(function (e) {
             leng = $("#i_telefono").val().length;
-            if (e.which == 13 || leng > 12) {
+            if (e.which == 13 || leng > 7) {
                 $("#i_monto").focus();
             }
         });
@@ -249,12 +250,13 @@
         return "no se encuentra rubro";
     };
     var cargarRubros = function () {
-        limpiarRubros();
+        //limpiarRubros();
         $.ajax({
             url: serverAPI+"?action=list&object=rubro",
             type: "POST",
             data: {},
             success: function(data, status, xhr) {
+                limpiarRubros();
                 if (data.success && data.rubro.length > 0) {
                     for (var i = 0;i < data.rubro.length; i += 1) {
                         agregarRubro(data.rubro[i],i);
@@ -304,7 +306,7 @@
     };
     var procesarCarga = function () {
         var f = {};
-        f.telefono = $("#i_telefono").val();
+        f.telefono = $("#i_area").val() + "" + $("#i_telefono").val();
         f.monto = $("#i_monto").val();
         f.rubros = traerRubrosSeleccionados();
         if (f.telefono.length < 7) {

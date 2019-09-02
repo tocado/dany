@@ -122,8 +122,8 @@
 <script type="text/javascript">
     var logueado = false;
     //var Connection = navigator.connection;
-    var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    //var serverAPI="http://localhost/exdec/api/";
+    //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
+    var serverAPI="http://localhost/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -371,8 +371,11 @@
             success: function(data, status, xhr) {
                 if (data.success) {
                     f.compra_id = data.compra.id;
-                    enviarRubros(f);
-                    //cargaSi(f); esto pasa despues de enviar los rubros
+                    if (f.rubros.length !== 0) {
+                        enviarRubros(f);
+                    } else {
+                        cargaSi(f);
+                    }
                 } else {
                     cargaNo("ERROR");
                 }                

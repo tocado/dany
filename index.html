@@ -325,6 +325,7 @@
         var data = {};
         data.action="traerIDCliente";
         data.telefono=f.telefono;
+        data.comercio_id=store.idComercio;
         $.ajax({
             url: serverAPI,
             type: "POST",

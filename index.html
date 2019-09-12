@@ -123,8 +123,8 @@
     var logueado = false;
     //var Connection = navigator.connection;
     //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    //var serverAPI="http://localhost/exdec/api/";
-    var serverAPI="http://192.168.2.169/exdec/api/";
+    var serverAPI="http://localhost/exdec/api/";
+    //var serverAPI="http://192.168.2.169/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -148,6 +148,8 @@
         $("#i_telefono").focus();
         if (window.localStorage.u.length > 0) {
             procesarLoginDeLocal();
+        } else {
+            usuarioNo();
         }
         document.addEventListener("online", cambioDeConexion, false);
         document.addEventListener("offline", cambioDeConexion, false);
@@ -182,13 +184,217 @@
                 procesarLogin();
             }
         });
-        if(prompt("Indique \n1: Telefono\n2: DNI")) {
-            if(prompt("Ingrese el Numero")) {
-                prompt("Ingrese el monto");
-                alert("Nombre: Carlos Ramirez\nPuntos Acumulados: 357");
-            }
-        }
+        usuarioDePrompt();
     });
+    var usuarioDePrompt = function () {
+        var usuario = prompt("usuario");
+        var pass = prompt("pass");
+        procesarLoginDePrompt({u:usuario,p:pass});
+    };
+    var cargaDePrompt = function () {
+        var f = {};
+        f.tipo = parseInt(prompt("Indique \n1: Telefono\n2: DNI"));
+        if(f.tipo == 1 || f.tipo == 2) { //es valido
+            f.numero = parseInt(prompt("Ingrese el Numero"));
+            if (f.numero != 0) { //es valido
+                f.monto = parseInt(prompt("Ingrese el monto"));
+                if (f.monto != 0 ) {
+                    procesarCargaDePrompt(f);
+                    return false;
+                } else {
+                    alert("El monto debe ser mayor a $0");
+                    cargaDePrompt();
+                }
+            } else { //el numero no es valido
+                alert("El numero no es valido");
+                cargaDePrompt();
+            }
+        } else { //el tipo no es valido
+            alert("El tipo no es valido");
+            cargaDePrompt();
+            return false;
+        }
+    };
+    var procesarCargaDePrompt = function (f) {
+        /*
+            f.numero
+            f.monto
+        */
+        if (f.numero.length < 7) {
+            alert("Numero no valido");
+            cargaDePrompt();
+            return false;
+        }
+        if (!store.JWT || store.JWT.length < 2) {
+            alert("Comercio no identificado");
+            usuarioDePrompt();
+            return false;
+        }
+        //f es el form
+        if (f.tipo == 1) {
+            conseguirId_telefono_y_enviarPrompt({telefono:f.numero,monto:f.monto});
+        } else if (f.tipo == 2) {
+            conseguirId_dni_y_enviarPrompt({dni:f.numero,monto:f.monto});
+        }
+    };
+
+    var procesarLoginDePrompt = function (c) {
+        /*var c = {};
+        c.u = $("#u_usuario").val();
+        c.p = $("#p_pass").val();*/
+        window.localStorage.u = c.u;
+        window.localStorage.p = c.p;
+        if(c.u.length < 1 || c.p.length < 1) {
+            alert("Se requiere Usuario y Contraseña");
+            usuarioDePrompt();
+            return false;
+        }
+        comprobarCredencialesDePrompt(c);
+    };
+    comprobarCredencialesDePrompt = function (c) {
+        //c.u = usuario
+        //c.p = password
+        //usuarioNo("mensaje");
+        //usuarioSi();
+
+        var data = 'username='+c.u+'&password='+c.p+'&action=login';
+        $.post(serverAPI, data, function(data) {
+            store.setJWT(data.JWT);
+            traerComercioIDPrompt();
+            return false;
+        }).fail(function(xhr, status, error) {
+            alert("Usuario o Contraseña no válidos "+error+"-"+status);
+            usuarioDePrompt();
+            return false;
+        });
+        return false;
+    };
+    var traerComercioIDPrompt = function () {
+        var data = {};
+        data.action="list";
+        data.object="comercio";
+        $.ajax({
+            url: serverAPI/*+"?action=list&object=comercio"*/,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
+                if (data.success) {
+                    store.setIDComercio(data.comercio[0].id);
+                    cargaDePrompt();
+                    return false;
+                } else {
+                    alert("no tengo id de comercio");
+                    usuarioDePrompt();
+                    return false;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("error inesperado en encabezados");
+                usuarioDePrompt();
+                return false;
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            } 
+        });
+    }; 
+    var conseguirId_telefono_y_enviarPrompt = function (f) {
+        var data = {};
+        data.action="traerIDCliente";
+        data.telefono=f.telefono;
+        data.comercio_id=store.idComercio;
+        $.ajax({
+            url: serverAPI,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                if (parseInt(data.id) > 0) {
+                    f.id_cliente = data.id;
+                    enviarCargaPrompt(f);
+                    return false;
+                } else {
+                    alert("ERROR, No existe el cliente");
+                    cargaDePrompt();
+                    return false;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("ERROR interno");
+                cargaDePrompt();
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            }
+        });
+    };
+    var conseguirId_dni_y_enviarPrompt = function (f) {
+        var data = {};
+        data.action="traerIDClienteDeDNI";
+        data.dni=f.dni;
+        data.comercio_id=store.idComercio;
+        $.ajax({
+            url: serverAPI,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                if (parseInt(data.id) > 0) {
+                    f.id_cliente = data.id;
+                    enviarCargaPrompt(f);
+                    return false;
+                } else {
+                    alert("ERROR, No existe el cliente");
+                    cargaDePrompt();
+                    return false;
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("ERROR interno");
+                cargaDePrompt();
+                return false;
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            }
+        });
+    };
+    var enviarCargaPrompt = function (f) {
+        // f.monto
+        // f.id_cliente
+
+        var data = {
+            cliente_id: f.id_cliente,
+            comercio_id: store.idComercio,
+            monto: f.monto
+        };
+
+        $.ajax({
+            url: serverAPI+"?action=add&object=compra",
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                if (data.success) {
+                    f.compra_id = data.compra.id;
+                    alert("Cargado con exito bajo el numero "+f.compra_id);
+                    cargaDePrompt();
+                    return false;
+                } else {
+                    alert("ERROR");
+                    cargaDePrompt();
+                    return false;
+                }                
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("ERROR en respuesta");
+                cargaDePrompt();
+                return false;
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            } 
+        });
+    };
+
 
     var procesarLogin = function () {
         var c = {};
@@ -234,6 +440,7 @@
         });
 
     }
+
     /*var limpiarRubros = function () {
         $("#rubros_list").html("");
         store.rubros = [];
@@ -327,6 +534,31 @@
         var data = {};
         data.action="traerIDCliente";
         data.telefono=f.telefono;
+        data.comercio_id=store.idComercio;
+        $.ajax({
+            url: serverAPI,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                if (parseInt(data.id) > 0) {
+                    f.id_cliente = data.id;
+                    enviarCarga(f);
+                } else {
+                    cargaNo("ERROR, No existe el cliente");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                cargaNo("ERROR interno");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            }
+        });
+    };
+    var conseguirId_dni_y_enviar = function (f) {
+        var data = {};
+        data.action="traerIDClienteDeDNI";
+        data.dni=f.dni;
         data.comercio_id=store.idComercio;
         $.ajax({
             url: serverAPI,

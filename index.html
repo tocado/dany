@@ -122,8 +122,9 @@
 <script type="text/javascript">
     var logueado = false;
     //var Connection = navigator.connection;
-    var serverAPI="http://exdec.trans-ti.com/exdec/api/";
+    //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
     //var serverAPI="http://localhost/exdec/api/";
+    var serverAPI="http://192.168.2.169/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -181,7 +182,12 @@
                 procesarLogin();
             }
         });
-
+        if(prompt("telefono o dni")) {
+            if(prompt("numero")) {
+                prompt("monto");
+                alert("datos!");
+            }
+        }
     });
 
     var procesarLogin = function () {
@@ -212,7 +218,7 @@
                     $("#p_pass").val("");
                     $("#i_ok_login").show();
                     $("#i_no_login").hide();
-                    cargarRubros();
+                    //cargarRubros();
                     cerrarMenu();
                     $("#i_telefono").focus();
                 } else {
@@ -228,35 +234,31 @@
         });
 
     }
-    var limpiarRubros = function () {
+    /*var limpiarRubros = function () {
         $("#rubros_list").html("");
         store.rubros = [];
-    };
-    var agregarRubro = function (r,i) {
+    };*/
+/*    var agregarRubro = function (r,i) {
 //        $("#rubros_list").append('<div class="fac fac-radio-full fac-default"><span></span><input id="box'+i+'-fac-radio-full" type="radio" name="rubro" value="'+r.id+'"><label for="box'+i+'-fac-radio-full">'+r.nombre+'</label>');
         $("#rubros_list").append('<div class="fac fac-checkbox fac-green"><span></span><input id="box'+i+'-fac-checkbox" type="checkbox" value="'+r.id+'" checked=""><label for="box'+i+'-fac-checkbox">'+r.nombre+'</label></div>');
         store.rubros.push(r);
-
-        /*if (r.id == 0) {
-            $('#box3-fac-checkbox'+i).click();
-        }*/
-    };
-    var traerNombreDeRubro_id = function (id) {
+    };*/
+/*    var traerNombreDeRubro_id = function (id) {
         for (var i = 0; i < store.rubros.length; i +=1) {
             if (parseInt(id) == parseInt(store.rubros[i].id)) {
                 return store.rubros[i].nombre;
             }
         }
         return "no se encuentra rubro";
-    };
-    var cargarRubros = function () {
+    };*/
+/*    var cargarRubros = function () {
         //limpiarRubros();
         $.ajax({
             url: serverAPI+"?action=list&object=rubro",
             type: "POST",
             data: {},
             success: function(data, status, xhr) {
-                limpiarRubros();
+                //limpiarRubros();
                 if (data.success && data.rubro.length > 0) {
                     for (var i = 0;i < data.rubro.length; i += 1) {
                         agregarRubro(data.rubro[i],i);
@@ -270,7 +272,7 @@
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
             }
         });
-    };
+    };*/
     var usuarioNo = function (mensaje) {
         store.clear();
         $("#i_ok_login").hide();
@@ -296,14 +298,14 @@
         $("#resultado").html("");
         $("#resultado").append("<div class='demo-line gradient-red-dark'>"+m+"</div>");
     };
-    var traerRubrosSeleccionados = function () {
+ /*   var traerRubrosSeleccionados = function () {
         var rubros = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
         var respuesta = [];
         for (var i = 0;i < rubros.length; i += 1) {
             respuesta.push(rubros[i].value);
         }
         return respuesta;
-    };
+    };*/
     var procesarCarga = function () {
         var f = {};
         f.telefono = $("#i_area").val() + "" + $("#i_telefono").val();
@@ -371,11 +373,11 @@
             success: function(data, status, xhr) {
                 if (data.success) {
                     f.compra_id = data.compra.id;
-                    if (f.rubros.length !== 0) {
+                    /*if (f.rubros.length !== 0) {
                         enviarRubros(f);
-                    } else {
+                    } else {*/
                         cargaSi(f);
-                    }
+                    /*}*/
                 } else {
                     cargaNo("ERROR");
                 }                
@@ -388,7 +390,7 @@
             } 
         });
     };
-    var enviarRubros = function (f) {
+    /*var enviarRubros = function (f) {
         // f.telefono
         // f.monto
         // f.rubros
@@ -419,7 +421,7 @@
                     } 
                 });
         }
-    };
+    };*/
     comprobarCredenciales = function (c) {
         //c.u = usuario
         //c.p = password
@@ -463,8 +465,8 @@
                         $("#p_pass").val("");
                         $("#i_ok_login").show();
                         $("#i_no_login").hide();
-                        limpiarRubros();
-                        cargarRubros();
+                        //limpiarRubros();
+                        //cargarRubros();
                     } else {
                         store.clear();
                         alert("Las credenciales almacenadas no son validas, se cerró la sesión");

@@ -145,11 +145,10 @@
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
-        $("#i_telefono").focus();
         if (window.localStorage.u.length > 0) {
             procesarLoginDeLocal();
         } else {
-            usuarioNo();
+            usuarioDePrompt();
         }
         document.addEventListener("online", cambioDeConexion, false);
         document.addEventListener("offline", cambioDeConexion, false);
@@ -158,34 +157,10 @@
     document.addEventListener('deviceready', deviceReady, false);
 
     $(function () {
-        $("#i_telefono").focus();
-        $("#i_telefono").keyup(function (e) {
-            leng = $("#i_telefono").val().length;
-            if (e.which == 13 || leng > 7) {
-                $("#i_monto").focus();
-            }
-        });
-        $("#i_monto").keyup(function (e) {
-            if (e.which == 13) {
-                procesarCarga();
-            }
-        });
-        $("#b_cargar").click(function () {
-            procesarCarga();
-        });
-        $("#b_login").click(function () {
-            procesarLogin();
-        });
-        $("#b_abrirLogin").click(function () {
-            $("#u_usuario").focus();
-        });
-        $("#p_pass,#u_usuario").keyup(function (e) {
-            if (e.which == 13) {
-                procesarLogin();
-            }
-        });
-        usuarioDePrompt();
+
     });
+
+
     var usuarioDePrompt = function () {
         var usuario = prompt("usuario");
         var pass = prompt("pass");
@@ -693,20 +668,20 @@
                     var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
                     if (data.success) {
                         store.setIDComercio(data.comercio[0].id);
-                        $("#u_usuario").val("");
-                        $("#p_pass").val("");
-                        $("#i_ok_login").show();
-                        $("#i_no_login").hide();
-                        //limpiarRubros();
-                        //cargarRubros();
+                        cargaDePrompt();
+                        return false;
                     } else {
                         store.clear();
                         alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+                        usuarioDePrompt();
+                        return false;
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     store.clear();
                     alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+                    usuarioDePrompt();
+                    return false;
                 },
                 beforeSend: function(request) { // Set JWT header
                     request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -715,6 +690,8 @@
         }).fail(function(xhr, status, error) {
             store.clear();
             alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+            usuarioDePrompt();
+            return false;
         });
         return false;        
     }

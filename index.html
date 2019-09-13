@@ -24,14 +24,14 @@
 <div id="page-transitions" class="page-build">
     <div class="page-bg gradient-body-1"></div>
 
-	<div class="header shadow-large header-light header-logo-app">
+	<!--div class="header shadow-large header-light header-logo-app">
 		<a href="index.html" class="header-logo"></a>
         <a id="i_ok_login" href="#" class="header-icon header-icon-1" style="display:none"><i class="fas fa-check-circle"></i></a>
         <a id="i_no_login" href="#" class="header-icon header-icon-1"><i class="fas fa-times-circle"></i></a>
 		<a data-menu="menu-settings" data-menu-type="menu-box-full" id="b_abrirLogin" href="#" class="header-icon header-icon-2"><i class="fas fa-cog fa-spin font-12"></i></a>
-    </div>
+    </div-->
 
-	<div id="menu-1" class="menu menu-sidebar-left menu-settings">
+	<!--div id="menu-1" class="menu menu-sidebar-left menu-settings">
         <div class="menu-bg gradient-body-1"></div>
         <div class="menu-scroll">
             <div class="menu-header">
@@ -45,9 +45,9 @@
                 <a class="menu-item" href="cargas.html"><i class="fa gradient-green-light fa-list"></i>Listado de Cargas</a>
             </div>
         </div>
-	</div>
+	</div-->
 
-	<div class="page-content header-clear-larger">
+	<div class="page-content sheader-clear-larger" style="margin-top:10px;">
 
         <div class="content-box bg-white">
             <div class="decoration opacity-50 bottom-0"></div>
@@ -56,17 +56,18 @@
                 <p class="boxed-text-large bottom-20">
                     <div class="content-box shadow-large bg-white">
                         <div class="top-25 bottom-30">
-                            <div class="input-simple-1 has-icon input-green bottom-30">
-                                <strong>Requerido</strong>
-                                <em>Telefono</em>
-                                <i class="fa fa-user"></i>
-                                <input id="i_area" type="number" value="54911" placeholder="54911 para Argentina">
-                                <input id="i_telefono" type="number" placeholder="Telefono con 54911">
+                            <div class="input-simple-2 has-icon input-green bottom-30">
+                                <em style="display:block">Telefono</em>
+                                <input id="i_area" type="number" value="54911" placeholder="54911 para Argentina" style="width: 30%;display:inline">
+                                <input id="i_telefono" type="number" placeholder="Telefono sin 54911"style="width: 50%;display:inline;">
+                            </div>
+                            <div class="input-simple-2 has-icon input-green bottom-30">
+                                <em>DNI</em>
+                                <input id="i_dni" type="number" placeholder="DNI">
                             </div>
                             <div class="input-simple-1 has-icon input-green bottom-30">
                                 <strong>Requerido</strong>
                                 <em>Monto</em>
-                                <i class="fa fa-user"></i>
                                 <input id="i_monto" type="number" placeholder="Monto">
                             </div>
 
@@ -77,7 +78,7 @@
                        </div>
                    </div>
                 </p>
-                <a href="#" id="b_cargar" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de MONTO</a>
+                <a href="#" id="b_cargar" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de Compra</a>
             </div>
             <div class="decoration opacity-50 bottom-0"></div>
         </div>
@@ -120,6 +121,11 @@
 <script type="text/javascript" src="scripts/plugins.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript">
+    /*
+    apágar $('#menu-settings').removeClass('active-menu-box-full');
+    prender $('#menu-settings').toggleClass('active-menu-box-full');
+
+     */
     var logueado = false;
     //var Connection = navigator.connection;
     var serverAPI="http://exdec.trans-ti.com/exdec/api/";
@@ -183,6 +189,8 @@
         });
         if (window.localStorage.u.length > 0) {
             procesarLoginDeLocal();
+        } else {
+            $('#menu-settings').toggleClass('active-menu-box-full');
         }
     });
 
@@ -214,7 +222,7 @@
                     $("#p_pass").val("");
                     $("#i_ok_login").show();
                     $("#i_no_login").hide();
-                    cargarRubros();
+                    //cargarRubros();
                     cerrarMenu();
                     $("#i_telefono").focus();
                 } else {
@@ -230,7 +238,7 @@
         });
 
     }
-    var limpiarRubros = function () {
+   /* var limpiarRubros = function () {
         $("#rubros_list").html("");
         store.rubros = [];
     };
@@ -239,11 +247,8 @@
         $("#rubros_list").append('<div class="fac fac-checkbox fac-green"><span></span><input id="box'+i+'-fac-checkbox" type="checkbox" value="'+r.id+'" checked=""><label for="box'+i+'-fac-checkbox">'+r.nombre+'</label></div>');
         store.rubros.push(r);
 
-        /*if (r.id == 0) {
-            $('#box3-fac-checkbox'+i).click();
-        }*/
-    };
-    var traerNombreDeRubro_id = function (id) {
+    };*/
+  /*  var traerNombreDeRubro_id = function (id) {
         for (var i = 0; i < store.rubros.length; i +=1) {
             if (parseInt(id) == parseInt(store.rubros[i].id)) {
                 return store.rubros[i].nombre;
@@ -272,7 +277,7 @@
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
             }
         });
-    };
+    };*/
     var usuarioNo = function (mensaje) {
         store.clear();
         $("#i_ok_login").hide();
@@ -284,7 +289,7 @@
     var cargaSi = function (f) {
 
         $("#resultado").html("");
-        $("#resultado").append("<div class='demo-line gradient-green-dark'>Telefono: "+f.telefono+"<br>RUBROS: "+traerNombreDeRubro_id(f.rubros?f.rubros:0)+"<br>MONTO: "+f.monto+"</div>");
+        $("#resultado").append("<div class='demo-line gradient-green-dark'>Telefono: "+f.telefono+"<br>RUBROS: "/*+traerNombreDeRubro_id(f.rubros?f.rubros:0)*/+"<br>MONTO: "+f.monto+"</div>");
 
         $("#i_telefono").val("");
         $("#i_monto").val("");
@@ -298,19 +303,19 @@
         $("#resultado").html("");
         $("#resultado").append("<div class='demo-line gradient-red-dark'>"+m+"</div>");
     };
-    var traerRubrosSeleccionados = function () {
-        var rubros = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
+  /*  var traerRubrosSeleccionados = function () {
+        //var rubros = document.querySelectorAll('input[type="checkbox"]:not(:checked)');
         var respuesta = [];
         for (var i = 0;i < rubros.length; i += 1) {
             respuesta.push(rubros[i].value);
         }
         return respuesta;
-    };
+    };*/
     var procesarCarga = function () {
         var f = {};
         f.telefono = $("#i_area").val() + "" + $("#i_telefono").val();
         f.monto = $("#i_monto").val();
-        f.rubros = traerRubrosSeleccionados();
+        //f.rubros = traerRubrosSeleccionados();
         if (f.telefono.length < 7) {
             $("#i_telefono").focus();
             return false;
@@ -362,8 +367,8 @@
         var data = {
             cliente_id: f.id_cliente,
             comercio_id: store.idComercio,
-            monto: f.monto,
-            rubros_id: f.rubros
+            monto: f.monto/*,
+            rubros_id: f.rubros*/
         };
 
         $.ajax({
@@ -373,11 +378,11 @@
             success: function(data, status, xhr) {
                 if (data.success) {
                     f.compra_id = data.compra.id;
-                    if (f.rubros.length !== 0) {
+                    /*if (f.rubros.length !== 0) {
                         enviarRubros(f);
-                    } else {
+                    } else {*/
                         cargaSi(f);
-                    }
+                    //}
                 } else {
                     cargaNo("ERROR");
                 }                
@@ -390,7 +395,7 @@
             } 
         });
     };
-    var enviarRubros = function (f) {
+ /*   var enviarRubros = function (f) {
         // f.telefono
         // f.monto
         // f.rubros
@@ -421,7 +426,7 @@
                     } 
                 });
         }
-    };
+    };*/
     comprobarCredenciales = function (c) {
         //c.u = usuario
         //c.p = password
@@ -465,16 +470,16 @@
                         $("#p_pass").val("");
                         $("#i_ok_login").show();
                         $("#i_no_login").hide();
-                        limpiarRubros();
-                        cargarRubros();
+                      /*  limpiarRubros();
+                        cargarRubros();*/
                     } else {
                         store.clear();
-                        alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+                        $('#menu-settings').toggleClass('active-menu-box-full');
                     }
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     store.clear();
-                    alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+                    $('#menu-settings').toggleClass('active-menu-box-full');
                 },
                 beforeSend: function(request) { // Set JWT header
                     request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -482,7 +487,7 @@
             });
         }).fail(function(xhr, status, error) {
             store.clear();
-            alert("Las credenciales almacenadas no son validas, se cerró la sesión");
+            $('#menu-settings').toggleClass('active-menu-box-full');
         });
         return false;        
     }

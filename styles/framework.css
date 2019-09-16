@@ -760,7 +760,7 @@ ol ol ol{list-style-type:disc;}
 
 
 .content{padding:15px 15px; margin-bottom:30px;}
-.content-box{padding:0px 20px 0px 20px; border-radius:10px; margin-left:15px; margin-right:15px; margin-bottom:30px; overflow:hidden;}
+.content-box{padding:0px 20px 0px 20px; border-radius:10px; margin-left:15px; margin-right:15px; margin-bottom:30px; overflow:hidden;max-width: 400px;}
 .content-box-full{padding:0px 0px 0px 0px; border-radius:10px; margin-bottom:30px; overflow:hidden;}
 .content-boxed{padding:15px 20px;}
 .content-box-bg{background-color:#FFFFFF;}

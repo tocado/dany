@@ -164,6 +164,7 @@
     store.clear = function(data) {
         this.JWT = "";
         this.idComercio = "";
+        this.u = "";
         logueado = false;
     };
 
@@ -172,9 +173,7 @@
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
         $("#i_telefono").focus();
-//        if (window.localStorage.u.length > 0) {
-//            procesarLoginDeLocal();
-//        }
+        procesarLoginDeLocal();
         document.addEventListener("online", cambioDeConexion, false);
         document.addEventListener("offline", cambioDeConexion, false);
     }
@@ -425,7 +424,8 @@
             return false;
         }
         if (!store.JWT || store.JWT.length < 2) {
-            cargaNo("no se guardaran los cambios, falta ingresar");
+            store.clear();
+            $('#menu-settings').toggleClass('active-menu-box-full');
             return false;
         }
         //f es el form
@@ -446,11 +446,11 @@
                     f.id_cliente = data.id;
                     enviarCarga(f);
                 } else {
-                    cargaNo("ERROR, No existe el cliente");
+                    alert("ERROR, No existe el cliente");
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                cargaNo("ERROR interno");
+                alert("ERROR interno");
             },
             beforeSend: function(request) { // Set JWT header
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -484,11 +484,11 @@
                     f.compra_id = data.compra.id;
                     cargaSi(f);
                 } else {
-                    cargaNo("ERROR");
+                    alert("ERROR en carga de compra");
                 }                
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                cargaNo("ERROR");
+                alert("ERROR desconocido");
             },
             beforeSend: function(request) { // Set JWT header
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -543,6 +543,7 @@
                         cargarRubros();*/
                     } else {
                         store.clear();
+                        window.localStorage.u = "";
                         $('#menu-settings').toggleClass('active-menu-box-full');
                     }
                 },

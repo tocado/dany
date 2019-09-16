@@ -254,6 +254,7 @@
             data: data,
             success: function(data, status, xhr) {
                 if (parseInt(data.id) > 0) {
+                    store.tmp_cliente_id = data.id;
                     traerDatosClienteDeId(mostrarDatosCliente,data.id);
                 } else {
                     $("#i_telefono").val("");
@@ -290,6 +291,7 @@
             data: data,
             success: function(data, status, xhr) {
                 if (parseInt(data.id) > 0) {
+                    store.tmp_cliente_id = data.id;
                     traerDatosClienteDeId(mostrarDatosCliente,data.id);
                 } else {
                     $("#i_dni").val("");
@@ -482,6 +484,7 @@
             success: function(data, status, xhr) {
                 if (data.success) {
                     f.compra_id = data.compra.id;
+                    traerDatosClienteDeId(mostrarDatosCliente,store.tmp_cliente_id);
                     cargaSi(f);
                 } else {
                     alert("ERROR en carga de compra");

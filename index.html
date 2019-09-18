@@ -24,29 +24,6 @@
 <div id="page-transitions" class="page-build">
     <div class="page-bg gradient-body-1"></div>
 
-	<!--div class="header shadow-large header-light header-logo-app">
-		<a href="index.html" class="header-logo"></a>
-        <a id="i_ok_login" href="#" class="header-icon header-icon-1" style="display:none"><i class="fas fa-check-circle"></i></a>
-        <a id="i_no_login" href="#" class="header-icon header-icon-1"><i class="fas fa-times-circle"></i></a>
-		<a data-menu="menu-settings" data-menu-type="menu-box-full" id="b_abrirLogin" href="#" class="header-icon header-icon-2"><i class="fas fa-cog fa-spin font-12"></i></a>
-    </div-->
-
-	<!--div id="menu-1" class="menu menu-sidebar-left menu-settings">
-        <div class="menu-bg gradient-body-1"></div>
-        <div class="menu-scroll">
-            <div class="menu-header">
-                <a class="menu-logo" href="index.html"></a>
-                <h1>Bienvenidos</h1>
-                <p>Negocios</p>
-            </div>
-            <div class="menu-list icon-background-active">
-                <em class="menu-divider top-10">Navegacion</em>
-                <a class="menu-item active-menu" href="index.html"><i class="fa gradient-red-light fa-upload"></i>Carga de Puntos</a>
-                <a class="menu-item" href="cargas.html"><i class="fa gradient-green-light fa-list"></i>Listado de Cargas</a>
-            </div>
-        </div>
-	</div-->
-
 	<div class="page-content sheader-clear-larger" style="margin-top:10px;">
 
         <div class="content-boxed bg-white">
@@ -68,7 +45,7 @@
                                 padding: 8px;
                                 position: absolute;
                                 width: 50%;
-                                top: 15%;
+                                top: 12%;
                                 left: 50%;
                                 height: 90px;">
                                     <legend>Datos Cliente</legend>
@@ -84,7 +61,11 @@
 
                             <div class="input-simple-2 has-icon input-green bottom-30">
                                 <em>DNI</em>
-                                <input id="i_dni" type="number" placeholder="DNI" style="width: 47%">
+                                <input id="i_dni" type="number" placeholder="DNI" style="width: 47%;">
+                                <!--input id="i_dni" type="number" placeholder="DNI" style="width: 18%;display:inline"-->
+                                <!--select id="i_formapago" style="width: 18%;display:inline"><option>botones</option><option>morlacos</option></select-->
+                            </div>
+                            <div id="formasDePago">
                             </div>
                             <div class="input-simple-1 has-icon input-green bottom-30">
                                 <strong>Requerido</strong>
@@ -134,7 +115,7 @@
 
 
 
-	<a href="#" class="back-to-top-badge back-to-top-small shadow-large bg-blue-dark"><i class="fa fa-angle-up"></i>Back to Top</a>
+    <a href="#" class="back-to-top-badge back-to-top-small shadow-large bg-blue-dark"><i class="fa fa-angle-up"></i>Back to Top</a>
 </div>
 
 
@@ -142,11 +123,8 @@
 <script type="text/javascript" src="scripts/plugins.js"></script>
 <script type="text/javascript" src="scripts/custom.js"></script>
 <script type="text/javascript">
-    /*
-    apágar $('#menu-settings').removeClass('active-menu-box-full');
-    prender $('#menu-settings').toggleClass('active-menu-box-full');
 
-     */
+
     var logueado = false;
     //var Connection = navigator.connection;
     var serverAPI="http://exdec.trans-ti.com/exdec/api/";
@@ -356,12 +334,46 @@
         }
         comprobarCredenciales(c);
     };
+    var cargarFormapago = function () {
+        var i = 0,
+            f;
+        for (i = 0;i < store.formasdepago.length;i += 1) {
+            f = store.formasdepago[i];
+            $("#formasDePago").append('<div class="fac fac-radio fac-orange" style="font-size: 90%;font-weight: 500;"><span></span><input id="box'+i+'-fac-radio" type="radio" name="v_forma_pago" value="'+f.id+'"><label for="box'+i+'-fac-radio">'+f.nombre+'</label></div>');
+        }
+    };
+
+    var traerFormasDePago = function () {
+        var data = {};
+        data.action="list";
+        data.object="formapago";
+        $.ajax({
+            url: serverAPI,
+            type: "GET",
+            data: data,
+            success: function(data, status, xhr) {
+                var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
+                if (data.success) {
+                    store.formasdepago = data.formapago;
+                    cargarFormapago();
+                } else {
+                    alert("no existen formas de pago");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                alert("error inesperado en encabezados de formas de pago");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            } 
+        });
+    };
     var usuarioSi = function () {
         var data = {};
         data.action="list";
         data.object="comercio";
         $.ajax({
-            url: serverAPI/*+"?action=list&object=comercio"*/,
+            url: serverAPI,
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
@@ -372,7 +384,7 @@
                     $("#p_pass").val("");
                     $("#i_ok_login").show();
                     $("#i_no_login").hide();
-                    //cargarRubros();
+                    traerFormasDePago();
                     cerrarMenu();
                     $("#i_telefono").focus();
                 } else {
@@ -398,16 +410,9 @@
         $("#u_usuario").focus();
     }
     var cargaSi = function (f) {
-
-/*        $("#resultado").html("");
-        $("#resultado").append("<div class='demo-line gradient-green-dark'>Telefono: "+f.telefono+"<br>RUBROS: "+traerNombreDeRubro_id(f.rubros?f.rubros:0)+"<br>MONTO: "+f.monto+"</div>");
-*/
         $("#i_telefono").val("");
         $("#i_dni").val("");
         $("#i_monto").val("");
-        /*$("input[name*='rubro[]']:not(:checked)").each(function (i,v) {
-            $(v).click();
-        });*/
         $(window).scrollTop(0);
         $("#i_telefono").focus();
     };
@@ -420,7 +425,6 @@
         var f = {};
         f.telefono = $("#i_area").val() + "" + $("#i_telefono").val();
         f.monto = $("#i_monto").val();
-        //f.rubros = traerRubrosSeleccionados();
         if (f.telefono.length < 7) {
             $("#i_telefono").focus();
             return false;
@@ -469,12 +473,15 @@
         var formattedMonth = ('0' + (date.getMonth() + 1)).slice(-2);
         var formattedYear = date.getFullYear().toString();
         var dateString = formattedMonth + "/" + formattedDate + "/" + formattedYear + " " + date.getUTCHours() + ":" + date.getUTCMinutes() + ":" + date.getUTCSeconds();
-
+        var fp = $("input[name='v_forma_pago']:checked").val();
+        if (fp === undefined) {
+            fp = 1;
+        }
         var data = {
             cliente_id: f.id_cliente,
             comercio_id: store.idComercio,
-            monto: f.monto/*,
-            rubros_id: f.rubros*/
+            monto: f.monto,
+            formapago_id: fp
         };
 
         $.ajax({
@@ -542,8 +549,7 @@
                         $("#p_pass").val("");
                         $("#i_ok_login").show();
                         $("#i_no_login").hide();
-                      /*  limpiarRubros();
-                        cargarRubros();*/
+                        traerFormasDePago();
                     } else {
                         store.clear();
                         window.localStorage.u = "";

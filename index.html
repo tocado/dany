@@ -425,7 +425,8 @@
         var f = {};
         f.telefono = $("#i_area").val() + "" + $("#i_telefono").val();
         f.monto = $("#i_monto").val();
-        if (f.telefono.length < 7) {
+        f.dni = $("#i_dni").val();
+        if (f.telefono.length < 7 && f.dni.length < 7) {
             $("#i_telefono").focus();
             return false;
         }
@@ -435,7 +436,15 @@
             return false;
         }
         //f es el form
-        conseguirId_telefono_y_enviar(f);
+        
+        if (parseInt(store.tmp_cliente_id) === 0) {
+            return false;
+        }
+        f.id_cliente = store.tmp_cliente_id;
+
+        enviarCarga(f);
+        //ya tengo el id =)
+        //conseguirId_telefono_y_enviar(f);
     };
 
     var conseguirId_telefono_y_enviar = function (f) {

@@ -127,8 +127,8 @@
 
     var logueado = false;
     //var Connection = navigator.connection;
-    var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    //var serverAPI="http://localhost/exdec/api/";
+    //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
+    var serverAPI="http://localhost/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -346,6 +346,7 @@
     var cargarFormapago = function () {
         var i = 0,
             f;
+            $("#formasDePago").html("");
         for (i = 0;i < store.formasdepago.length;i += 1) {
             f = store.formasdepago[i];
             $("#formasDePago").append('<div class="fac fac-radio fac-orange" style="font-size: 90%;font-weight: 500;"><span></span><input id="box'+i+'-fac-radio" type="radio" name="v_forma_pago" value="'+f.id+'"><label for="box'+i+'-fac-radio">'+f.nombre+'</label></div>');

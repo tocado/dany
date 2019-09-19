@@ -23,13 +23,13 @@
 
 <div id="page-transitions" class="page-build">
     <div class="page-bg gradient-body-1"></div>
-
 	<div class="page-content sheader-clear-larger" style="margin-top:10px;">
 
         <div class="content-boxed bg-white">
+            
             <div class="decoration opacity-50 bottom-0"></div>
             <div>
-                <h1 class="center-text uppercase ultrabold">Carga de datos</h1>
+                <h1 class="center-text uppercase ultrabold">Carga de datos<span id="b_logout" style="float:right;font-size:12px;">salir</span></h1>
                 <p class="boxed-text-large bottom-20">
                     <div class="content-box shadow-large bg-white" style="margin-left: auto;margin-right: auto;">
                         <div class="top-25 bottom-30">
@@ -159,6 +159,15 @@
     document.addEventListener('deviceready', deviceReady, false);
 
     $(function () {
+        $("#b_logout").on("click",function () {
+            store.u = "";
+            store.p = "";
+            store.idComercio ="";
+            store.JWT = "";
+            window.localStorage.u = "";
+            window.localStorage.p = "";
+            procesarLoginDeLocal();
+        });
         $("#i_telefono").focus();
         $("#i_telefono").keyup(function (e) {
             leng = $(this).val().length;

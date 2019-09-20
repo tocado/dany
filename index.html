@@ -298,8 +298,8 @@
     }
 
     document.addEventListener('deviceready', deviceReady, false);
-
     $(function () {
+        window.setInterval(revisarNotificaciones,10000);//10 segundos
         $("#b_logout").on("click",function () {
             store.u = "";
             store.p = "";
@@ -309,11 +309,10 @@
             window.localStorage.p = "";
             procesarLoginDeLocal();
         });
-        $("#i_campana").on("click", function () {
+       /* $("#i_campana").on("click", function () {
             $(this).toggleClass("faa-ring");
             $(this).toggleClass("apagar");
-            
-        });
+        });*/
         $("#i_telefono").focus();
         $("#i_telefono").keyup(function (e) {
             leng = $(this).val().length;
@@ -369,6 +368,41 @@
             $('#menu-settings').toggleClass('active-menu-box-full');
         }
     });
+    var revisarNotificaciones = function () {
+        console.log("revisando");
+        if (store.JWT.length < 1) {
+            return false;
+        }
+        var data = {};
+        data.action="list";
+        data.object="mensaje";
+        $.ajax({
+            url: serverAPI,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
+                if (data.success) {
+                    if (data.mensaje.length > 0) {
+                        $("#i_campana").addClass("faa-ring");
+                        $("#i_campana").removeClass("apagar");
+                    } else {
+                        $("#i_campana").removeClass("faa-ring");
+                        $("#i_campana").addClass("apagar");                        
+                    }
+                } else {
+                    $("#i_campana").removeClass("faa-ring");
+                    $("#i_campana").addClass("apagar");
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                usuarioNo("error inesperado en encabezados");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            } 
+        });
+    };
     var traerIdClienteTelefono = function (t) {
         if (store.idComercio.length < 1) {
             store.clear();
@@ -554,7 +588,6 @@
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
             } 
         });
-
     }
 
     var usuarioNo = function (mensaje) {
@@ -714,6 +747,7 @@
                         $("#p_pass").val("");
                         $("#i_ok_login").show();
                         $("#i_no_login").hide();
+                        revisarNotificaciones();//corrida inicial
                         traerFormasDePago();
                     } else {
                         store.clear();

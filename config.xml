@@ -18,7 +18,7 @@
   <preference name="exit-on-suspend"            value="true" />
   <preference name="android-minSdkVersion" value="17" />
   <gap:plugin name="cordova-plugin-whitelist" source="npm" />
-  <gap:plugin name="phonegap-plugin-local-notification" source="npm" />
+  <gap:plugin name="phonegap-plugin-local-notification-fork-tocado" source="npm" />
   <plugin name="cordova-plugin-network-information" spec="~2.0.2" />
   <access origin="*" />
   <allow-intent href="*" />

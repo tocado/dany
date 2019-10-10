@@ -164,12 +164,8 @@
     <div class="page-bg gradient-body-1"></div>
 	<div class="page-content sheader-clear-larger" style="margin-top:10px;">
 
-
-<div id="tablaMensajes" class="content-box content-box-full bottom-0" style=""> <div class="content-box content-box-full bottom-0"><table class="table-borders-dark top-15 bottom-30 round-element bg-white shadow-large"><tbody><tr><th>Nombre</th><th>Tipo</th><th>Acciones</th></tr><tr><td>Daniel, Coletti</td><td>5491149373790</td><td><span class="button button-round button-green-3d button-green" onclick="window.plugins.socialsharing.shareViaWhatsAppToPhone('1133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})">Enviar</span><span class="button button-round button-green-3d button-red">Rechazar</span></td></tr><tr><td>juan sebastian, romero</td><td>5491133782513</td><td><span class="button button-round button-green-3d button-green" onclick="window.plugins.socialsharing.shareViaWhatsAppToPhone('+541133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})">Enviar</span><span class="button button-round button-green-3d button-red">Rechazar</span></td></tr><tr><td>juan sebastian, romero</td><td>5491133782513</td><td><span class="button button-round button-green-3d button-green" onclick="window.plugins.socialsharing.shareViaWhatsAppToPhone('5491133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})">Enviar</span><span class="button button-round button-green-3d button-red">Rechazar</span></td></tr></tbody></table></div></div>
-
-
-        <!--div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div-->
-        <div class="content-boxed bg-white"id="body" style="display: none">
+        <div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div>
+        <div class="content-boxed bg-white"id="body">
             <div class="decoration opacity-50 bottom-0"></div>
             <div>
                 <h1 class="center-text uppercase ultrabold">
@@ -272,8 +268,8 @@
 
     var logueado = false;
     //var Connection = navigator.connection;
-    //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    var serverAPI="http://localhost/exdec/api/";
+    var serverAPI="http://exdec.trans-ti.com/exdec/api/";
+    //var serverAPI="http://localhost/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -319,7 +315,7 @@
             window.alert("no tengo notification");
         }
     };
- /*   var deviceReady = function(){
+    var deviceReady = function(){
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
@@ -398,7 +394,7 @@
         } else {
             $('#menu-settings').toggleClass('active-menu-box-full');
         }
-    });*/
+    });
     var traerOpcionSistema = function (op) {
         opcion = store.opcionesSistema.find(function (e) {return e.nombre == op});
         if (opcion != undefined) {
@@ -429,6 +425,11 @@
     var dibujarTablaMensajes = function (msg) {
         var i;
         var div = document.createElement("div");
+        var cerrar = document.createElement("span");
+        cerrar.setAttribute("class","button button-round button-green-3d button-green");
+        cerrar.setAttribute("style","position:absolute;right:0px;");
+        cerrar.appendChild(document.createTextNode("X"));
+        div.appendChild(cerrar);
         div.setAttribute("class","content-box content-box-full bottom-0");
         var table = document.createElement("table");
         table.setAttribute("class","table-borders-dark top-15 bottom-30 round-element bg-white shadow-large");
@@ -437,7 +438,7 @@
         table.appendChild(tbody);
         var tr = document.createElement("tr");
         tbody.appendChild(tr);
-        $(tr).append("<th>Nombre</th><th>Tipo</th><th>Acciones</th>");
+        $(tr).append("<th>Nombre</th><th>Tipo</th><th> </th>");
         for(i = 0;i < msg.length; i += 1) {
             m = msg[i];
             trr = document.createElement("tr");
@@ -453,21 +454,21 @@
             td = document.createElement("td");
             a = document.createElement("span");
             a.appendChild(document.createTextNode("Enviar"));
-            a.setAttribute("class","button button-round button-green-3d button-green");
-            a.setAttribute("onclick","window.plugins.socialsharing.shareViaWhatsAppToPhone('1133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})");
-            /*$(a).on("click", function () {
-                window.plugins.socialsharing.shareViaWhatsAppToPhone('1133782513', 
-                    'Message via WhatsApp', 
+            a.setAttribute("class","button button-xxs button-round button-green-3d button-green");
+            $(a).on("click",{msg:msg[i]}, function (e) {
+                //window.alert(e.data.msg.celular_completo);
+                window.plugins.socialsharing.shareViaWhatsAppToPhone(e.data.msg.celular_completo, 
+                    e.data.msg.mensaje, 
                     null, 
                     null,
-                    function() {console.log('share ok')}
+                    function() {traerMensajesPendientes();}//aca deberia guardar el nuevo estado del msg y despues refrescar
                 )
-            });*/
+            });
             td.appendChild(a);
 
             a = document.createElement("span");
             a.appendChild(document.createTextNode("Rechazar"));
-            a.setAttribute("class","button button-round button-green-3d button-red");
+            a.setAttribute("class","button button-xxs button-round button-green-3d button-red");
             td.appendChild(a);
 
 

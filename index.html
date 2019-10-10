@@ -164,8 +164,12 @@
     <div class="page-bg gradient-body-1"></div>
 	<div class="page-content sheader-clear-larger" style="margin-top:10px;">
 
-        <div class="content-boxed bg-white">
-            
+
+<div id="tablaMensajes" class="content-box content-box-full bottom-0" style=""> <div class="content-box content-box-full bottom-0"><table class="table-borders-dark top-15 bottom-30 round-element bg-white shadow-large"><tbody><tr><th>Nombre</th><th>Tipo</th><th>Acciones</th></tr><tr><td>Daniel, Coletti</td><td>5491149373790</td><td><span class="button button-round button-green-3d button-green" onclick="window.plugins.socialsharing.shareViaWhatsAppToPhone('1133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})">Enviar</span><span class="button button-round button-green-3d button-red">Rechazar</span></td></tr><tr><td>juan sebastian, romero</td><td>5491133782513</td><td><span class="button button-round button-green-3d button-green" onclick="window.plugins.socialsharing.shareViaWhatsAppToPhone('+541133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})">Enviar</span><span class="button button-round button-green-3d button-red">Rechazar</span></td></tr><tr><td>juan sebastian, romero</td><td>5491133782513</td><td><span class="button button-round button-green-3d button-green" onclick="window.plugins.socialsharing.shareViaWhatsAppToPhone('5491133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})">Enviar</span><span class="button button-round button-green-3d button-red">Rechazar</span></td></tr></tbody></table></div></div>
+
+
+        <!--div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div-->
+        <div class="content-boxed bg-white"id="body" style="display: none">
             <div class="decoration opacity-50 bottom-0"></div>
             <div>
                 <h1 class="center-text uppercase ultrabold">
@@ -425,6 +429,85 @@
             }
         });
     };
+    var dibujarTablaMensajes = function (msg) {
+        var i;
+        var div = document.createElement("div");
+        div.setAttribute("class","content-box content-box-full bottom-0");
+        var table = document.createElement("table");
+        table.setAttribute("class","table-borders-dark top-15 bottom-30 round-element bg-white shadow-large");
+        div.appendChild(table);
+        var tbody = document.createElement("tbody");
+        table.appendChild(tbody);
+        var tr = document.createElement("tr");
+        tbody.appendChild(tr);
+        $(tr).append("<th>Nombre</th><th>Tipo</th><th>Acciones</th>");
+        for(i = 0;i < msg.length; i += 1) {
+            m = msg[i];
+            trr = document.createElement("tr");
+
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode(m.cliente));
+            trr.appendChild(td);
+
+            td = document.createElement("td");
+            td.appendChild(document.createTextNode(m.celular_completo));
+            trr.appendChild(td);
+
+            td = document.createElement("td");
+            a = document.createElement("span");
+            a.appendChild(document.createTextNode("Enviar"));
+            a.setAttribute("class","button button-round button-green-3d button-green");
+            a.setAttribute("onclick","window.plugins.socialsharing.shareViaWhatsAppToPhone('1133782513', 'Mensaje de prueba desde app', null /* img */, null /* url */, function() {console.log('share ok')})");
+            /*$(a).on("click", function () {
+                window.plugins.socialsharing.shareViaWhatsAppToPhone('1133782513', 
+                    'Message via WhatsApp', 
+                    null, 
+                    null,
+                    function() {console.log('share ok')}
+                )
+            });*/
+            td.appendChild(a);
+
+            a = document.createElement("span");
+            a.appendChild(document.createTextNode("Rechazar"));
+            a.setAttribute("class","button button-round button-green-3d button-red");
+            td.appendChild(a);
+
+
+            trr.appendChild(td);
+            tbody.appendChild(trr);
+        }
+        $("#tablaMensajes").html(" ");
+        $("#tablaMensajes").append(div);
+        $("#body").hide();
+        $("#tablaMensajes").show();
+    };
+    var traerMensajesPendientes = function () {
+        console.log("trayendo mensajes pendientes");
+        var data = {};
+        data.action="traerMensajesPorEstado";
+        data.e = traerOpcionSistema("mensaje_estado_id_pendiente");
+        data.c = store.idComercio;
+        $.ajax({
+            url: serverAPI,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                var data = JSON.parse(data);
+                var mensajes = [];
+                if (data.length > 0) {
+                    console.log("traje mensajes!");
+                    dibujarTablaMensajes(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log("problemas revisando opciones de sistema");
+            },
+            beforeSend: function(request) { // Set JWT header
+                request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+            }
+        });
+    };
     var revisarNotificaciones = function () {
         console.log("revisando");
         if (store.JWT.length < 1) {
@@ -448,15 +531,11 @@
                                 titulo: traerOpcionSistema("app_notificacion_pendientes_titulo"),
                                 texto: traerOpcionSistema("app_notificacion_pendientes_texto"),
                                 click: function () {
-                                    window.alert("mostrar listado");
+                                    traerMensajesPendientes();
+                                    //window.alert("mostrar listado");
                                 }
                             });
-                        }
-                /*opt.tag <id notificacion>
-                opt.titulo <titulo>
-                opt.cuerpo <texto cuerpo>
-                opt.click <callback evento click>
-                opt.icono <icono a mostrar>*/               
+                        }               
                         $("#i_campana").addClass("faa-ring");
                         $("#i_campana").removeClass("apagar");
                     } else {

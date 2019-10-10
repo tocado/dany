@@ -269,7 +269,7 @@
     var logueado = false;
     //var Connection = navigator.connection;
     //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    var serverAPI="http://192.168.2.169/exdec/api/";
+    var serverAPI="http://localhost/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -284,15 +284,18 @@
         this.JWT = "";
         this.idComercio = "";
         this.u = "";
+        this.tagNotificacion = "";
         logueado = false;
     };
     var crearNotificacion = function (opt) {
-        /*
-        opt.tag <id notificacion>
-        opt.titulo <titulo>
-        opt.cuerpo <texto cuerpo>
-        opt.click <callback evento click>
-        opt.icono <icono a mostrar>
+        /**
+         * @opt  {object}
+                opt.tag <id notificacion>
+                opt.titulo <titulo>
+                opt.cuerpo <texto cuerpo>
+                opt.click <callback evento click>
+                opt.icono <icono a mostrar>
+         * @return muestra una notificacion
          */
         if ("Notification" in window) {
             Notification.requestPermission(function (permission) {
@@ -324,6 +327,7 @@
 
     document.addEventListener('deviceready', deviceReady, false);
     $(function () {
+        popularOpcionesSistema();
         window.setInterval(revisarNotificaciones,10000);//10 segundos
         $("#b_logout").on("click",function () {
             store.u = "";
@@ -332,6 +336,7 @@
             store.JWT = "";
             window.localStorage.u = "";
             window.localStorage.p = "";
+            store.clear();
             procesarLoginDeLocal();
         });
        /* $("#i_campana").on("click", function () {
@@ -393,22 +398,65 @@
             $('#menu-settings').toggleClass('active-menu-box-full');
         }
     });
-    var revisarNotificaciones = function () {
-        console.log("revisando");
-        if (store.JWT.length < 1) {
-            return false;
+    var traerOpcionSistema = function (op) {
+        opcion = store.opcionesSistema.find(function (e) {return e.nombre == op});
+        if (opcion != undefined) {
+            return opcion.valor;
+        } else {
+            return opcion;
         }
+    };
+    var popularOpcionesSistema = function () {
+        console.log("revisando opciones de sistema");
         var data = {};
-        data.action="list";
-        data.object="mensajespendientes";
+        data.action="traerOpcionesSistema";
         $.ajax({
             url: serverAPI,
             type: "POST",
             data: data,
             success: function(data, status, xhr) {
                 var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
-                if (data.success) {
-                    if (data.mensaje.length > 0) {
+                if (JSON.parse(data).length > 0) {
+                    store.opcionesSistema = JSON.parse(data);
+                }
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log("problemas revisando opciones de sistema");
+            }
+        });
+    };
+    var revisarNotificaciones = function () {
+        console.log("revisando");
+        if (store.JWT.length < 1) {
+            return false;
+        }
+        var data = {};
+        data.action="traerCantidadMensajesPendientes";
+        data.comercio_id=store.idComercio;
+        $.ajax({
+            url: serverAPI,
+            type: "POST",
+            data: data,
+            success: function(data, status, xhr) {
+                var out = (data && typeof data === 'object') ? JSON.stringify(data) : data;
+                if (data.cantidad) {
+                    if (parseInt(data.cantidad,10) > 0) {
+                        if (store.tagNotificacion == undefined || store.tagNotificacion.length < 1) {
+                            store.tagNotificacion = "pendientes";
+                            crearNotificacion({
+                                tag: store.tagNotificacion,
+                                titulo: traerOpcionSistema("app_notificacion_pendientes_titulo"),
+                                texto: traerOpcionSistema("app_notificacion_pendientes_texto"),
+                                click: function () {
+                                    window.alert("mostrar listado");
+                                }
+                            });
+                        }
+                /*opt.tag <id notificacion>
+                opt.titulo <titulo>
+                opt.cuerpo <texto cuerpo>
+                opt.click <callback evento click>
+                opt.icono <icono a mostrar>*/               
                         $("#i_campana").addClass("faa-ring");
                         $("#i_campana").removeClass("apagar");
                     } else {

@@ -269,7 +269,7 @@
     var logueado = false;
     //var Connection = navigator.connection;
     //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-    var serverAPI="http://localhost/exdec/api/";
+    var serverAPI="http://192.168.2.169/exdec/api/";
     var store = store || {};
     /*
      * Store JWT
@@ -286,7 +286,32 @@
         this.u = "";
         logueado = false;
     };
-
+    var crearNotificacion = function (opt) {
+        /*
+        opt.tag <id notificacion>
+        opt.titulo <titulo>
+        opt.cuerpo <texto cuerpo>
+        opt.click <callback evento click>
+        opt.icono <icono a mostrar>
+         */
+        if ("Notification" in window) {
+            Notification.requestPermission(function (permission) {
+                // If the user accepts, let’s create a notification
+                if (permission === "granted") {
+                    var notification = new Notification(opt.titulo, {
+                        tag: opt.tag, 
+                        body: opt.cuerpo,
+                        icon: opt.icono
+                    }); 
+                    notification.onshow  = function() { console.log('show'); };
+                    notification.onclose = function() { console.log('close'); };
+                    notification.onclick = opt.click;
+                }
+            });
+        } else {
+            window.alert("no tengo notification");
+        }
+    };
     var deviceReady = function(){
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
@@ -295,24 +320,6 @@
         procesarLoginDeLocal();
         document.addEventListener("online", cambioDeConexion, false);
         document.addEventListener("offline", cambioDeConexion, false);
-
-        if ("Notification" in window) {
-            Notification.requestPermission(function (permission) {
-                // If the user accepts, let’s create a notification
-                if (permission === "granted") {
-                    var notification = new Notification("Titulo", {
-                        tag: 'Tag Mensaje', 
-                        body: "Cuerpo de Mensaje blah blah blah 10000 mensajes pendientes"
-                    }); 
-                    notification.onshow  = function() { console.log('show'); };
-                    notification.onclose = function() { console.log('close'); };
-                    notification.onclick = function() { document.write("clickeado"); };
-                }
-            });
-        } else {
-            window.alert("no tengo notification");
-        }
-
     }
 
     document.addEventListener('deviceready', deviceReady, false);
@@ -393,7 +400,7 @@
         }
         var data = {};
         data.action="list";
-        data.object="mensaje";
+        data.object="mensajespendientes";
         $.ajax({
             url: serverAPI,
             type: "POST",

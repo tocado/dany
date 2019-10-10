@@ -319,7 +319,7 @@
             window.alert("no tengo notification");
         }
     };
-    var deviceReady = function(){
+ /*   var deviceReady = function(){
         if(window.MobileAccessibility){
             window.MobileAccessibility.usePreferredTextZoom(false);
         }
@@ -343,10 +343,7 @@
             store.clear();
             procesarLoginDeLocal();
         });
-       /* $("#i_campana").on("click", function () {
-            $(this).toggleClass("faa-ring");
-            $(this).toggleClass("apagar");
-        });*/
+
         $("#i_telefono").focus();
         $("#i_telefono").keyup(function (e) {
             leng = $(this).val().length;
@@ -401,7 +398,7 @@
         } else {
             $('#menu-settings').toggleClass('active-menu-box-full');
         }
-    });
+    });*/
     var traerOpcionSistema = function (op) {
         opcion = store.opcionesSistema.find(function (e) {return e.nombre == op});
         if (opcion != undefined) {

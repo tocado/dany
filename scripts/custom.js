@@ -870,7 +870,9 @@ var logueado = false;
 //var Connection = navigator.connection;
 //var serverAPI="http://exdec.trans-ti.com/exdec/api/";
 //var serverAPI="http://panel.micomunidad.com.ar/api/";
-var serverAPI="http://192.168.100.9:8080/exdec/api/";
+var serverREMOTE = "http://192.168.100.9:8080/exdec/";
+var serverAPI=serverREMOTE + "api/";
+
 var store = store || {};
 /*
  * Store JWT
@@ -928,6 +930,7 @@ var deviceReady = function(){
 
 document.addEventListener('deviceready', deviceReady, false);
 $(function () {
+	dibujarLogin();
     popularOpcionesSistema();
     window.setInterval(revisarNotificaciones,10000);//10 segundos
     $("#b_logout").on("click",function () {
@@ -991,12 +994,159 @@ $(function () {
             procesarLogin();
         }
     });
+    $("#b_registracion").on("click",function () {
+    	dibujarRegistro();
+    });
     if (window.localStorage.u.length > 0) {
         procesarLoginDeLocal();
     } else {
-        $('#menu-settings').toggleClass('active-menu-box-full');
+        $('#menu-login').toggleClass('active-menu-box-full');
     }
 });
+var dibujarLogin = function () {
+	var login = `
+        <div class="page-bg gradient-body-1">
+            <div class="cover-content-center">
+                <div class="page-login bg-white top-0">
+                    <img class="preload-image login-bg shadow-large responsive-image bottom-0" src="images/pictures/9w.jpg" data-src="images/pictures/9w.jpg" alt="img">
+                    <img class="preload-image login-image shadow-icon-large" src="images/pictures/0s.png" data-src="images/pictures/0s.png" alt="img">
+                    <div class="content bottom-0">
+                        <h3 class="uppercase ultrabold top-10 bottom-0">Ingreso</h3>
+                        <p class="smaller-text bottom-15 text-red" id="e_mensaje_login"></p>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-user"></i>
+                            <input type="text" id="u_usuario" placeholder="Usuario">
+                            <em>(requerido)</em>
+                        </div>
+                        <div class="page-login-field bottom-20">
+                            <i class="fa fa-lock"></i>
+                            <input type="password" id="p_pass" placeholder="Contraseña">
+                            <em>(requerido)</em>
+                        </div>
+                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="b_login">LOGIN</a>
+                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="b_registracion">REGISTRACION</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+ `;
+	//var login = " <div class=\"page-bg gradient-body-1\">\n            <div class=\"cover-content-center\">\n                <div class=\"page-login bg-white top-0\">\n                    <img class=\"preload-image login-bg shadow-large responsive-image bottom-0\" src=\"images/pictures/9w.jpg\" data-src=\"images/pictures/9w.jpg\" alt=\"img\">\n                    <img class=\"preload-image login-image shadow-icon-large\" src=\"images/pictures/0s.png\" data-src=\"images/pictures/0s.png\" alt=\"img\">\n                    <div class=\"content bottom-0\">\n                        <h3 class=\"uppercase ultrabold top-10 bottom-0\">Ingreso</h3>\n                        <p class=\"smaller-text bottom-15 text-red\" id=\"e_mensaje_login\"></p>\n                        <div class=\"page-login-field top-15\">\n                            <i class=\"fa fa-user\"></i>\n                            <input type=\"text\" id=\"u_usuario\" placeholder=\"Usuario\">\n                            <em>(requerido)</em>\n                        </div>\n                        <div class=\"page-login-field bottom-20\">\n                            <i class=\"fa fa-lock\"></i>\n                            <input type=\"password\" id=\"p_pass\" placeholder=\"Contrase\xF1a\">\n                            <em>(requerido)</em>\n                        </div>\n                        <a href=\"#\" class=\"button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold\" id=\"b_login\">LOGIN</a>\n                    </div>\n                </div>\n            </div>\n        </div>\n";	
+	$("#menu-login").html(login);
+};
+var dibujarRegistro = function () {
+	var login = `
+        <div class="page-bg gradient-body-1">
+            <div class="menu-scroll">
+                <div class="page-login bg-white top-0 ">
+                    <img class="preload-image login-bg shadow-large responsive-image bottom-0" src="images/pictures/9w.jpg" data-src="images/pictures/9w.jpg" alt="img">
+                    <img class="preload-image login-image shadow-icon-large" src="images/pictures/0s.png" data-src="images/pictures/0s.png" alt="img">
+                    <div class="content bottom-0">
+                        <h3 class="uppercase ultrabold top-10 bottom-0">Ingreso</h3>
+                        <p class="smaller-text bottom-15 text-red" id="e_mensaje_registro"></p>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-address-card"></i>
+                            <input type="text" id="r_nombre" placeholder="Nombre completo">
+                            <em>(requerido)</em>
+                        </div>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-map-marker"></i>
+                            <input type="text" id="r_direccion" placeholder="Direccion">
+                            <em>(requerido)</em>
+                        </div>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-at"></i>
+                            <input type="text" id="r_email" placeholder="Email">
+                            <em>(requerido)</em>
+                        </div>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-user"></i>
+                            <input type="text" id="r_usuario" placeholder="Usuario">
+                            <em>(requerido)</em>
+                        </div>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-lock"></i>
+                            <input type="password" id="r_pass" placeholder="Contraseña">
+                            <em>(requerido)</em>
+                        </div>
+                        <div class="page-login-field top-15">
+                            <i class="fa fa-lock"></i>
+                            <input type="password" id="r_pass2" placeholder="Contraseña (Repetir)">
+                            <em>(requerido)</em>
+                        </div>
+                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="b_registrar">REGISTRACION</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+ `;
+	$("#menu-registracion").html(login);
+    $('#menu-registracion').show();
+    $('#menu-login').hide();
+	$("#b_registrar").on("click",function () {
+		validarRegistro(function() {
+			traerTokenRegistro(enviarRegistracion)
+		});
+	});    
+};
+var marcarErrorRegistro = function (obj) {
+	obj.o.next().css("color","red");
+	obj.o.next().text(obj.texto);
+};
+var limpiarErrorRegistro = function (obj) {
+	obj.o.next().css("color","#cacaca");
+};
+
+var validarRegistro = function (cb) {
+	var errores = [];
+	if ($("#r_nombre").val().length < 4) {
+		errores.push(1);
+		marcarErrorRegistro({o:$("#r_nombre"),texto:"Nombre demasiado corto"});
+	} else {
+		limpiarErrorRegistro({o:$("#r_nombre")});
+	}
+
+	if ($("#r_direccion").val().length < 6) {
+		errores.push(1);
+		marcarErrorRegistro({o:$("#r_direccion"),texto:"Direccion demasiado corta"});
+	} else {
+		limpiarErrorRegistro({o:$("#r_direccion")});
+	}
+
+	var regex = /^([a-zA-Z0-9_.+-])+\@(([a-zA-Z0-9-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	if ($("#r_email").val().length < 7 || !regex.test($("#r_email").val())) {
+		errores.push(1);
+		marcarErrorRegistro({o:$("#r_email"),texto:"Email Invalido"});
+	} else {
+		limpiarErrorRegistro({o:$("#r_email")});
+	}
+
+	if ($("#r_usuario").val().length < 4) {
+		errores.push(1);
+		marcarErrorRegistro({o:$("#r_usuario"),texto:"Usuario demasiado corto"});
+	} else {
+		limpiarErrorRegistro({o:$("#r_usuario")});
+	}
+
+	if ($("#r_pass").val().length < 6) {
+		errores.push(1);
+		marcarErrorRegistro({o:$("#r_pass"),texto:"Contraseña demasiado corta"});
+	} else {
+		limpiarErrorRegistro({o:$("#r_pass")});
+	}
+
+	if ($("#r_pass2").val() != $("#r_pass").val()) {
+		errores.push(1);
+		marcarErrorRegistro({o:$("#r_pass2"),texto:"Las contraseñas no coinciden"});
+	} else {
+		limpiarErrorRegistro({o:$("#r_pass2")});
+	}
+
+	if (errores.length < 1) {
+		cb();
+	} else {
+		window.alert("Se encontraron errores");
+	}
+}
 var traerOpcionSistema = function (op) {
     opcion = store.opcionesSistema.find(function (e) {return e.nombre == op});
     if (opcion != undefined) {
@@ -1174,7 +1324,7 @@ var revisarNotificaciones = function () {
 var traerIdClienteTelefono = function (t) {
     if (store.idComercio.length < 1) {
         store.clear();
-        $('#menu-settings').toggleClass('active-menu-box-full');
+        $('#menu-login').toggleClass('active-menu-box-full');
         alert("no tengo id de Comercio!");
         return false;
     }
@@ -1211,7 +1361,7 @@ var traerIdClienteTelefono = function (t) {
 var traerIdClienteDNI = function (d) {
     if (store.idComercio.length < 1) {
         store.clear();
-        $('#menu-settings').toggleClass('active-menu-box-full');
+        $('#menu-login').toggleClass('active-menu-box-full');
         alert("no tengo id de Comercio!");
         return false;
     }
@@ -1389,7 +1539,7 @@ var procesarCarga = function () {
     }
     if (!store.JWT || store.JWT.length < 2) {
         store.clear();
-        $('#menu-settings').toggleClass('active-menu-box-full');
+        $('#menu-login').toggleClass('active-menu-box-full');
         return false;
     }
     //f es el form
@@ -1520,12 +1670,12 @@ var procesarLoginDeLocal = function () {
                 } else {
                     store.clear();
                     window.localStorage.u = "";
-                    $('#menu-settings').toggleClass('active-menu-box-full');
+                    $('#menu-login').toggleClass('active-menu-box-full');
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 store.clear();
-                $('#menu-settings').toggleClass('active-menu-box-full');
+                $('#menu-login').toggleClass('active-menu-box-full');
             },
             beforeSend: function(request) { // Set JWT header
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -1533,14 +1683,14 @@ var procesarLoginDeLocal = function () {
         });
     }).fail(function(xhr, status, error) {
         store.clear();
-        $('#menu-settings').toggleClass('active-menu-box-full');
+        $('#menu-login').toggleClass('active-menu-box-full');
     });
     return false;        
 }
 var traerTokenRegistro = function (cb) {
 	$.ajax({
 	        type:"get",
-	        url:"http://localhost/exdec/register.php",
+	        url:serverREMOTE+"register.php",
 	        success: function (x,d) {
 	                x=$(x);
 	                token = x.find("input[name=\"token\"]").val();
@@ -1548,4 +1698,30 @@ var traerTokenRegistro = function (cb) {
 	        }
 	});
 	return true;
+}
+var enviarRegistracion = function (token) {
+	var data = {
+		token: token,
+		modal: 0,
+		t: "comercio",
+		action: "insert",
+		x_nombre: $("#r_nombre").val(),
+		x_direccion: $("#r_direccion").val(),
+		x_nombre_remitente: $("#r_nombre").val(),
+		x__email: $("#r_email").val(),
+		x_nombre_owner: $("#r_nombre").val(),
+		x_user: $("#r_usuario").val(),
+		x_pass: $("#r_pass").val(),
+		c_pass: $("#r_pass").val()
+	};
+	$.ajax({
+	        type:"post",
+	        data:data,
+	        url:serverREMOTE+"register.php",
+	        success: function (x,d) {
+				window.alert("registrado correctamente");
+                $('#menu-registracion').hide();
+				$('#menu-login').show();
+	        }
+	});
 }

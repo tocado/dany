@@ -867,10 +867,9 @@ $(document).ready(function(){
 });
 
 var logueado = false;
-//var Connection = navigator.connection;
-//var serverAPI="http://exdec.trans-ti.com/exdec/api/";
-//var serverAPI="http://panel.micomunidad.com.ar/api/";
-var serverREMOTE = "http://192.168.100.9:8080/exdec/";
+//var serverREMOTE = "http://192.168.100.9:8080/exdec/";
+var serverREMOTE = "http://panel.micomunidad.com.ar/";
+
 var serverAPI=serverREMOTE + "api/";
 
 var store = store || {};

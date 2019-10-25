@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
 <title>TRANS-TI | Negocios</title>
-<script type="text/javascript" src="cordova.js"></script>
+<!--script type="text/javascript" src="cordova.js"></script-->
 <link rel="stylesheet" type="text/css" href="styles/style.css">
 <link rel="stylesheet" type="text/css" href="fonts/css/fontawesome-all.min.css">
 <link rel="stylesheet" type="text/css" href="styles/framework.css">
@@ -24,12 +24,25 @@
     <div class="page-bg gradient-body-1"></div>
     <div class="header shadow-large header-light header-logo-app">
         <a href="index.html" class="header-logo"></a>
-        <a href="#" class="header-icon header-icon-1"><i class="fas fa-bars"></i></a>
+        <a href="#" data-menu="menu-1" data-menu-type="menu-sidebar-left-push" class="header-icon header-icon-1"><i class="fas fa-bars"></i></a>
         <a href="#" class="header-icon header-icon-2"><i id="b_logout" class="fas fa-sign-out-alt fa-2x"></i></a>
-        <a href="#" class="header-icon header-icon-3"><i id="i_campana" class="fa fa-bell fa-2x"></i></a>
-        <a href="#" class="header-icon header-icon-4"><i class="fas fa-cog fa-spin font-12"></i></a>
+        <a href="#" class="header-icon header-icon-3"><i id="i_campana" style="display:none" class="fa fa-bell fa-2x"></i></a>
     </div>
-
+    <div id="menu-1" class="menu menu-sidebar-left menu-settings">
+        <div class="menu-bg gradient-body-1"></div>
+        <div class="menu-scroll">
+            <div class="menu-header">
+                <a class="menu-logo" href="index.html"></a>
+                <h1>Bienvenidos</h1>
+                <p>Comercio</p>
+            </div>
+            <div class="menu-list icon-background-active">
+                <em class="menu-divider top-10">Navegacion</em>
+                <a href="#" class="menu-item" id="m_cargaclientes"><i  class="fa gradient-red-light fa-upload"></i>Carga de clientes</a>
+                <a href="#" class="menu-item active-menu"  id="m_listadoclientes"><i class="fa gradient-green-light fa-list"></i>Listado de Clientes</a>
+            </div>
+        </div>
+    </div>
 	<div class="page-content sheader-clear-larger" style="margin-top:60px;">
 
         <div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div>
@@ -94,7 +107,7 @@
         </div>
      
     </div>
-    <div class="menu menu-scroll" id="menu-registracion"></div>
+    <div id="menu-registracion"></div>
 
     <div class="menu menu-box-full shadow-large" id="menu-login"></div>
     <a href="#" class="back-to-top-badge back-to-top-small shadow-large bg-blue-dark"><i class="fa fa-angle-up"></i>Back to Top</a>

@@ -867,8 +867,8 @@ $(document).ready(function(){
 });
 
 var logueado = false;
-//var serverREMOTE = "http://192.168.100.9:8080/exdec/";
-var serverREMOTE = "http://panel.micomunidad.com.ar/";
+var serverREMOTE = "http://192.168.100.9:8080/exdec/";
+//var serverREMOTE = "http://panel.micomunidad.com.ar/";
 
 var serverAPI=serverREMOTE + "api/";
 
@@ -1135,7 +1135,7 @@ var dibujarEditar = function (c) {
                         </div>
                         <div class="page-login-field top-15">
                             <i class="fa fa-phone"></i>
-                            <input type="text" value="`+c.celular+`" id="c_telefono" placeholder="Telefono">
+                            <input type="text" value="`+c.celular+`" id="c_celular" placeholder="Telefono">
                             <em>(requerido)</em>
                         </div>
                         <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="c_agregar">Agregar</a>
@@ -1153,7 +1153,7 @@ var dibujarEditar = function (c) {
 		var c = {
 			nombre: $("#c_nombre").val(),
 			apellido: $("#c_apellido").val(),
-			telefono: $("#c_telefono").val(),
+			celular: $("#c_celular").val(),
 			dni: $("#c_dni").val(),
 			id: $("#c_id").val()
 		};

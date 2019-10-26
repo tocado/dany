@@ -1387,6 +1387,10 @@ var traerOpcionSistema = function (op) {
 };
 var popularOpcionesSistema = function () {
     console.log("revisando opciones de sistema");
+    if (!window.localStorage.u) {
+        store.clear();
+        $('#menu-login').toggleClass('active-menu-box-full');
+    }    
     var data = {};
     data.action="traerOpcionesSistema";
     $.ajax({

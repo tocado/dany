@@ -997,14 +997,14 @@ $(function () {
 		console.log("si apreta en registrar, dibuja la registracion");
     	dibujarRegistro();
     });
-    if (window.localStorage.u) {
+    /*if (window.localStorage.u) {
 		console.log("si el localStorage tiene un parametro u tonz procesaLoginDeLocal");
         $('#menu-login').hide();
         procesarLoginDeLocal();
     } else {
 		console.log("si el localStorage NO tiene un parametro u tonz procesaLoginDeLocal");
         $('#menu-login').show();
-    }
+    }*/
     $("#b_logout").on("click",function () {
 		console.log("click en logout, limpia todo");
         store.u = "";
@@ -1388,11 +1388,8 @@ var traerOpcionSistema = function (op) {
 };
 var popularOpcionesSistema = function () {
     console.log("revisando opciones de sistema");
-    if (!window.localStorage.u) {
-        store.clear();
-        $('#menu-login').show();
-    } else {
-        $('#menu-login').hide();
+    if (!comprobarExisteSesion()) {
+    	prenderLogin();
     }
     var data = {};
     data.action="traerOpcionesSistema";
@@ -1777,11 +1774,11 @@ var procesarCarga = function () {
         $("#i_telefono").focus();
         return false;
     }
-    if (!store.JWT || store.JWT.length < 2) {
+    /*if (!store.JWT || store.JWT.length < 2) {
         store.clear();
         $('#menu-login').show();
         return false;
-    }
+    }*/
     //f es el form
     
     if (parseInt(store.tmp_cliente_id) === 0) {
@@ -1965,4 +1962,16 @@ var enviarRegistracion = function (token) {
 				$('#menu-login').show();
 	        }
 	});
+};
+var prenderLogin = function () {
+	$("#menu-login").show();
 }
+var apagarLogin = function () {
+	$("#menu-login").hide();
+}
+var comprobarExisteSesion = function () {
+	if (!window.localStorage.u) {
+		return false;
+	}
+	return true;
+};

@@ -918,6 +918,7 @@ var crearNotificacion = function (opt) {
     }
 };
 var deviceReady = function(){
+	console.log("deviceready");
     if(window.MobileAccessibility){
         window.MobileAccessibility.usePreferredTextZoom(false);
     }
@@ -929,6 +930,7 @@ var deviceReady = function(){
 
 document.addEventListener('deviceready', deviceReady, false);
 $(function () {
+	console.log("onload Inicial");
 	dibujarLogin();
     popularOpcionesSistema();
     window.setInterval(revisarNotificaciones,10000);//10 segundos
@@ -937,12 +939,14 @@ $(function () {
     $("#i_telefono").keyup(function (e) {
         leng = $(this).val().length;
         if (e.which == 13 || leng > 7) {
+    		console.log("detecto el enter en el telefono y paso a monto");
             $("#i_monto").focus();
         }
     });
     $("#i_dni").keyup(function (e) {
         leng = $(this).val().length;
         if (e.which == 13 || leng > 7) {
+    		console.log("detecto el enter en el DNI y paso a monto");
             $("#i_monto").focus();
         }
     });
@@ -950,6 +954,7 @@ $(function () {
     $("#i_telefono").on("blur",function (e) {
         leng = $(this).val().length;
         if (e.which == 13 || leng > 7) {
+    		console.log("Blur en el telefono y traigo el id de cliente");
             var telefono = $("#i_area").val()+''+$(this).val();
             traerIdClienteTelefono(telefono);
         }
@@ -958,6 +963,7 @@ $(function () {
     $("#i_dni").on("blur",function (e) {
         leng = $(this).val().length;
         if (e.which == 13 || leng > 7) {
+    		console.log("Blur en el DNI y traigo el id de cliente");
             var dni = $(this).val();
             traerIdClienteDNI(dni);
         }
@@ -965,32 +971,41 @@ $(function () {
 
     $("#i_monto").keyup(function (e) {
         if (e.which == 13) {
+    		console.log("enter en el monto y proceso la carga");
             procesarCarga();
         }
     });
     $("#b_cargar").click(function () {
+		console.log("click en carga y proceso la carga");
         procesarCarga();
     });
     $("#b_login").click(function () {
+		console.log("click en login y proceso login");
         procesarLogin();
     });
     $("#b_abrirLogin").click(function () {
+		console.log("hago foco en el usuario inmediatamente despues de hacer un click en abrirLogin (¿?)");
         $("#u_usuario").focus();
     });
     $("#p_pass,#u_usuario").keyup(function (e) {
         if (e.which == 13) {
+			console.log("si apreta enter en el login o pass, procesa login");
             procesarLogin();
         }
     });
     $("#b_registracion").on("click",function () {
+		console.log("si apreta en registrar, dibuja la registracion");
     	dibujarRegistro();
     });
     if (window.localStorage.u.length > 0) {
+		console.log("si el localStorage tiene un parametro u tonz procesaLoginDeLocal");
         procesarLoginDeLocal();
     } else {
+		console.log("si el localStorage NO tiene un parametro u tonz procesaLoginDeLocal");
         $('#menu-login').toggleClass('active-menu-box-full');
     }
     $("#b_logout").on("click",function () {
+		console.log("click en logout, limpia todo");
         store.u = "";
         store.p = "";
         store.idComercio ="";
@@ -1004,10 +1019,12 @@ $(function () {
 	$("#menu-registracion").hide();
 
 	$("#m_listadoclientes").on("click", function () {
+		console.log("click en listado de clientes");
 		cerrarMenu();
 		traerClientes(dibujarClientes);
 	});
 	$("#m_cargaclientes").on("click", function () {
+		console.log("click en editar de cliente vacío");
 		cerrarMenu();
 		editarCliente({});
 	});
@@ -1476,9 +1493,9 @@ var traerMensajesPendientes = function () {
     });
 };
 var revisarNotificaciones = function () {
-    if (store.JWT.length < 1) {
-        return false;
+    if (!store.JWT) {
         console.log("no tengo session, no reviso");
+        return false;
     }
     console.log("revisando");
     var data = {};

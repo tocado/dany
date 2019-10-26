@@ -923,7 +923,6 @@ var deviceReady = function(){
         window.MobileAccessibility.usePreferredTextZoom(false);
     }
     $("#i_telefono").focus();
-    procesarLoginDeLocal();
     document.addEventListener("online", cambioDeConexion, false);
     document.addEventListener("offline", cambioDeConexion, false);
 }
@@ -1383,6 +1382,7 @@ var popularOpcionesSistema = function () {
     if (!comprobarExisteSesion()) {
     	prenderLogin();
     }else {
+		procesarLoginDeLocal();
     	apagarLogin();
     }
     var data = {};

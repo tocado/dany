@@ -997,7 +997,7 @@ $(function () {
 		console.log("si apreta en registrar, dibuja la registracion");
     	dibujarRegistro();
     });
-    if (window.localStorage.u.length > 0) {
+    if (!window.localStorage.u) {
 		console.log("si el localStorage tiene un parametro u tonz procesaLoginDeLocal");
         procesarLoginDeLocal();
     } else {

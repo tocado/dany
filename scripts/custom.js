@@ -997,14 +997,6 @@ $(function () {
 		console.log("si apreta en registrar, dibuja la registracion");
     	dibujarRegistro();
     });
-    /*if (window.localStorage.u) {
-		console.log("si el localStorage tiene un parametro u tonz procesaLoginDeLocal");
-        $('#menu-login').hide();
-        procesarLoginDeLocal();
-    } else {
-		console.log("si el localStorage NO tiene un parametro u tonz procesaLoginDeLocal");
-        $('#menu-login').show();
-    }*/
     $("#b_logout").on("click",function () {
 		console.log("click en logout, limpia todo");
         store.u = "";
@@ -1166,7 +1158,7 @@ var dibujarEditar = function (c) {
 	$("#menu-registracion").html(edicion);
 	$("#menu-registracion").addClass("menu menu-scroll");
     $('#menu-registracion').show();
-    $('#menu-login').hide();
+    apagarLogin();
 	$("#c_agregar").on("click",function () {
 		var c = {
 			nombre: $("#c_nombre").val(),
@@ -1180,7 +1172,7 @@ var dibujarEditar = function (c) {
 	$("#c_volver").on("click", function () {
         $('#menu-registracion').hide();
         $("#menu-registracion").removeClass("menu menu-scroll");
-		$('#menu-login').show();
+		prenderLogin();
 	});
 };
 var validarRegistroAltaCliente = function (c,cb) {
@@ -1212,7 +1204,7 @@ var enviarCliente = function (c) {
             window.alert("cliente guardado");
 	        $('#menu-registracion').hide();
 	        $("#menu-registracion").removeClass("menu menu-scroll");
-			$('#menu-login').show();
+			prenderLogin();
 			traerClientes(dibujarClientes);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -1220,7 +1212,7 @@ var enviarCliente = function (c) {
             window.alert("problemas guardando el cliente");
 	        $('#menu-registracion').hide();
 	        $("#menu-registracion").removeClass("menu menu-scroll");
-			$('#menu-login').show();
+			prenderLogin();
         },
         beforeSend: function(request) { // Set JWT header
             request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -1277,7 +1269,7 @@ var dibujarRegistro = function () {
 	$("#menu-registracion").html(login);
 	$("#menu-registracion").addClass("menu menu-scroll");
     $('#menu-registracion').show();
-    $('#menu-login').hide();
+    apagarLogin();
 	$("#b_registrar").on("click",function () {
 		validarRegistro(function() {
 			traerTokenRegistro(enviarRegistracion)
@@ -1286,7 +1278,7 @@ var dibujarRegistro = function () {
 	$("#r_volver").on("click", function () {
         $('#menu-registracion').hide();
         $("#menu-registracion").removeClass("menu menu-scroll");
-		$('#menu-login').show();
+		prenderLogin();
 	});
 };
 var dibujarLogin = function () {
@@ -1390,6 +1382,8 @@ var popularOpcionesSistema = function () {
     console.log("revisando opciones de sistema");
     if (!comprobarExisteSesion()) {
     	prenderLogin();
+    }else {
+    	apagarLogin();
     }
     var data = {};
     data.action="traerOpcionesSistema";
@@ -1560,8 +1554,6 @@ var revisarNotificaciones = function () {
 };
 var traerIdClienteTelefono = function (t) {
     if (!store.idComercio) {
-        store.clear();
-        $('#menu-login').hide();
         alert("no tengo id de Comercio!");
         return false;
     }
@@ -1597,8 +1589,6 @@ var traerIdClienteTelefono = function (t) {
 
 var traerIdClienteDNI = function (d) {
     if (!store.idComercio) {
-        store.clear();
-        $('#menu-login').hide();
         alert("no tengo id de Comercio!");
         return false;
     }
@@ -1774,11 +1764,6 @@ var procesarCarga = function () {
         $("#i_telefono").focus();
         return false;
     }
-    /*if (!store.JWT || store.JWT.length < 2) {
-        store.clear();
-        $('#menu-login').show();
-        return false;
-    }*/
     //f es el form
     
     if (parseInt(store.tmp_cliente_id) === 0) {
@@ -1900,19 +1885,17 @@ var procesarLoginDeLocal = function () {
                     store.setIDComercio(data.comercio[0].id);
                     $("#u_usuario").val("");
                     $("#p_pass").val("");
-                    $("#i_ok_login").show();
-                    $("#i_no_login").hide();
                     revisarNotificaciones();//corrida inicial
                     traerFormasDePago();
                 } else {
                     store.clear();
                     window.localStorage.u = "";
-                    $('#menu-login').show();
+                    prenderLogin();
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 store.clear();
-                $('#menu-login').show();
+                prenderLogin();
             },
             beforeSend: function(request) { // Set JWT header
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -1920,7 +1903,7 @@ var procesarLoginDeLocal = function () {
         });
     }).fail(function(xhr, status, error) {
         store.clear();
-        $('#menu-login').show();
+        prenderLogin();
     });
     return false;        
 }
@@ -1959,7 +1942,7 @@ var enviarRegistracion = function (token) {
 				window.alert("registrado correctamente");
                 $('#menu-registracion').hide();
                 $("#menu-registracion").removeClass("menu menu-scroll");
-				$('#menu-login').show();
+				prenderLogin();
 	        }
 	});
 };

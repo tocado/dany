@@ -930,7 +930,6 @@ var deviceReady = function(){
 document.addEventListener('deviceready', deviceReady, false);
 $(function () {
 	console.log("onload Inicial");
-	dibujarLogin();
     popularOpcionesSistema();
     window.setInterval(revisarNotificaciones,10000);//10 segundos
 
@@ -1947,6 +1946,7 @@ var enviarRegistracion = function (token) {
 	});
 };
 var prenderLogin = function () {
+	dibujarLogin();
 	$("#menu-login").show();
 }
 var apagarLogin = function () {

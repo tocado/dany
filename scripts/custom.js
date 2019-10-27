@@ -1156,7 +1156,6 @@ var dibujarEditar = function (c) {
 	$("#menu-registracion").html(edicion);
 	$("#menu-registracion").addClass("menu menu-scroll");
     $('#menu-registracion').show();
-    apagarLogin();
 	$("#c_agregar").on("click",function () {
 		var c = {
 			nombre: $("#c_nombre").val(),
@@ -1267,7 +1266,6 @@ var dibujarRegistro = function () {
 	$("#menu-registracion").html(login);
 	$("#menu-registracion").addClass("menu menu-scroll");
     $('#menu-registracion').show();
-    apagarLogin();
 	$("#b_registrar").on("click",function () {
 		validarRegistro(function() {
 			traerTokenRegistro(enviarRegistracion)

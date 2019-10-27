@@ -1274,7 +1274,6 @@ var dibujarRegistro = function () {
 	$("#r_volver").on("click", function () {
         $('#menu-registracion').hide();
         $("#menu-registracion").removeClass("menu menu-scroll");
-		prenderLogin();
 	});
 };
 var dibujarLogin = function () {

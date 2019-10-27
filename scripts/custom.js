@@ -1947,9 +1947,11 @@ var enviarRegistracion = function (token) {
 };
 var prenderLogin = function () {
 	dibujarLogin();
+	$("#menu-login").addClass("active-menu-box-full");
 	$("#menu-login").show();
 }
 var apagarLogin = function () {
+	$("#menu-login").removeClass("active-menu-box-full");
 	$("#menu-login").hide();
 }
 var comprobarExisteSesion = function () {

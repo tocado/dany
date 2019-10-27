@@ -1002,7 +1002,7 @@ $(function () {
         procesarLoginDeLocal();
     } else {
 		console.log("si el localStorage NO tiene un parametro u tonz procesaLoginDeLocal");
-        $('#menu-login').toggleClass('active-menu-box-full');
+        $('#menu-login').show();
     }
     $("#b_logout").on("click",function () {
 		console.log("click en logout, limpia todo");
@@ -1389,7 +1389,7 @@ var popularOpcionesSistema = function () {
     console.log("revisando opciones de sistema");
     if (!window.localStorage.u) {
         store.clear();
-        $('#menu-login').toggleClass('active-menu-box-full');
+        $('#menu-login').hide();
     }    
     var data = {};
     data.action="traerOpcionesSistema";
@@ -1559,9 +1559,9 @@ var revisarNotificaciones = function () {
     });
 };
 var traerIdClienteTelefono = function (t) {
-    if (store.idComercio.length < 1) {
+    if (!store.idComercio) {
         store.clear();
-        $('#menu-login').toggleClass('active-menu-box-full');
+        $('#menu-login').hide();
         alert("no tengo id de Comercio!");
         return false;
     }
@@ -1596,9 +1596,9 @@ var traerIdClienteTelefono = function (t) {
 };
 
 var traerIdClienteDNI = function (d) {
-    if (store.idComercio.length < 1) {
+    if (!store.idComercio) {
         store.clear();
-        $('#menu-login').toggleClass('active-menu-box-full');
+        $('#menu-login').hide();
         alert("no tengo id de Comercio!");
         return false;
     }
@@ -1776,7 +1776,7 @@ var procesarCarga = function () {
     }
     if (!store.JWT || store.JWT.length < 2) {
         store.clear();
-        $('#menu-login').toggleClass('active-menu-box-full');
+        $('#menu-login').show();
         return false;
     }
     //f es el form
@@ -1907,12 +1907,12 @@ var procesarLoginDeLocal = function () {
                 } else {
                     store.clear();
                     window.localStorage.u = "";
-                    $('#menu-login').toggleClass('active-menu-box-full');
+                    $('#menu-login').show();
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 store.clear();
-                $('#menu-login').toggleClass('active-menu-box-full');
+                $('#menu-login').show();
             },
             beforeSend: function(request) { // Set JWT header
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -1920,7 +1920,7 @@ var procesarLoginDeLocal = function () {
         });
     }).fail(function(xhr, status, error) {
         store.clear();
-        $('#menu-login').toggleClass('active-menu-box-full');
+        $('#menu-login').show();
     });
     return false;        
 }

@@ -999,6 +999,7 @@ $(function () {
     });
     if (window.localStorage.u) {
 		console.log("si el localStorage tiene un parametro u tonz procesaLoginDeLocal");
+        $('#menu-login').hide();
         procesarLoginDeLocal();
     } else {
 		console.log("si el localStorage NO tiene un parametro u tonz procesaLoginDeLocal");
@@ -1389,8 +1390,10 @@ var popularOpcionesSistema = function () {
     console.log("revisando opciones de sistema");
     if (!window.localStorage.u) {
         store.clear();
+        $('#menu-login').show();
+    } else {
         $('#menu-login').hide();
-    }    
+    }
     var data = {};
     data.action="traerOpcionesSistema";
     $.ajax({

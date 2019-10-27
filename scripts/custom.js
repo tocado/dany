@@ -1947,9 +1947,9 @@ var enviarRegistracion = function (token) {
 };
 var prenderLogin = function () {
 	dibujarLogin();
-	//menu menu-box-full shadow-large active-menu-box-full
 	$("#menu-login").addClass("active-menu-box-full menu menu-scroll");
 	$("#menu-login").show();
+	$("#u_usuario").focus();	
 }
 var apagarLogin = function () {
 	$("#menu-login").removeClass("active-menu-box-full menu menu-scroll");

@@ -930,62 +930,9 @@ var deviceReady = function(){
 document.addEventListener('deviceready', deviceReady, false);
 $(function () {
 	console.log("onload Inicial");
+	dibujarPantallaCarga();
     popularOpcionesSistema();
     window.setInterval(revisarNotificaciones,10000);//10 segundos
-
-    $("#i_telefono").focus();
-    $("#i_telefono").keyup(function (e) {
-        leng = $(this).val().length;
-        if (e.which == 13 || leng > 7) {
-    		console.log("detecto el enter en el telefono y paso a monto");
-            $("#i_monto").focus();
-        }
-    });
-    $("#i_dni").keyup(function (e) {
-        leng = $(this).val().length;
-        if (e.which == 13 || leng > 7) {
-    		console.log("detecto el enter en el DNI y paso a monto");
-            $("#i_monto").focus();
-        }
-    });
-
-    $("#i_telefono").on("blur",function (e) {
-        leng = $(this).val().length;
-        if (e.which == 13 || leng > 7) {
-    		console.log("Blur en el telefono y traigo el id de cliente");
-            var telefono = $("#i_area").val()+''+$(this).val();
-            traerIdClienteTelefono(telefono);
-        }
-
-    });
-    $("#i_dni").on("blur",function (e) {
-        leng = $(this).val().length;
-        if (e.which == 13 || leng > 7) {
-    		console.log("Blur en el DNI y traigo el id de cliente");
-            var dni = $(this).val();
-            traerIdClienteDNI(dni);
-        }
-    });
-
-    $("#i_monto").keyup(function (e) {
-        if (e.which == 13) {
-    		console.log("enter en el monto y proceso la carga");
-            procesarCarga();
-        }
-    });
-    $("#b_cargar").click(function () {
-		console.log("click en carga y proceso la carga");
-        procesarCarga();
-    });
-
-    $("#b_abrirLogin").click(function () {
-		console.log("hago foco en el usuario inmediatamente despues de hacer un click en abrirLogin (¿?)");
-        $("#u_usuario").focus();
-    });
-    $("#b_registracion").on("click",function () {
-		console.log("si apreta en registrar, dibuja la registracion");
-    	dibujarRegistro();
-    });
     $("#b_logout").on("click",function () {
 		console.log("click en logout, limpia todo");
         store.u = "";
@@ -1035,6 +982,114 @@ var traerClientes = function (cb) {
             request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
         }
     });
+};
+var dibujarPantallaCarga = function () {
+	var pantalla = `        <div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div>
+        <div class="content-boxed bg-white"id="body">
+            <div class="decoration opacity-50 bottom-0"></div>
+            <div>
+                <h1 class="center-text uppercase ultrabold">
+                    Carga de datos</h1>
+                <p class="boxed-text-large bottom-20">
+                    <div class="content-box shadow-large bg-white" style="margin-left: auto;margin-right: auto;">
+                        <div class="top-25 bottom-30">
+                            <div class="input-simple-2 has-icon input-green bottom-30">
+                                <em style="display:block">Telefono</em>
+                                <input id="i_area" type="number" value="54911" placeholder="54911 para Argentina" style="width: 18%;display:inline">
+                                <input id="i_telefono" type="number" placeholder="Telefono sin 54911"style="width: 30%;display:inline;">
+                            </div>
+
+                                <fieldset style="border: 1px solid #000000;
+                                font-size: 11px;
+                                line-height: 11px;
+                                padding: 8px;
+                                position: absolute;
+                                width: 50%;
+                                top: 12%;
+                                left: 50%;
+                                height: 90px;">
+                                    <legend>Datos Cliente</legend>
+                                    <div style="border-bottom:1px solid black;text-align: center;">
+                                        <b id="l_nombre">-</b>
+                                    </div>
+                                    <div style="text-align: center;font-size: 29pt;top: 19px;">
+                                        <b id="l_puntos">-</b>
+                                    </div>
+
+
+                                </fieldset>
+
+                            <div class="input-simple-2 has-icon input-green bottom-30">
+                                <em>DNI</em>
+                                <input id="i_dni" type="number" placeholder="DNI" style="width: 47%;">
+                                <!--input id="i_dni" type="number" placeholder="DNI" style="width: 18%;display:inline"-->
+                                <!--select id="i_formapago" style="width: 18%;display:inline"><option>botones</option><option>morlacos</option></select-->
+                            </div>
+                            <div id="formasDePago">
+                            </div>
+                            <div class="input-simple-1 has-icon input-green bottom-30">
+                                <strong>Requerido</strong>
+                                <em>Monto</em>
+                                <input id="i_monto" type="number" placeholder="Monto">
+                            </div>
+
+                            <div id="rubros_list">
+
+                            </div>
+                            <h1 id="resultado" class="center-text uppercase ultrabold"></h1>
+                       </div>
+                   </div>
+                </p>
+                <a href="#" id="b_cargar" class="button button-round button-green button-center-large button-sm uppercase ultrabold shadow-icon-large">Carga de Compra</a>
+            </div>
+            <div class="decoration opacity-50 bottom-0"></div>
+        </div>`;
+
+    $("#i_telefono").focus();
+    $("#i_telefono").keyup(function (e) {
+        leng = $(this).val().length;
+        if (e.which == 13 || leng > 7) {
+    		console.log("detecto el enter en el telefono y paso a monto");
+            $("#i_monto").focus();
+        }
+    });
+    $("#i_dni").keyup(function (e) {
+        leng = $(this).val().length;
+        if (e.which == 13 || leng > 7) {
+    		console.log("detecto el enter en el DNI y paso a monto");
+            $("#i_monto").focus();
+        }
+    });
+
+    $("#i_telefono").on("blur",function (e) {
+        leng = $(this).val().length;
+        if (e.which == 13 || leng > 7) {
+    		console.log("Blur en el telefono y traigo el id de cliente");
+            var telefono = $("#i_area").val()+''+$(this).val();
+            traerIdClienteTelefono(telefono);
+        }
+
+    });
+    $("#i_dni").on("blur",function (e) {
+        leng = $(this).val().length;
+        if (e.which == 13 || leng > 7) {
+    		console.log("Blur en el DNI y traigo el id de cliente");
+            var dni = $(this).val();
+            traerIdClienteDNI(dni);
+        }
+    });
+
+    $("#i_monto").keyup(function (e) {
+        if (e.which == 13) {
+    		console.log("enter en el monto y proceso la carga");
+            procesarCarga();
+        }
+    });
+    $("#b_cargar").click(function () {
+		console.log("click en carga y proceso la carga");
+        procesarCarga();
+    });
+
 };
 var dibujarClientes = function (clientes) {
     var i;
@@ -1305,6 +1360,10 @@ var dibujarLogin = function () {
 			console.log("si apreta enter en el login o pass, procesa login");
             procesarLogin();
         }
+    });
+    $("#b_registracion").on("click",function () {
+		console.log("si apreta en registrar, dibuja la registracion");
+    	dibujarRegistro();
     });
 };
 var marcarErrorRegistro = function (obj) {

@@ -977,19 +977,10 @@ $(function () {
 		console.log("click en carga y proceso la carga");
         procesarCarga();
     });
-    $("#b_login").click(function () {
-		console.log("click en login y proceso login");
-        procesarLogin();
-    });
+
     $("#b_abrirLogin").click(function () {
 		console.log("hago foco en el usuario inmediatamente despues de hacer un click en abrirLogin (¿?)");
         $("#u_usuario").focus();
-    });
-    $("#p_pass,#u_usuario").keyup(function (e) {
-        if (e.which == 13) {
-			console.log("si apreta enter en el login o pass, procesa login");
-            procesarLogin();
-        }
     });
     $("#b_registracion").on("click",function () {
 		console.log("si apreta en registrar, dibuja la registracion");
@@ -1305,6 +1296,16 @@ var dibujarLogin = function () {
  `;
 	//var login = " <div class=\"page-bg gradient-body-1\">\n            <div class=\"cover-content-center\">\n                <div class=\"page-login bg-white top-0\">\n                    <img class=\"preload-image login-bg shadow-large responsive-image bottom-0\" src=\"images/pictures/9w.jpg\" data-src=\"images/pictures/9w.jpg\" alt=\"img\">\n                    <img class=\"preload-image login-image shadow-icon-large\" src=\"images/pictures/0s.png\" data-src=\"images/pictures/0s.png\" alt=\"img\">\n                    <div class=\"content bottom-0\">\n                        <h3 class=\"uppercase ultrabold top-10 bottom-0\">Ingreso</h3>\n                        <p class=\"smaller-text bottom-15 text-red\" id=\"e_mensaje_login\"></p>\n                        <div class=\"page-login-field top-15\">\n                            <i class=\"fa fa-user\"></i>\n                            <input type=\"text\" id=\"u_usuario\" placeholder=\"Usuario\">\n                            <em>(requerido)</em>\n                        </div>\n                        <div class=\"page-login-field bottom-20\">\n                            <i class=\"fa fa-lock\"></i>\n                            <input type=\"password\" id=\"p_pass\" placeholder=\"Contrase\xF1a\">\n                            <em>(requerido)</em>\n                        </div>\n                        <a href=\"#\" class=\"button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold\" id=\"b_login\">LOGIN</a>\n                    </div>\n                </div>\n            </div>\n        </div>\n";	
 	$("#menu-login").html(login);
+    $("#b_login").click(function () {
+		console.log("click en login y proceso login");
+        procesarLogin();
+    });
+    $("#p_pass,#u_usuario").keyup(function (e) {
+        if (e.which == 13) {
+			console.log("si apreta enter en el login o pass, procesa login");
+            procesarLogin();
+        }
+    });
 };
 var marcarErrorRegistro = function (obj) {
 	obj.o.next().css("color","red");

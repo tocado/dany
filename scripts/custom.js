@@ -1044,7 +1044,7 @@ var dibujarPantallaCarga = function () {
             </div>
             <div class="decoration opacity-50 bottom-0"></div>
         </div>`;
-
+	$("#pantalla_carga").html(pantalla);
     $("#i_telefono").focus();
     $("#i_telefono").keyup(function (e) {
         leng = $(this).val().length;

@@ -1302,8 +1302,10 @@ var dibujarRegistro = function () {
                             <input type="password" id="r_pass2" placeholder="Contraseña (Repetir)">
                             <em>(requerido)</em>
                         </div>
-                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="b_registrar">REGISTRARSE</a>
-                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="r_volver">VOLVER</a>
+                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" 
+                        	id="b_registrar">REGISTRARSE</a>
+                        <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" 
+                        	id="r_volver">VOLVER</a>
                     </div>
                 </div>
             </div>

@@ -1365,6 +1365,7 @@ var dibujarLogin = function () {
     });
     $("#b_registracion").on("click",function () {
 		console.log("si apreta en registrar, dibuja la registracion");
+		apagarLogin();
     	dibujarRegistro();
     });
 };

@@ -1216,7 +1216,6 @@ var dibujarEditar = function (c) {
 	$("#c_volver").on("click", function () {
         $('#menu-registracion').hide();
         $("#menu-registracion").removeClass("menu menu-scroll");
-		prenderLogin();
 	});
 };
 var validarRegistroAltaCliente = function (c,cb) {

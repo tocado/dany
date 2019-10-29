@@ -1247,7 +1247,6 @@ var enviarCliente = function (c) {
             window.alert("cliente guardado");
 	        $('#menu-registracion').hide();
 	        $("#menu-registracion").removeClass("menu menu-scroll");
-			prenderLogin();
 			traerClientes(dibujarClientes);
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -1255,7 +1254,6 @@ var enviarCliente = function (c) {
             window.alert("problemas guardando el cliente");
 	        $('#menu-registracion').hide();
 	        $("#menu-registracion").removeClass("menu menu-scroll");
-			prenderLogin();
         },
         beforeSend: function(request) { // Set JWT header
             request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);

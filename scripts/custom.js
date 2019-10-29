@@ -1139,7 +1139,7 @@ var dibujarClientes = function (clientes) {
 
         a = document.createElement("span");
         a.appendChild(document.createTextNode("Borrar"));
-        a.setAttribute("class","button button-xxs button-round button-green-3d button-red");
+        a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:m}, function (e) {
            	borrarCliente(e.data.msg.m);
         });
@@ -1150,6 +1150,7 @@ var dibujarClientes = function (clientes) {
         tbody.appendChild(trr);
     }
     $("#tablaMensajes").html(" ");
+
     $("#tablaMensajes").append(div);
     $("#body").hide();
     $("#tablaMensajes").show();

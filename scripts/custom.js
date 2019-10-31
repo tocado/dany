@@ -2,6 +2,31 @@ $(window).on('load',function(){
 	setTimeout(function(){$('#page-build').css('display','block');},25)
 	setTimeout(function(){$("#preloader").addClass('hide-preloader');},450);// will fade out the white DIV that covers the website.
 });
+var resize_coverpage = function(){
+	var cover_height = $(window).height();
+	var cover_width = $(window).width();
+	if($('.page-content-full').length > 0){
+		var header_height = "0";
+		$('.page-content, #page-transitions').css({"min-height": cover_height});
+	} else{
+		var header_height = "0";
+		$('.page-content, #page-transitions').css({"min-height": cover_height});
+	}
+	$('.cover-item').css({"height":(cover_height - header_height), "width":cover_width})
+	$('.cover-item-full').css({"margin-top": header_height * (-1), "height":cover_height, "width":cover_width})
+	$('.coverpage-full .cover-item').css({"height":cover_height, "width":cover_width});
+	$('.coverpage-full').css({"margin-top": header_height * (-1)});
+
+	$('.cover-content-center').each(function(){
+		var cover_content_center_height = $(this).innerHeight();
+		var cover_content_center_width = $(this).innerWidth();
+		$(this).css({"margin-left": (cover_content_center_width/2)*(-1), "margin-top": ((cover_content_center_height/2)*(-1)) })
+	});
+	$('.cover-content-center-full').each(function(){
+		var cover_content_center_height = $(this).innerHeight();
+		$(this).css({"margin-top": (cover_content_center_height/2)*(-1)})
+	});
+}
 var preloader_on = function () {
     setTimeout(function(){$('#page-build').css('display','none');},25)
     setTimeout(function(){$("#preloader").removeClass('hide-preloader');},450);
@@ -275,31 +300,6 @@ $(document).ready(function(){
 		setTimeout(function(){resize_coverpage();},301);
 		$(window).on('resize', function(){resize_coverpage();})
 
-		function resize_coverpage(){
-			var cover_height = $(window).height();
-			var cover_width = $(window).width();
-			if($('.page-content-full').length > 0){
-				var header_height = "0";
-				$('.page-content, #page-transitions').css({"min-height": cover_height});
-			} else{
-				var header_height = "0";
-				$('.page-content, #page-transitions').css({"min-height": cover_height});
-			}
-			$('.cover-item').css({"height":(cover_height - header_height), "width":cover_width})
-			$('.cover-item-full').css({"margin-top": header_height * (-1), "height":cover_height, "width":cover_width})
-			$('.coverpage-full .cover-item').css({"height":cover_height, "width":cover_width});
-			$('.coverpage-full').css({"margin-top": header_height * (-1)});
-
-			$('.cover-content-center').each(function(){
-				var cover_content_center_height = $(this).innerHeight();
-				var cover_content_center_width = $(this).innerWidth();
-				$(this).css({"margin-left": (cover_content_center_width/2)*(-1), "margin-top": ((cover_content_center_height/2)*(-1)) })
-			});
-			$('.cover-content-center-full').each(function(){
-				var cover_content_center_height = $(this).innerHeight();
-				$(this).css({"margin-top": (cover_content_center_height/2)*(-1)})
-			});
-		}
 
 		//Galleries
 		baguetteBox.run('.gallery', {});
@@ -868,7 +868,8 @@ $(document).ready(function(){
 
 var logueado = false;
 //var serverREMOTE = "http://192.168.100.9:8080/exdec/";
-var serverREMOTE = "http://panel.micomunidad.com.ar/";
+//var serverREMOTE = "http://panel.micomunidad.com.ar/";
+var serverREMOTE = "http://192.168.42.22/exdec/";
 
 var serverAPI=serverREMOTE + "api/";
 
@@ -930,7 +931,7 @@ var deviceReady = function(){
 document.addEventListener('deviceready', deviceReady, false);
 $(function () {
 	console.log("onload Inicial");
-	dibujarPantallaCarga();
+	location.hash="#inicio";
     popularOpcionesSistema();
     window.setInterval(revisarNotificaciones,10000);//10 segundos
     $("#b_logout").on("click",function () {
@@ -949,13 +950,11 @@ $(function () {
 
 	$("#m_listadoclientes").on("click", function () {
 		console.log("click en listado de clientes");
-		cerrarMenu();
-		traerClientes(dibujarClientes);
+		location.hash="#listadoClientes";
 	});
 	$("#m_cargaclientes").on("click", function () {
-		console.log("click en editar de cliente vacío");
-		cerrarMenu();
-		editarCliente({});
+		console.log("click en cargar clientes");
+		location.hash="#nuevoCliente";
 	});
 
 });
@@ -984,7 +983,7 @@ var traerClientes = function (cb) {
     });
 };
 var dibujarPantallaCarga = function () {
-	var pantalla = `        <div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div>
+	var pantalla = `<div id="tablaMensajes" class="content-box content-box-full bottom-0" style="display:none"></div>
         <div class="content-boxed bg-white"id="body">
             <div class="decoration opacity-50 bottom-0"></div>
             <div>
@@ -2007,11 +2006,13 @@ var prenderLogin = function () {
 	dibujarLogin();
 	$("#menu-login").addClass("active-menu-box-full menu menu-scroll");
 	$("#menu-login").show();
-	$("#u_usuario").focus();	
+	$("#u_usuario").focus();
+	resize_coverpage();
 }
 var apagarLogin = function () {
 	$("#menu-login").removeClass("active-menu-box-full menu menu-scroll");
 	$("#menu-login").hide();
+	resize_coverpage();
 }
 var comprobarExisteSesion = function () {
 	if (!window.localStorage.u) {

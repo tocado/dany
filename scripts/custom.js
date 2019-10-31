@@ -1905,7 +1905,7 @@ comprobarCredenciales = function (c) {
         store.setJWT(data.JWT);
         usuarioSi();
     }).fail(function(xhr, status, error) {
-        usuarioNo("Usuario o Contraseña no válidos "+error+"-"+status);
+        usuarioNo("Usuario o Contraseña no válidos");
     });
     return false;
 };

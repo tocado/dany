@@ -16,6 +16,22 @@ ruta.ejecutarRuta = function (r) {
 };
 ruta.inicio = function () {
 	location.hash="#cargarCompra";
+	resize_coverpage
+
+};
+ruta.mensajesPendientes = function () {
+    $('#menu-registracion').hide();
+    $("#menu-registracion").removeClass("menu menu-scroll");	
+	cerrarMenu();
+	apagarLogin();
+	dibujarTablaMensajes(data);
+}
+ruta.registro = function () {
+    $('#menu-registracion').hide();
+    $("#menu-registracion").removeClass("menu menu-scroll");	
+	cerrarMenu();
+	apagarLogin();
+	dibujarRegistro();
 };
 ruta.login = function () {
     $('#menu-registracion').hide();

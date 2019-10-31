@@ -1213,8 +1213,7 @@ var dibujarEditar = function (c) {
 		validarRegistroAltaCliente(c,enviarCliente);
 	});    
 	$("#c_volver").on("click", function () {
-        $('#menu-registracion').hide();
-        $("#menu-registracion").removeClass("menu menu-scroll");
+		history.back();
 	});
 };
 var validarRegistroAltaCliente = function (c,cb) {
@@ -1244,15 +1243,12 @@ var enviarCliente = function (c) {
         success: function(data, status, xhr) {
             console.log("guardé cliente");
             window.alert("cliente guardado");
-	        $('#menu-registracion').hide();
-	        $("#menu-registracion").removeClass("menu menu-scroll");
-			traerClientes(dibujarClientes);
+	        location.hash = "#listadoClientes";
         },
         error: function (xhr, ajaxOptions, thrownError) {
             console.log("problemas guardando los cliente");
             window.alert("problemas guardando el cliente");
-	        $('#menu-registracion').hide();
-	        $("#menu-registracion").removeClass("menu menu-scroll");
+	        location.hash = "#listadoClientes";
         },
         beforeSend: function(request) { // Set JWT header
             request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -1311,14 +1307,14 @@ var dibujarRegistro = function () {
 	$("#menu-registracion").html(login);
 	$("#menu-registracion").addClass("menu menu-scroll");
     $('#menu-registracion').show();
+	resize_coverpage();
 	$("#b_registrar").on("click",function () {
 		validarRegistro(function() {
 			traerTokenRegistro(enviarRegistracion)
 		});
 	});    
 	$("#r_volver").on("click", function () {
-        $('#menu-registracion').hide();
-        $("#menu-registracion").removeClass("menu menu-scroll");
+		history.back();
 	});
 };
 var dibujarLogin = function () {
@@ -1362,8 +1358,8 @@ var dibujarLogin = function () {
     });
     $("#b_registracion").on("click",function () {
 		console.log("si apreta en registrar, dibuja la registracion");
-		apagarLogin();
-    	dibujarRegistro();
+		location.hash="registro";
+    	
     });
 };
 var marcarErrorRegistro = function (obj) {
@@ -1436,7 +1432,7 @@ var traerOpcionSistema = function (op) {
 var popularOpcionesSistema = function () {
     console.log("revisando opciones de sistema");
     if (!comprobarExisteSesion()) {
-    	prenderLogin();
+    	location.hash="#login";
     }else {
 		procesarLoginDeLocal();
     	apagarLogin();
@@ -1466,8 +1462,7 @@ var dibujarTablaMensajes = function (msg) {
     cerrar.setAttribute("style","position:absolute;right:0px;");
     cerrar.appendChild(document.createTextNode("X"));
     $(cerrar).on("click",function () {
-	    $("#body").show();
-	    $("#tablaMensajes").hide();
+	    history.back();
     });
     div.appendChild(cerrar);
     div.setAttribute("class","content-box content-box-full bottom-0");
@@ -1535,7 +1530,7 @@ var traerMensajesPendientes = function () {
             var mensajes = [];
             if (data.length > 0) {
                 console.log("traje mensajes!");
-                dibujarTablaMensajes(data);
+                location.hash = "#mensajesPendientes";
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -1946,12 +1941,12 @@ var procesarLoginDeLocal = function () {
                 } else {
                     store.clear();
                     window.localStorage.u = "";
-                    prenderLogin();
+                    location.hash="#login";
                 }
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 store.clear();
-                prenderLogin();
+                location.hash="#login";
             },
             beforeSend: function(request) { // Set JWT header
                 request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
@@ -1959,7 +1954,7 @@ var procesarLoginDeLocal = function () {
         });
     }).fail(function(xhr, status, error) {
         store.clear();
-        prenderLogin();
+        location.hash="#login";
     });
     return false;        
 }
@@ -1998,7 +1993,7 @@ var enviarRegistracion = function (token) {
 				window.alert("registrado correctamente");
                 $('#menu-registracion').hide();
                 $("#menu-registracion").removeClass("menu menu-scroll");
-				prenderLogin();
+				location.hash="#login";
 	        }
 	});
 };

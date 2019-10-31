@@ -6,10 +6,10 @@ var procesarRuta = function () {
 }
 ruta.ejecutarRuta = function (r) {
 	var metodo = r.split("/");
-	if (metodo[0] != "login" && metodo[0] != "registro" ) {
+/*	if (metodo[0] != "login" && metodo[0] != "registro" ) {
 		cambioDeConexion();
 	}
-
+*/
 	if (metodo[0] in ruta) {
 		console.log("ejecutando ruta " + metodo[0]);
 		ruta[metodo[0]]();

@@ -945,16 +945,6 @@ $(function () {
         procesarLoginDeLocal();
     });
 	$("#menu-registracion").hide();
-
-	$("#m_listadoclientes").on("click", function () {
-		console.log("click en listado de clientes");
-		location.hash="#listadoClientes";
-	});
-	$("#m_cargaclientes").on("click", function () {
-		console.log("click en cargar clientes");
-		location.hash="#nuevoCliente";
-	});
-
 });
 var traerClientes = function (cb) {
     console.log("trayendo clientes");

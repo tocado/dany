@@ -6,6 +6,10 @@ var procesarRuta = function () {
 }
 ruta.ejecutarRuta = function (r) {
 	var metodo = r.split("/");
+	if (metodo[0] != "login") {
+		cambioDeConexion();
+	}
+
 	if (metodo[0] in ruta) {
 		console.log("ejecutando ruta " + metodo[0]);
 		ruta[metodo[0]]();
@@ -16,8 +20,7 @@ ruta.ejecutarRuta = function (r) {
 };
 ruta.inicio = function () {
 	location.hash="#cargarCompra";
-	resize_coverpage
-
+	resize_coverpage();
 };
 ruta.mensajesPendientes = function () {
     $('#menu-registracion').hide();
@@ -45,6 +48,7 @@ ruta.cargarCompra = function () {
 	cerrarMenu();
 	apagarLogin();
 	dibujarPantallaCarga();
+    $("#i_telefono").focus();
 };
 ruta.listadoClientes = function () {
     $('#menu-registracion').hide();

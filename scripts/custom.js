@@ -868,8 +868,8 @@ $(document).ready(function(){
 
 var logueado = false;
 //var serverREMOTE = "http://192.168.100.9:8080/exdec/";
-//var serverREMOTE = "http://panel.micomunidad.com.ar/";
-var serverREMOTE = "http://192.168.42.22/exdec/";
+var serverREMOTE = "http://panel.micomunidad.com.ar/";
+//var serverREMOTE = "http://192.168.42.22/exdec/";
 
 var serverAPI=serverREMOTE + "api/";
 
@@ -1771,8 +1771,7 @@ var usuarioSi = function () {
                 $("#i_ok_login").show();
                 $("#i_no_login").hide();
                 traerFormasDePago();
-                cerrarMenu();
-                $("#i_telefono").focus();
+                location.hash = "#cargarCompra";
             } else {
                 usuarioNo(data.failureMessage);
             }

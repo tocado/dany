@@ -6,10 +6,6 @@ var procesarRuta = function () {
 }
 ruta.ejecutarRuta = function (r) {
 	var metodo = r.split("/");
-/*	if (metodo[0] != "login" && metodo[0] != "registro" ) {
-		cambioDeConexion();
-	}
-*/
 	if (metodo[0] in ruta) {
 		console.log("ejecutando ruta " + metodo[0]);
 		ruta[metodo[0]]();
@@ -22,13 +18,6 @@ ruta.inicio = function () {
 	location.hash="#cargarCompra";
 	resize_coverpage();
 };
-ruta.mensajesPendientes = function () {
-    $('#menu-registracion').hide();
-    $("#menu-registracion").removeClass("menu menu-scroll");	
-	cerrarMenu();
-	apagarLogin();
-	dibujarTablaMensajes(data);
-}
 ruta.registro = function () {
     $('#menu-registracion').hide();
     $("#menu-registracion").removeClass("menu menu-scroll");	
@@ -49,6 +38,7 @@ ruta.cargarCompra = function () {
 	apagarLogin();
 	dibujarPantallaCarga();
     $("#i_telefono").focus();
+	cambioDeConexion();
 };
 ruta.listadoClientes = function () {
     $('#menu-registracion').hide();

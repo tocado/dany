@@ -960,6 +960,8 @@ var traerClientes = function (cb) {
             if (data.cliente.length > 0) {
                 console.log("traje clientes!");
                 cb(data.cliente);
+            } else {
+            	window.alert("No se encuentran clientes");
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -1518,7 +1520,11 @@ var traerMensajesPendientes = function () {
             var mensajes = [];
             if (data.length > 0) {
                 console.log("traje mensajes!");
-                location.hash = "#mensajesPendientes";
+			    $('#menu-registracion').hide();
+			    $("#menu-registracion").removeClass("menu menu-scroll");	
+				cerrarMenu();
+				apagarLogin();
+				dibujarTablaMensajes(data);
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {

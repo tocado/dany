@@ -6,7 +6,7 @@ var procesarRuta = function () {
 }
 ruta.ejecutarRuta = function (r) {
 	var metodo = r.split("/");
-	if (metodo[0] != "login") {
+	if (metodo[0] != "login" && metodo[0] != "registro" ) {
 		cambioDeConexion();
 	}
 

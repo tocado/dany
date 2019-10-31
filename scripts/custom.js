@@ -664,7 +664,6 @@ $(document).ready(function(){
 
 		//Article Card
 		if ($('.article-card, .instant-box').length) {
-			//var activate_clone = window.location.hash.substring(1);
 			setTimeout(function(){
 				$('[data-article-card="'+activate_clone+'"]').addClass('active-card');
 				$('[data-instant="'+activate_clone+'"]').addClass('active-instant');
@@ -676,7 +675,6 @@ $(document).ready(function(){
 			$('.article-clone a').removeAttr('data-deploy-card');
 			var data_card = $(this).data('deploy-card');
 			$('[data-article-card="'+data_card+'"]').addClass('active-card');
-			//window.location.hash = data_card;
             $('.article-card').animate({scrollTop: 0}, 0);
 		});
 		$('.article-clone .article-back, .close-article').on('click', function(){
@@ -1358,7 +1356,7 @@ var dibujarLogin = function () {
     });
     $("#b_registracion").on("click",function () {
 		console.log("si apreta en registrar, dibuja la registracion");
-		location.hash="registro";
+		location.hash="#registro";
     	
     });
 };

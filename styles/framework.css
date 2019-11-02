@@ -6131,3 +6131,14 @@ input[type="range"]::-webkit-slider-thumb:after{
     transition:all 350ms ease;
 }
 
+
+
+@keyframes border_pulsate {
+    0%   { border-bottom: 1px solid rgba(255, 0, 0, 1); }
+    50%   { border-bottom: 1px solid rgba(255, 0, 0, 0); }
+    100%   { border-bottom: 1px solid rgba(255, 0, 0, 1); }
+}
+
+.animacionBordeRojo {
+	animation: border_pulsate 1.5s infinite;
+}

@@ -867,7 +867,6 @@ $(document).ready(function(){
 var logueado = false;
 //var serverREMOTE = "http://192.168.100.9:8080/exdec/";
 var serverREMOTE = "http://panel.micomunidad.com.ar/";
-//var serverREMOTE = "http://192.168.42.22/exdec/";
 
 var serverAPI=serverREMOTE + "api/";
 
@@ -1103,6 +1102,12 @@ var dibujarClientes = function (clientes) {
     $(tr).append("<th>Nombre</th><th>DNI</th><th>Telefono</th><th> </th>");
     for(i = 0;i < clientes.length; i += 1) {
         m = clientes[i];
+        
+        m.apellido=(m.apellido==null?"":m.apellido);
+		m.nombre=(m.nombre==null?"":m.nombre);
+		m.dni=(m.dni==null?"":m.dni);
+		m.celular=(m.celular==null?"":m.celular);
+
         trr = document.createElement("tr");
 
         td = document.createElement("td");
@@ -1130,7 +1135,7 @@ var dibujarClientes = function (clientes) {
         a.appendChild(document.createTextNode("Borrar"));
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:m}, function (e) {
-           	borrarCliente(e.data.msg.m);
+           	borrarCliente(e.data.msg);
         });
         td.appendChild(a);
 
@@ -1153,6 +1158,11 @@ var dibujarEditar = function (c) {
 	c.celular = "celular" in c?c.celular:"";
 	c.dni = "dni" in c?c.dni:"";
 	c.id = "id" in c?c.id:"";
+
+    c.apellido=(c.apellido==null?"":c.apellido);
+	c.nombre=(c.nombre==null?"":c.nombre);
+	c.dni=(c.dni==null?"":c.dni);
+	c.celular=(c.celular==null?"":c.celular);
 
 	var edicion = `
         <div class="page-bg gradient-body-1">
@@ -1207,10 +1217,147 @@ var dibujarEditar = function (c) {
 	});
 };
 var validarRegistroAltaCliente = function (c,cb) {
-	cb(c);
+	/*
+c.nombre
+c.apellido
+c.celular
+c.dni
+c.id
+*/
+	var errores = {};
+	errores.total = 0;
+	
+	//Validacion de NOMBRE
+	errores.nombre = 0;
+	if(!!!($("#c_nombre").val().length>2)) {//al menos 3 letras
+		window.alert("El nombre debe contener al menos 3 letras");
+		errores.nombre++;
+	}
+
+	if (errores.nombre == 0){//TODO OK
+		$("#c_nombre").removeClass("animacionBordeRojo");
+	} else {
+		$("#c_nombre").addClass("animacionBordeRojo");
+	}
+
+	errores.total +=errores.nombre;
+	//Validacion de NOMBRE
+	
+	//Validacion de apellido
+	errores.apellido = 0;
+	if(!!!($("#c_apellido").val().length>2)) {//al menos 3 letras
+		window.alert("El apellido debe contener al menos 3 letras");
+		errores.apellido++;
+	}
+
+	if (errores.apellido == 0){//TODO OK
+		$("#c_apellido").removeClass("animacionBordeRojo");
+	} else {
+		$("#c_apellido").addClass("animacionBordeRojo");
+	}
+
+	errores.total +=errores.apellido;
+	//Validacion de apellido
+	
+
+	//Validacion de DNI
+	errores.dni = 0;
+
+	if ($("#c_celular").val().length == 0 && $("#c_dni").val().length == 0) {
+		window.alert("Debe completar DNI y/o Telefono");
+		errores.dni++;
+	}
+
+	if ($("#c_dni").val().length > 0) {
+		if(!!!parseInt($("#c_dni").val(),10)) {//NUMERICO
+			window.alert("El DNI debe ser numerico y mayor a 0");
+			errores.dni++;
+		} 
+
+		if(parseInt($("#c_dni").val(),10) < 1000000 || parseInt($("#c_dni").val(),10) > 99999999) {//VALIDO
+			window.alert("El DNI debe ser mayor a 1.000.000 y menor a 99.999.999");
+			errores.dni++;
+		} 
+	}
+	if (errores.dni == 0){//TODO OK
+		$("#c_dni").removeClass("animacionBordeRojo");
+	} else {
+		$("#c_dni").addClass("animacionBordeRojo");
+	}
+
+	errores.total +=errores.dni;
+	//Validacion de DNI
+
+
+	//Validacion de Telefono
+	errores.cel = 0;
+	if ($("#c_celular").val().length > 0) {
+		if(!!!parseInt($("#c_celular").val(),10)) {
+			window.alert("El Teléfono debe ser numerico y mayor a 0");
+			$("#c_celular").addClass("animacionBordeRojo");
+			errores.cel++;
+		}
+		if(parseInt($("#c_celular").val(),10) < 5491100000000) {   
+			window.alert("El Teléfono debe tener el codigo de pais y de area (54911 para argentina, caba)");
+			$("#c_celular").addClass("animacionBordeRojo");
+			errores.cel++;		
+		}
+	}
+	if (errores.cel == 0){//TODO OK
+		$("#c_celular").removeClass("animacionBordeRojo");
+	} else {
+		$("#c_celular").addClass("animacionBordeRojo");
+	}
+	errores.total +=errores.cel;
+	//Validacion de Telefono
+	
+
+	if (errores.total == 0) {		
+		cb(c);
+	} else {
+		return false;
+	}
+};
+var borrarCliente = function (c) {
+
+    console.log("Pidiendo confirmacion de borrado de cliente con id " + c.id);
+
+	if (!confirm("Desea borrar al cliente " + c.nombre + " " + c.apellido + " ?")) {
+		console.log("dijo que no a la pregunta, no se borra");
+		return false;
+	}
+    console.log("¡This is SPARTA!, borrando cliente");
+
+    var data = {};
+    data.id = c.id;
+    data.action="delete";
+    data.object="cliente";
+
+    $.ajax({
+        url: serverAPI,
+        type: "POST",
+        data: data,
+        success: function(data, status, xhr) {
+            console.log("cliente eliminado");
+	        ruta.listadoClientes();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log("problemas eliminando el cliente");
+            window.alert("problemas eliminando el cliente");
+	        ruta.listadoClientes();
+        },
+        beforeSend: function(request) { // Set JWT header
+            request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+        }
+    });
 };
 var enviarCliente = function (c) {
     console.log("guardando cliente");
+    c.apellido=(c.apellido.length == 0?"null":c.apellido);
+	c.nombre=(c.nombre.length == 0?"null":c.nombre);
+	c.dni=(c.dni.length == 0?"null":c.dni);
+	c.celular=(c.celular.length == 0?"null":c.celular);
+
     if (c.id.length > 0) {
 	    var data = {};
 	    data = c;
@@ -1253,7 +1400,7 @@ var dibujarRegistro = function () {
                     <img class="preload-image login-bg shadow-large responsive-image bottom-0" src="images/pictures/9w.jpg" data-src="images/pictures/9w.jpg" alt="img">
                     <img class="preload-image login-image shadow-icon-large" src="images/pictures/0s.png" data-src="images/pictures/0s.png" alt="img">
                     <div class="content bottom-0">
-                        <h3 class="uppercase ultrabold top-10 bottom-0">Ingreso</h3>
+                        <h3 class="uppercase ultrabold top-10 bottom-0">Registración de cliente</h3>
                         <p class="smaller-text bottom-15 text-red" id="e_mensaje_registro"></p>
                         <div class="page-login-field top-15">
                             <i class="fa fa-address-card"></i>

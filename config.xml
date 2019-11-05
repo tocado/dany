@@ -28,5 +28,5 @@
   <access origin="*" />
   <access origin="whatsapp:*" launch-external="yes" />  
   <allow-intent href="*" />
-  <allow-navigation href="*" />  
-</widget>
+  <allow-navigation href= "*" />  
+</widget> 

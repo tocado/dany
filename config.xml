@@ -16,7 +16,7 @@
   </author>
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
-  <preference name="android-minSdkVersion" value="17" />
+  <preference name="android-minSdkVersion" value="28" />
 
 
   <plugin name="cordova-plugin-network-information" spec="2.0.2" />

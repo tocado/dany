@@ -864,6 +864,31 @@ $(document).ready(function(){
 	$('body').append('<div class="page-change-preloader preloader-light"><div id="preload-spinner" class="spinner-red"></div></div>');
 });
 
+
+
+
+
+
+
+
+
+
+
+/*******************************
+********************************
+********************************
+********************************
+********************************
+********************************
+********************************
+*******************************/
+
+
+
+
+
+
+
 var logueado = false;
 //var serverREMOTE = "http://192.168.100.9:8080/exdec/";
 var serverREMOTE = "http://panel.micomunidad.com.ar/";
@@ -1164,6 +1189,9 @@ var dibujarEditar = function (c) {
 	c.dni=(c.dni==null?"":c.dni);
 	c.celular=(c.celular==null?"":c.celular);
 
+	if (c.celular.length < 1) {
+		c.celular = "54911";
+	}
 	var edicion = `
         <div class="page-bg gradient-body-1">
             <div class="menu-scroll">
@@ -1184,12 +1212,12 @@ var dibujarEditar = function (c) {
                         </div>
                         <div class="page-login-field top-15">
                             <i class="fa fa-address-card"></i>
-                            <input type="text" value="`+c.dni+`" id="c_dni" placeholder="DNI">
+                            <input type="number" value="`+c.dni+`" id="c_dni" placeholder="DNI">
                             <em>(requerido)</em>
                         </div>
                         <div class="page-login-field top-15">
                             <i class="fa fa-phone"></i>
-                            <input type="text" value="`+c.celular+`" id="c_celular" placeholder="Telefono">
+                            <input type="number" value="`+c.celular+`" id="c_celular" placeholder="Telefono">
                             <em>(requerido)</em>
                         </div>
                         <a href="#" class="button button-green button-full shadow-icon-large button-round button-s uppercase ultrabold" id="c_agregar">Agregar</a>

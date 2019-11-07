@@ -891,8 +891,8 @@ $(document).ready(function(){
 
 var logueado = false;
 //var serverREMOTE = "http://192.168.100.9:8080/exdec/";
-//var serverREMOTE = "http://panel.micomunidad.com.ar/";
-var serverREMOTE = "http://192.168.42.59/exdec/";
+var serverREMOTE = "http://panel.micomunidad.com.ar/";
+//var serverREMOTE = "http://192.168.42.59/exdec/";
 
 var serverAPI=serverREMOTE + "api/";
 

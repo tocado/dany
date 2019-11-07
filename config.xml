@@ -17,7 +17,7 @@
   <icon src="images/logo.png" />
   <preference name="exit-on-suspend"            value="true" />
   <preference name="android-minSdkVersion" value="17" />
-  <preference name="android-targetSdkVersion" value="28" />
+  <preference name="android-targetSdkVersion" value="26" />
   <preference name="android-maxSdkVersion" value="28" />
 
 

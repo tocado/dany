@@ -1760,6 +1760,8 @@ var traerMensajesPendientes = function () {
 				cerrarMenu();
 				apagarLogin();
 				dibujarTablaMensajes(data);
+            } else {
+				location.hash="#cargarCompra";
             }
         },
         error: function (xhr, ajaxOptions, thrownError) {

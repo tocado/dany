@@ -891,7 +891,8 @@ $(document).ready(function(){
 
 var logueado = false;
 //var serverREMOTE = "http://192.168.100.9:8080/exdec/";
-var serverREMOTE = "http://panel.micomunidad.com.ar/";
+//var serverREMOTE = "http://panel.micomunidad.com.ar/";
+var serverREMOTE = "http://192.168.42.59/exdec/";
 
 var serverAPI=serverREMOTE + "api/";
 
@@ -915,7 +916,7 @@ store.clear = function(data) {
 var crearNotificacion = function (opt) {
     /**
      * @opt  {object}
-            opt.tag <id notificacion>
+            opt.tag <id notificacion> 
             opt.titulo <titulo>
             opt.cuerpo <texto cuerpo>
             opt.click <callback evento click>
@@ -1620,6 +1621,7 @@ var popularOpcionesSistema = function () {
     });
 };
 var dibujarTablaMensajes = function (msg) {
+
     var i;
     var div = document.createElement("div");
     var cerrar = document.createElement("span");
@@ -1653,6 +1655,7 @@ var dibujarTablaMensajes = function (msg) {
 
         td = document.createElement("td");
         a = document.createElement("span");
+        a.id= "b_enviar_" + msg[i].id;
         a.appendChild(document.createTextNode("Enviar"));
         a.setAttribute("class","button button-xxs button-round button-green-3d button-green");
         $(a).on("click",{msg:msg[i]}, function (e) {
@@ -1661,7 +1664,11 @@ var dibujarTablaMensajes = function (msg) {
                 e.data.msg.mensaje, 
                 null, 
                 null,
-                function() {traerMensajesPendientes();}//aca deberia guardar el nuevo estado del msg y despues refrescar
+                function() {
+                	alert(e.data.msg.id);
+                	$("#b_enviar_"+e.data.msg.id).hide();
+                	traerMensajesPendientes();
+                }//aca deberia guardar el nuevo estado del msg y despues refrescar
             )
         });
         td.appendChild(a);

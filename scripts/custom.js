@@ -1640,7 +1640,7 @@ var dibujarTablaMensajes = function (msg) {
     table.appendChild(tbody);
     var tr = document.createElement("tr");
     tbody.appendChild(tr);
-    $(tr).append("<th>Nombre</th><th>Tipo</th><th> </th>");
+    $(tr).append("<th>Nombre</th><th>Celular</th><th> </th>");
     for(i = 0;i < msg.length; i += 1) {
         m = msg[i];
         trr = document.createElement("tr");
@@ -1666,6 +1666,7 @@ var dibujarTablaMensajes = function (msg) {
                 null,
                 function() {
                 	$("#b_rechazar_"+e.data.msg.id).hide();
+                	$("#b_enviar_"+e.data.msg.id).hide();
                 	$("#b_fallo_"+e.data.msg.id).show();
                 	$("#b_enviado_"+e.data.msg.id).show();
                 	//traerMensajesPendientes();
@@ -1678,6 +1679,18 @@ var dibujarTablaMensajes = function (msg) {
         a.id= "b_rechazar_" + msg[i].id;
         a.appendChild(document.createTextNode("Rechazar"));
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
+        $(a).on("click",{msg:msg[i]}, function (e) {
+			var ide = store.traerOpcionSistema("mensaje_estado_id_rechazado");
+			var c = {};
+			c.ide = ide;
+			c.idm = e.data.msg.id;
+			c.cb = function () {
+				if (confirm("Desea rechazar el mensaje para el cliente "+e.data.msg.cliente+"?")) {
+					traerMensajesPendientes();
+				}
+			};
+			cambiarEstadoMensaje(c);
+        });
         td.appendChild(a);
 
         a = document.createElement("span");
@@ -1685,6 +1698,18 @@ var dibujarTablaMensajes = function (msg) {
         a.appendChild(document.createTextNode("Falló"));
         a.setAttribute("style","display:none");
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
+        $(a).on("click",{msg:msg[i]}, function (e) {
+			var ide = store.traerOpcionSistema("mensaje_estado_id_fallo");
+			var c = {};
+			c.ide = ide;
+			c.idm = e.data.msg.id;
+			c.cb = function () {
+				if (confirm("El mensaje para el cliente "+e.data.msg.cliente+", ¿Falló?")) {
+					traerMensajesPendientes();
+				}
+			};
+			cambiarEstadoMensaje(c);
+        });
         td.appendChild(a);
 
         a = document.createElement("span");
@@ -1692,6 +1717,18 @@ var dibujarTablaMensajes = function (msg) {
         a.appendChild(document.createTextNode("Enviado"));
         a.setAttribute("style","display:none");
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
+        $(a).on("click",{msg:msg[i]}, function (e) {
+			var ide = store.traerOpcionSistema("mensaje_estado_id_enviado");
+			var c = {};
+			c.ide = ide;
+			c.idm = e.data.msg.id;
+			c.cb = function () {
+				if (confirm("El mensaje para el cliente "+e.data.msg.cliente+" ¿Fué enviado correctamente?")) {
+					traerMensajesPendientes();
+				}
+			};
+			cambiarEstadoMensaje(c);
+        });
         td.appendChild(a);
 
 
@@ -2205,4 +2242,25 @@ var comprobarExisteSesion = function () {
 		return false;
 	}
 	return true;
+};
+var cambiarEstadoMensaje = function (obj) {
+    console.log("cambiando estado de mensaje" + JSON.stringify(obj));
+    var data = {};
+    data.action="cambiarEstadoMensaje";
+    data.idm = obj.idm;
+    data.ide = obj.ide;
+    $.ajax({
+        url: serverAPI,
+        type: "POST",
+        data: data,
+        success: function(data, status, xhr) {
+            obj.cb();
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+    		console.log("problemas cambiando estado de mensaje" + JSON.stringify(obj));
+        },
+        beforeSend: function(request) { // Set JWT header
+            request.setRequestHeader('X-Authorization', 'Bearer ' + store.JWT);
+        }
+    });
 };

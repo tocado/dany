@@ -1665,17 +1665,33 @@ var dibujarTablaMensajes = function (msg) {
                 null, 
                 null,
                 function() {
-                	alert(e.data.msg.id);
-                	$("#b_enviar_"+e.data.msg.id).hide();
-                	traerMensajesPendientes();
+                	$("#b_rechazar_"+e.data.msg.id).hide();
+                	$("#b_fallo_"+e.data.msg.id).show();
+                	$("#b_enviado_"+e.data.msg.id).show();
+                	//traerMensajesPendientes();
                 }//aca deberia guardar el nuevo estado del msg y despues refrescar
             )
         });
         td.appendChild(a);
 
         a = document.createElement("span");
+        a.id= "b_rechazar_" + msg[i].id;
         a.appendChild(document.createTextNode("Rechazar"));
-        a.setAttribute("class","button button-xxs button-round button-green-3d button-red");
+        a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
+        td.appendChild(a);
+
+        a = document.createElement("span");
+        a.id= "b_fallo_" + msg[i].id;
+        a.appendChild(document.createTextNode("Falló"));
+        a.setAttribute("style","display:none");
+        a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
+        td.appendChild(a);
+
+        a = document.createElement("span");
+        a.id= "b_enviado_" + msg[i].id;
+        a.appendChild(document.createTextNode("Enviado"));
+        a.setAttribute("style","display:none");
+        a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         td.appendChild(a);
 
 

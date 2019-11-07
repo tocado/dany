@@ -1680,16 +1680,16 @@ var dibujarTablaMensajes = function (msg) {
         a.appendChild(document.createTextNode("Rechazar"));
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:msg[i]}, function (e) {
-			var ide = traerOpcionSistema("mensaje_estado_id_rechazado");
-			var c = {};
-			c.ide = ide;
-			c.idm = e.data.msg.id;
-			c.cb = function () {
-				if (confirm("Desea rechazar el mensaje para el cliente "+e.data.msg.cliente+"?")) {
+			if (confirm("Desea rechazar el mensaje para el cliente "+e.data.msg.cliente+"?")) {
+				var ide = traerOpcionSistema("mensaje_estado_id_rechazado");
+				var c = {};
+				c.ide = ide;
+				c.idm = e.data.msg.id;
+				c.cb = function () {
 					traerMensajesPendientes();
-				}
-			};
-			cambiarEstadoMensaje(c);
+				};
+				cambiarEstadoMensaje(c);
+			}
         });
         td.appendChild(a);
 
@@ -1699,16 +1699,16 @@ var dibujarTablaMensajes = function (msg) {
         a.setAttribute("style","display:none");
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:msg[i]}, function (e) {
-			var ide = traerOpcionSistema("mensaje_estado_id_fallo");
-			var c = {};
-			c.ide = ide;
-			c.idm = e.data.msg.id;
-			c.cb = function () {
-				if (confirm("El mensaje para el cliente "+e.data.msg.cliente+", ¿Falló?")) {
+			if (confirm("El mensaje para el cliente "+e.data.msg.cliente+", ¿Falló?")) {
+				var ide = traerOpcionSistema("mensaje_estado_id_fallo");
+				var c = {};
+				c.ide = ide;
+				c.idm = e.data.msg.id;
+				c.cb = function () {
 					traerMensajesPendientes();
-				}
-			};
-			cambiarEstadoMensaje(c);
+				};
+				cambiarEstadoMensaje(c);
+			}
         });
         td.appendChild(a);
 
@@ -1718,16 +1718,16 @@ var dibujarTablaMensajes = function (msg) {
         a.setAttribute("style","display:none");
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:msg[i]}, function (e) {
-			var ide = traerOpcionSistema("mensaje_estado_id_enviado");
-			var c = {};
-			c.ide = ide;
-			c.idm = e.data.msg.id;
-			c.cb = function () {
-				if (confirm("El mensaje para el cliente "+e.data.msg.cliente+" ¿Fué enviado correctamente?")) {
+			if (confirm("El mensaje para el cliente "+e.data.msg.cliente+" ¿Fué enviado correctamente?")) {
+				var ide = traerOpcionSistema("mensaje_estado_id_enviado");
+				var c = {};
+				c.ide = ide;
+				c.idm = e.data.msg.id;
+				c.cb = function () {
 					traerMensajesPendientes();
-				}
-			};
-			cambiarEstadoMensaje(c);
+				};
+				cambiarEstadoMensaje(c);
+			}
         });
         td.appendChild(a);
 

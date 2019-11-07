@@ -1680,7 +1680,7 @@ var dibujarTablaMensajes = function (msg) {
         a.appendChild(document.createTextNode("Rechazar"));
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:msg[i]}, function (e) {
-			var ide = store.traerOpcionSistema("mensaje_estado_id_rechazado");
+			var ide = traerOpcionSistema("mensaje_estado_id_rechazado");
 			var c = {};
 			c.ide = ide;
 			c.idm = e.data.msg.id;
@@ -1699,7 +1699,7 @@ var dibujarTablaMensajes = function (msg) {
         a.setAttribute("style","display:none");
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:msg[i]}, function (e) {
-			var ide = store.traerOpcionSistema("mensaje_estado_id_fallo");
+			var ide = traerOpcionSistema("mensaje_estado_id_fallo");
 			var c = {};
 			c.ide = ide;
 			c.idm = e.data.msg.id;
@@ -1718,7 +1718,7 @@ var dibujarTablaMensajes = function (msg) {
         a.setAttribute("style","display:none");
         a.setAttribute("class","button button-xxs button-round button-red-3d button-red");
         $(a).on("click",{msg:msg[i]}, function (e) {
-			var ide = store.traerOpcionSistema("mensaje_estado_id_enviado");
+			var ide = traerOpcionSistema("mensaje_estado_id_enviado");
 			var c = {};
 			c.ide = ide;
 			c.idm = e.data.msg.id;

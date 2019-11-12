@@ -1,0 +1,135 @@
+# yersinia v0.8.2 started in tocado on Fri Nov  8 15:50:02 2019
+
+Network Interface eth0
+
+ eth0 iflinkname EN10MB
+ eth0 iflinkdesc Ethernet
+ eth0 MAC = 6451.0643.33f3
+Network Interface usb0
+
+ usb0 iflinkname EN10MB
+ usb0 iflinkdesc Ethernet
+ usb0 MAC = d6b5.9438.fba3
+Network Interface lo
+
+ lo iflinkname EN10MB
+ lo iflinkdesc Ethernet
+ lo MAC = 0000.0000.0000
+Network Interface nflog
+Network Interface nfqueue
+ g00dbye function called from 6EFDA00
+
+ th_uptime thread = 46D6700
+
+ ints_destroy started...
+ ints_destroy killing pcap_listener(82671360)...
+
+ thread_destroy 6EFDA00 destroying 4ED7700...
+ thread_destroy 6EFDA00 after PTHREAD_JOIN 4ED7700...
+ ints_destroy finished...
+ Showing MOTD..
+# yersinia finished on Fri Nov  8 15:50:03 2019
+
+# yersinia v0.8.2 started in tocado on Fri Nov  8 15:50:08 2019
+
+Network Interface eth0
+
+ eth0 iflinkname EN10MB
+ eth0 iflinkdesc Ethernet
+ eth0 MAC = 6451.0643.33f3
+Network Interface usb0
+
+ usb0 iflinkname EN10MB
+ usb0 iflinkdesc Ethernet
+ usb0 MAC = d6b5.9438.fba3
+Network Interface lo
+
+ lo iflinkname EN10MB
+ lo iflinkdesc Ethernet
+ lo MAC = 0000.0000.0000
+Network Interface nflog
+Network Interface nfqueue
+ g00dbye function called from ED3E5A00
+
+ th_uptime thread = EAB9E700
+
+ ints_destroy started...
+ ints_destroy killing pcap_listener(-348522752)...
+
+ thread_destroy ED3E5A00 destroying EB39F700...
+ thread_destroy ED3E5A00 after PTHREAD_JOIN EB39F700...
+ ints_destroy finished...
+ Showing MOTD..
+# yersinia finished on Fri Nov  8 15:50:08 2019
+
+# yersinia v0.8.2 started in tocado on Fri Nov  8 15:50:47 2019
+
+Network Interface eth0
+
+ eth0 iflinkname EN10MB
+ eth0 iflinkdesc Ethernet
+ eth0 MAC = 6451.0643.33f3
+Network Interface usb0
+
+ usb0 iflinkname EN10MB
+ usb0 iflinkdesc Ethernet
+ usb0 MAC = d6b5.9438.fba3
+Network Interface lo
+
+ lo iflinkname EN10MB
+ lo iflinkdesc Ethernet
+ lo MAC = 0000.0000.0000
+Network Interface nflog
+Network Interface nfqueue
+ g00dbye function called from CD485A00
+
+ th_uptime thread = CAC3E700
+
+ ints_destroy started...
+ ints_destroy killing pcap_listener(-884738304)...
+
+ thread_destroy CD485A00 destroying CB43F700...
+ thread_destroy CD485A00 after PTHREAD_JOIN CB43F700...
+ ints_destroy finished...
+ Showing MOTD..
+# yersinia finished on Fri Nov  8 15:50:47 2019
+
+# yersinia v0.8.2 started in tocado on Fri Nov  8 15:50:51 2019
+
+Network Interface eth0
+
+ eth0 iflinkname EN10MB
+ eth0 iflinkdesc Ethernet
+ eth0 MAC = 6451.0643.33f3
+Network Interface usb0
+
+ usb0 iflinkname EN10MB
+ usb0 iflinkdesc Ethernet
+ usb0 MAC = d6b5.9438.fba3
+Network Interface lo
+
+ lo iflinkname EN10MB
+ lo iflinkdesc Ethernet
+ lo MAC = 0000.0000.0000
+Network Interface nflog
+Network Interface nfqueue
+
+ th_uptime thread = 3BB4E700
+
+ gtk_gui_th = 3B34D700
+pcap_lookupnet failed: eth0: no IPv4 address assigned
+Exiting GTK mode...
+
+ gtk_gui_th_exit start...
+ gtk_gui_th_exit finish...
+ g00dbye function called from 3E375A00
+
+ ints_destroy started...
+ ints_destroy killing pcap_listener(1010104064)...
+
+ thread_destroy 3E375A00 destroying 3C34F700...
+ thread_destroy 3E375A00 after PTHREAD_JOIN 3C34F700...
+ ints_destroy finished...
+ Showing MOTD..
+# yersinia finished on Fri Nov  8 16:04:21 2019
+
